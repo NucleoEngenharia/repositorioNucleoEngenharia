@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+
+	<h:head>
+		<title>Cadastro de Renovação</title>
+		<h:outputStylesheet name="_template.css" library="css"></h:outputStylesheet>
+		<h:outputStylesheet name="form.css" library="css"></h:outputStylesheet>
+
+		<h:outputScript name="jquery.mask.min.js" library="scripts"></h:outputScript>
+		<h:outputScript name="jquery.maskMoney.js" library="scripts"></h:outputScript>
+		<h:outputScript name="mascara.js" library="scripts"></h:outputScript>
+		<h:outputScript name="geral.js" library="scripts"></h:outputScript>
+
+		<meta http-equiv="Pragma" content="no-cache" />
+	</h:head>
+
+	<h:body>
+		<h:form>
+			<p:panelGrid styleClass="panelForm">
+				<p:row>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Permite outra renovação:"></p:outputLabel>
+					</p:column>
+
+					<p:column styleClass="colInput">
+						<p:selectBooleanButton offLabel="Não" onLabel="Sim"
+							value="#{renovacaoBean.renovacao.aceitaOutraRenovacao}"></p:selectBooleanButton>
+					</p:column>
+
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Limite de renovação:"></p:outputLabel>
+					</p:column>
+					<p:column styleClass="colInput">
+						<p:calendar pattern="dd/MM/yyyy" onkeypress="mascara(this,data)"
+							value="#{renovacaoBean.renovacao.limiteOutraRenovacao}"
+							styleClass="data" converter="CalendarConverter" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Valor (R$):"></p:outputLabel>
+					</p:column>
+					<p:column colspan="3" styleClass="colInput">
+						<p:inputText onkeypress="mascara(this,moeda)"
+							value="#{renovacaoBean.renovacao.valor}" id="valorAditivo">
+							<f:convertNumber pattern="#,##0.00" type="currency" locale="pt_BR" />
+						</p:inputText>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Ano:"></p:outputLabel>
+					</p:column>
+					<p:column colspan="2" styleClass="colInput">
+						<p:spinner value="#{renovacaoBean.renovacao.ano}" size="5" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Mes:"></p:outputLabel>
+					</p:column>
+					<p:column colspan="2" styleClass="colInput">
+						<p:spinner value="#{renovacaoBean.renovacao.mes}" size="5" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Dia:"></p:outputLabel>
+					</p:column>
+					<p:column colspan="2" styleClass="colInput">
+						<p:spinner value="#{renovacaoBean.renovacao.dia}" size="5" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3" style="text-align:right;height:100px;">
+						<p:commandButton value="Cadastrar Renovação" icon="ui-icon-plus" actionListener="#{renovacaoBean.salvarRenovacao}" />
+					</p:column>
+				</p:row>
+
+			</p:panelGrid>
+		</h:form>
+	</h:body>
+
+</f:view>
+
+
+</html>

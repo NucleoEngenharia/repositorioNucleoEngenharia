@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../_template.xhtml">
+	<ui:define name="conteudo">
+
+		<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+			draggable="false" closable="false" resizable="false">
+			<p:graphicImage name="ajaxloadingbar.gif" library="imagens" />
+		</p:dialog>
+
+		<ui:include src="listasPeriodos.xhtml"></ui:include>
+
+		<ui:include src="painelPeriodoSelecionado.xhtml"></ui:include>
+
+		<br />
+		<p:tabView rendered="#{medicaoProjetoBean.exibirDetalhes}">
+
+			<p:tab title="Serviços">
+				<p:tabView>
+					<p:tab title="Equipes">
+						<ui:include src="servicoEquipe.xhtml"></ui:include>
+					</p:tab>
+					<p:tab title="Produtos">
+						<ui:include src="servicoProduto.xhtml"></ui:include>
+					</p:tab>
+				</p:tabView>
+			</p:tab>
+			<p:tab title="Materiais - Infra Estrutura">
+				<ui:include src="materiaisInfra.xhtml"></ui:include>
+			</p:tab>
+			<p:tab title="Despesas">
+				<ui:include src="listaDespesas.xhtml"></ui:include>
+			</p:tab>
+			<p:tab title="Relatórios">
+						<ui:include src="tabRelatorios.xhtml"/>
+			</p:tab>
+		</p:tabView>
+		<br />
+		<br />
+		<h:form id="acoesWorkflow" rendered="#{!medicaoProjetoBean.apenasLeitura}">
+			<p:messages showDetail="true" closable="true"
+				rendered="#{medicaoProjetoBean.exibirDetalhes}" />
+			<p:panelGrid style="width:100%;height:100px;"
+				rendered="#{medicaoProjetoBean.exibirDetalhes}">
+				<p:row
+					rendered="#{medicaoProjetoBean.periodoSelecionado.status.valor == 0}">
+					<p:column style="text-align:center;">
+						<p:commandButton value="Apenas salvar" update="@all"
+							action="#{medicaoProjetoBean.salvarApenas}"
+							style="width:300px;height:70px;" />
+					</p:column>
+					<p:column style="text-align:center;">
+						<p:commandButton value="Salvar e enviar para avaliação"
+							update="@all" style="width:300px;height:70px;"
+							actionListener="#{medicaoProjetoBean.salvarEnviarAvaliacao}">
+							<p:confirm header="Salvar e enviar medição" icon="ui-icon-alert"
+								message="Tem certeza que deseja salvar e enviar esta medição para avaliação do Setor de Medição e Controle?" />
+						</p:commandButton>
+					</p:column>
+				</p:row>
+				<p:row
+					rendered="#{medicaoProjetoBean.periodoSelecionado.status.valor == 1}">
+					<p:column style="text-align:center;">
+						<p:commandButton value="Apenas salvar" update="@all"
+							action="#{medicaoProjetoBean.salvarApenas}"
+							style="width:300px;height:70px;" />
+					</p:column>
+					<p:column style="text-align:center;">
+						<p:commandButton value="Reprovar" 
+						    action="#{medicaoProjetoBean.reprovaPeriodoMedicao}" update="@all"
+							style="width:300px;height:70px;" />
+					</p:column>
+					<p:column style="text-align:center;">
+						<p:commandButton value="Salvar e gerar relatório para aprovação"
+							style="width:300px;height:70px;" update="@all"
+							actionListener="#{medicaoProjetoBean.salvarGerarRelatoriaAprovacao}">
+							<p:confirm header="Salvar e gerar relatório" icon="ui-icon-alert"
+								message="Tem certeza que deseja salvar, gerar o relatório e alterar o status do período para aguardando aprovação do cliente?"></p:confirm>
+						</p:commandButton>
+					</p:column>
+				</p:row>
+				<p:row
+					rendered="#{medicaoProjetoBean.periodoSelecionado.status.valor == 2}">
+					<p:column style="text-align:center;">
+						<p:commandButton value="Salvar alterações" type="button"
+							style="width:300px;height:70px;" onclick="PF('dlg1').show();" />
+
+						<p:dialog id="versionPanel"
+							header="Justificar alteração na medicação" widgetVar="dlg1"
+							modal="true">
+
+							<p:panelGrid style="width:300px;height:200px;text-align:left;"
+								styleClass="panelForm">
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Motivo da alteração:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:selectOneMenu
+											requiredMessage="Motivo da alteração é obrigatório"
+											value="#{medicaoProjetoBean.alteracaoPeriodo.motivo}">
+											<f:selectItem itemLabel="Selecione o motivo da alteração..."
+												itemValue="" />
+											<f:selectItems value="#{medicaoProjetoBean.motivosAlteracao}"
+												var="motivo" itemLabel="#{motivo.nome}"
+												itemValue="#{motivo}" />
+										</p:selectOneMenu>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Observação:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputTextarea rows="3" cols="50"
+											requiredMessage="Observação da alteração é obrigatório"
+											value="#{medicaoProjetoBean.alteracaoPeriodo.observacao}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column style="text-align:center;">
+										<p:commandButton value="Salvar e gerar novo relatório"
+											style="width:300px;height:50px;" update="@all"
+											actionListener="#{medicaoProjetoBean.salvarAlteracaoPeriodoAprovacao}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+
+						</p:dialog>
+
+					</p:column>
+					<p:column style="text-align:center;">
+						<p:commandButton value="Aprovado" style="width:300px;height:70px;"
+							actionListener="#{medicaoProjetoBean.aprovarPeriodo}"
+							update="@all">
+							<p:confirm header="Período aprovado" icon="ui-icon-alert"
+								message="Tem certeza que deseja alterar o período de medição para aprovado?"></p:confirm>
+						</p:commandButton>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

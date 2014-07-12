@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui"
+				template="../../_template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="form">
+			<p:tabView>
+				<p:tab title="Resumo modelo sistema">
+						<p:panel header="Gerar relatório">
+							<p:outputLabel value="Relatório a partir de: "/>
+							<p:selectOneMenu value="#{medicaoProjetoBean.dataSelecionada}">
+								<f:selectItem itemLabel="Selecione a competencia " noSelectionOption="true"/>
+								<f:selectItems value="#{medicaoProjetoBean.periodoParaDataDe}" var="data"
+									itemLabel="#{data.descricao}" itemValue="#{data.dataDe.timeInMillis}"/>
+							</p:selectOneMenu>
+							<p:commandLink action="#{medicaoProjetoBean.gerarRelatorioRMS}">
+								<p:graphicImage library="imagens" name="iconeXls.jpg"/>
+							</p:commandLink>
+						</p:panel>
+						<br></br>
+						<br></br>
+						<p:dataTable id="gerados" emptyMessage="Nenhum relatório gerado" paginator="true" rows="10"
+									value="#{medicaoProjetoBean.relatoriosRMSgerados}" var="relatorio">
+								<p:column headerText="Data de criaçao">
+									<h:outputText value="#{relatorio.dataCriacao.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Nome">
+									<p:outputLabel value="#{relatorio.nomeArquivo}"/>
+								</p:column>
+								<p:column headerText="Baixar">
+									<p:commandButton id="downloadLink" value="Baixar"
+										ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
+										icon="	ui-icon-arrowthickstop-1-s">
+										<p:fileDownload value="#{medicaoProjetoBean.baixarRelatorioRMS(relatorio)}" />
+									</p:commandButton>
+								</p:column>
+						</p:dataTable>
+				</p:tab>
+				<p:tab title="Acompanhamento de medições">
+					<p:commandButton value="Gerar relatório"/>
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>

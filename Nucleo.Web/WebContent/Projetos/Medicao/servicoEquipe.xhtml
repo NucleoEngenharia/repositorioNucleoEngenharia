@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<h:form id="servicoEquipe">
+			<p:growl life="30000" showDetail="true" />
+			<p:panelGrid styleClass="panelForm" rendered="#{!medicaoProjetoBean.apenasLeitura}">
+				<p:row>
+					<p:column style="text-align:right;">
+						<p:outputLabel value="Base de calculo:" />
+					</p:column>
+					<p:column>
+						<p:inputText onkeyup="mascara(this,decimal);"
+							value="#{medicaoProjetoBean.periodoSelecionado.baseCalculo}" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="Aplicar Base de calculo"
+							action="#{medicaoProjetoBean.atualizarBaseCalculo}"
+							update="@form" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<p:separator />
+
+			<ui:repeat var="equipe" value="#{medicaoProjetoBean.servicoEquipes}">
+				<br />
+				<p:dataTable id="medicao" var="medicao"
+					rendered="#{medicaoProjetoBean.exibirEquipes}"
+					value="#{medicaoProjetoBean.medicoesEquipe.get(equipe.id)}"
+					emptyMessage="Nenhuma mobilização para este periodo encontrado">
+
+					<f:facet name="header">#{equipe.descricao}</f:facet>
+
+					<p:column headerText="Profissional">
+						<h:outputText
+							value="#{medicao.mobilizacao.funcionario.nomeCompleto}" />
+					</p:column>
+					<p:column headerText="Função (MD)">
+						<h:outputText value="#{medicao.mobilizacao.cargo.funcaoMD}" />
+					</p:column>
+					<p:column headerText="Valor venda">
+						<h:outputText value="#{medicao.mobilizacao.cargo.valorVenda}">
+							<f:convertNumber currencySymbol="R$" type="currency"
+								locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Valor disponível (MD)" style="width:120px;">
+						<p:outputLabel
+							value="#{medicaoProjetoBean.saldoCargo(medicao.mobilizacao.cargo)}"
+							id="saldoDisponivel">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$ " />
+						</p:outputLabel>
+					</p:column>
+					<p:column headerText="Dias trabalhados" rendered="#{!medicaoProjetoBean.apenasLeitura}">
+						<p:inputText id="qtdMedido" value="#{medicao.quantidadeMedido}"
+						    onblur="pegaMedicao([{name:'valorDigitado', value:this.value},{name:'medicao', value:'#{medicao.id}'},{name:'equipe', value:'#{equipe.id}'}])"
+							onkeyup="mascara(this,decimal);"
+							size="8">
+							<p:remoteCommand update="@form" name="pegaMedicao"
+								action="#{medicaoProjetoBean.pegaMedicao}"/>
+						</p:inputText>
+						<p:commandButton id="t" value="..." action="#{medicaoProjetoBean.pegaJustificativa}" update="@form">
+						   <f:setPropertyActionListener target="#{medicaoProjetoBean.mobilizacao}" value="#{medicao.mobilizacao}"/>
+						</p:commandButton>
+						<p:overlayPanel for="t" id="justificativas"
+							showEvent="focus"  dismissable="false" showEffect="blind"
+							rendered="#{medicaoProjetoBean.reenderizaJustificativa}">
+							<p:panelGrid id="panelGrid" style="width:250px;height:150px;text-align:left;"
+								styleClass="panelForm">
+								<p:message for="panelGrid"/>
+								<p:row>
+									<p:column colspan="2">
+										<p:outputLabel
+											value="O funcionário #{medicaoProjetoBean.justificativa.mobilizacao.funcionario.nomeCompleto} tem " />
+										<p:outputLabel
+											value="#{medicaoProjetoBean.diasDevidos} dias para justificar" />
+
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel for="diaAtestado" value="Dias de atestado: " />
+									</p:column>
+									<p:column>
+										<p:inputText id="diaAtestado" size="8" 
+										onkeyup="mascara(this,decimal);"
+											 value="#{medicaoProjetoBean.justificativa.diasAtestado}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel for="diaInjustificado"
+										onkeyup="mascara(this,decimal);"
+											value="Dias injustificados: " />
+									</p:column>
+									<p:column>
+										<p:inputText id="diaInjustificado" size="8"
+										onkeyup="mascara(this,decimal);"
+											value="#{medicaoProjetoBean.justificativa.diasInjustificado}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel for="diaFerias" value="Férias: " />
+									</p:column>
+									<p:column>
+										<p:inputText id="diaFerias" size="8"
+										onkeyup="mascara(this,decimal);"
+											value="#{medicaoProjetoBean.justificativa.diasFerias}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel for="diaOutros" value="Outros: " />
+									</p:column>
+									<p:column>
+										<p:inputText id="diaOutros" size="8"
+										onkeyup="mascara(this,decimal);"
+											value="#{medicaoProjetoBean.justificativa.diasOutros}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Observações:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column colspan="2" style="width: 100%;">
+										<p:inputTextarea
+											value="#{medicaoProjetoBean.justificativa.observacao}"
+											style="width: 100%;" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:commandButton style="align: left;"  process="panelGrid"
+											action="#{medicaoProjetoBean.salvarJustificativa}"
+											value="Justificar" update="@form"/>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</p:overlayPanel>
+						<p:outputLabel
+							value="  / #{medicaoProjetoBean.periodoSelecionado.baseCalculo}" />
+					</p:column>
+					<p:column headerText="Dias trabalhados" rendered="#{medicaoProjetoBean.apenasLeitura}">
+						<h:outputText value="#{medicao.quantidadeMedido}"/>
+					</p:column>
+					<p:column headerText="Total medido" width="80px">
+						<h:outputText value="#{medicao.valorMedido}" id="valorMedido">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$ " />
+						</h:outputText>
+					</p:column>
+
+					<f:facet name="footer">
+						<p:outputLabel value="Total medido: " />
+						<p:outputLabel
+							value="#{medicaoProjetoBean.calcularTotalMedidoEquipe(equipe)}">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$ " />
+						</p:outputLabel>
+					</f:facet>
+				</p:dataTable>
+			</ui:repeat>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

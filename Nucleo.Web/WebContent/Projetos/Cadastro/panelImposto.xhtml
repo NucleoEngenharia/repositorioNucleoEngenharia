@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<p:panelGrid styleClass="panelForm" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+			<p:row>
+				<p:column styleClass="colLabel">
+					<p:outputLabel value="Impostos:" />
+				</p:column>
+				<p:column colspan="2">
+					<p:selectOneMenu effect="fade"
+						value="#{cadastroProjetoBean.impostoSelec}" filter="true" id="impostosDisponiveis">
+						<f:selectItem itemLabel="Selecione um imposto..." itemValue="" />
+						<f:selectItems value="#{cadastroProjetoBean.impostosDisp}"
+							var="imposto" itemLabel="#{imposto.descricao}"
+							itemValue="#{imposto.id}" />
+					</p:selectOneMenu>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="4" style="text-align:right;">
+					<p:commandButton value="Adicionar imposto"
+						actionListener="#{cadastroProjetoBean.cadastrarImposto}"
+						update="@form" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<br />
+		<p:dataTable id="impostos" var="imposto"
+			value="#{cadastroProjetoBean.impostosCadas}">
+
+			<p:column headerText="Descrição">
+				<h:outputText value="#{imposto.descricao}" />
+			</p:column>
+
+			<p:column headerText="Taxa">
+				<h:outputText value="#{imposto.taxa}" />
+			</p:column>
+
+			<p:column style="width:20%; text-align:center;"
+				headerText="Excluir Imposto" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+				<p:commandButton update="impostos" icon="ui-icon-trash"
+					actionListener="#{cadastroProjetoBean.removerImposto(imposto)}">
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../_template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<p:breadCrumb>
+			<p:menuitem url="/faces/index.xhtml" />
+			<p:menuitem value="Lista de Projetos"
+				url="/faces/Projetos/Cadastro/lista_projetos.xhtml" />
+			<p:menuitem value="Projeto selecionado" onclick="history.go(-1);"
+				url="#" />
+		</p:breadCrumb>
+		<br />
+
+		<p:panel header="Serviço Selecionado">
+			<h:form id="formInformacoes">
+				<p:panelGrid style="width:100%;" styleClass="panel_inf_proj">
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="CN:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoEquipeBean.servicoSelecionado.projeto.CN}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Projeto:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoEquipeBean.servicoSelecionado.projeto.descricaoCurta}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Serviço:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoEquipeBean.servicoSelecionado.descricao}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Data Inicio:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoEquipeBean.servicoSelecionado.dataInicial.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Tipo:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoEquipeBean.servicoSelecionado.tipo.nome}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Data Fim:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoEquipeBean.servicoSelecionado.dataFim.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor do Serviço" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoEquipeBean.servicoSelecionado.valorTotal}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor disponível:"
+								title="Valor que ainda não foi definido como será utilizado dentro do serviço. Não tem relação alguma ainda com as medições." />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								title="Valor que ainda não foi definido como será utilizado dentro do serviço. Não tem relação alguma ainda com as medições."
+								value="#{servicoEquipeBean.valorDisponivel}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+		<br />
+		<h:form>
+			<p:growl id="msg" life="30000" showDetail="true" />
+			<p:panel header="Painel de cargos" >
+				<p:panelGrid styleClass="panelForm" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Função (MD):" />
+						</p:column>
+						<p:column>
+							<p:inputText size="60" rendered="#{servicoEquipeBean.calcProjPorEquipe}"
+								value="#{servicoEquipeBean.cargo.funcaoMD}" />
+								
+							<p:selectOneMenu value="#{servicoEquipeBean.cargo.funcaoMD}" rendered="#{servicoEquipeBean.calcProjPorComp}">
+								<f:selectItem itemLabel="Selecione"/>
+								<f:selectItem itemLabel="Baixa Complexidade" itemValue="Baixa Complexidade"/>
+								<f:selectItem itemLabel="Média Complexidade" itemValue="Média Complexidade"/>
+								<f:selectItem itemLabel="Alta Complexidade" itemValue="Alta Complexidade"/>
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Valor de venda (R$):" />
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,moeda)" size="20"
+								value="#{servicoEquipeBean.cargo.valorVenda}">
+								<f:convertNumber pattern="#,##0.00" type="currency"
+									locale="pt_BR" />
+								<p:ajax event="blur" update="valorTotal, :formInformacoes" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Valor de contratação (R$):" />
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,moeda)" size="20"
+								value="#{servicoEquipeBean.cargo.valorContratacaoDe}">
+								<f:convertNumber pattern="#,##0.00" type="currency"
+									locale="pt_BR" />
+							</p:inputText>
+						&nbsp;
+						<p:outputLabel value="até" />&nbsp;
+							<p:inputText onkeypress="mascara(this,moeda)" size="20"
+								value="#{servicoEquipeBean.cargo.valorContratacaoAte}">
+								<f:convertNumber pattern="#,##0.00" type="currency"
+									locale="pt_BR" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+				<br />
+				<p:separator rendered="#{!cadastroProjetoBean.apenasLeitura}" />
+				<br />
+
+				<p:panelGrid styleClass="panelForm" rendered="#{!cadastroProjetoBean.apenasLeitura}" >
+					<p:row>
+						<p:column styleClass="colLabel" style="width:40%">
+							<p:outputLabel
+								value="Quantidade total de profissionais neste cargo:" />
+						</p:column>
+						<p:column>
+							<p:inputText size="10" onkeypress="mascara(this,decimal)"
+								value="#{servicoEquipeBean.cargo.quantidadeUso}">
+								<p:ajax event="blur" update="previsoesUso,valorTotal"
+									listener="#{servicoEquipeBean.distribuirUsoFuncao}" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel" style="width:40%">
+							<p:outputLabel
+								value="Valor total do uso deste cargo no projeto (R$):" />
+						</p:column>
+						<p:column>
+							<p:inputText size="20" readonly="true"
+								value="#{servicoEquipeBean.cargo.valorTotal}" id="valorTotal">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:inputText>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<br />
+				<br />
+
+				<p:fieldset legend="Histograma" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+					<p:dataTable value="#{servicoEquipeBean.previsoesUso}"
+						var="previsao" id="previsoesUso" paginator="true" rows="6">
+
+						<p:column headerText="Mês" style="text-align:center;width:100px">
+							<p:outputLabel value="#{previsao.periodoMedicao.dataAte.time}">
+								<f:convertDateTime pattern="MMMM" />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column headerText="Ano" style="text-align:center;width:100px">
+							<p:outputLabel value="#{previsao.periodoMedicao.dataAte.time}">
+								<f:convertDateTime pattern="yyyy" />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column headerText="Quantidade utilizada"
+							style="text-align:left">
+							<p:inputText value="#{previsao.quantidade}"
+								onkeypress="mascara(this,decimal)">
+								<f:convertNumber type="number" locale="en_US" />
+							</p:inputText>
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
+				<br />
+				<br />
+
+				<p:commandButton value="Salvar Função" style="float:right;" rendered="#{!cadastroProjetoBean.apenasLeitura}"
+					actionListener="#{servicoEquipeBean.salvarCargo}"
+					update="@form, :formInformacoes" />
+
+				<br />
+				<br />
+				<br />
+				<br />
+
+				<p:dataTable value="#{servicoEquipeBean.cargos}" var="carg"
+					id="cargos">
+
+					<p:column headerText="Função (MD)">
+						<h:outputText value="#{carg.funcaoMD}" />
+					</p:column>
+
+					<p:column headerText="Valor total">
+						<h:outputText value="#{carg.valorTotal}">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$ " />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Permitido para contratação">
+						<h:outputText value="#{carg.valorContratacaoDe}">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$ " />
+						</h:outputText>
+						<h:outputText value=" à " />
+						<h:outputText value="#{carg.valorContratacaoAte}">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$ " />
+						</h:outputText>
+					</p:column>
+
+					<p:column style="width:10%; text-align:center;"
+						headerText="Alterar" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+						<p:commandButton update="@form" icon="ui-icon-gear"
+							actionListener="#{servicoEquipeBean.selecionarCargo(carg)}" />
+					</p:column>
+					<p:column style="width:10%; text-align:center;"
+						headerText="Excluir" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+						<p:commandButton icon="	ui-icon-trash"
+							update="@form, :formInformacoes"
+							action="#{servicoEquipeBean.removerCargo(carg)}">
+							<p:confirm header="Excluir Cargo"
+								message="Tem certeza que deseja excluir o cargo selecionado ?"
+								icon="ui-icon-trash" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

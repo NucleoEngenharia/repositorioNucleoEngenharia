@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../_template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<p:breadCrumb>
+			<p:menuitem url="/faces/index.xhtml" />
+			<p:menuitem value="Lista de Projetos"
+				url="/faces/Projetos/Cadastro/lista_projetos.xhtml" />
+			<p:menuitem value="Projeto selecionado" onclick="history.go(-1);"
+				url="#" />
+		</p:breadCrumb>
+		<br />
+		<h:form>
+			<p:growl id="msg" life="30000" showDetail="true"  />
+
+			<p:panel header="Serviço Selecionado">
+				<p:panelGrid style="width:100%;" styleClass="panel_inf_proj">
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="CN:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{infraMateriaisBean.infraSelecionado.projeto.CN}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Projeto:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{infraMateriaisBean.infraSelecionado.projeto.descricaoCurta}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Infra-Materiais:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{infraMateriaisBean.infraSelecionado.descricao}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{infraMateriaisBean.infraSelecionado.valor}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor disponível:"
+								title="Valor que ainda não foi definido como será utilizado dentro da Infra Não tem relação alguma ainda com as medições." />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								title="Valor que ainda não foi definido como será utilizado dentro da Infra. Não tem relação alguma ainda com as medições."
+								value="#{infraMateriaisBean.valorDisponivel}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+			</p:panel>
+			<br />
+			<p:panel header="Painel de Infra-Materiais">
+				<p:panelGrid styleClass="panelForm">
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Descrição:" />
+						</p:column>
+						<p:column>
+							<p:inputText value="#{infraMateriaisBean.itemInfra.descricao}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Valor (R$):" />
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,moeda)" size="20"
+								value="#{infraMateriaisBean.itemInfra.valor}" id="valorItem">
+								<f:convertNumber pattern="#,##0.00" type="currency" locale="pt_BR" />
+								<p:ajax event="blur" update="porcentItem"
+									listener="#{infraMateriaisBean.calcularPorcent}"></p:ajax>
+							</p:inputText>
+
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Porcentagem (%):" />
+						</p:column>
+						<p:column>
+							<p:inputText value="#{infraMateriaisBean.itemInfra.porcentagem}"
+								size="20" onkeypress="mascara(this,porcentagem)"
+								id="porcentItem">
+								<f:convertNumber type="percent" pattern="###.000000" />
+								<p:ajax event="blur" update="valorItem"
+									listener="#{infraMateriaisBean.calcularValor}"></p:ajax>
+							</p:inputText>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+				<br />
+				<br />
+
+				<p:commandButton value="Salvar Item" style="float:right;"
+					action="#{infraMateriaisBean.salvarItem}" update="@form" />
+
+				<br />
+				<br />
+				<br />
+				<br />
+
+				<p:dataTable var="item" value="#{infraMateriaisBean.itens}">
+
+					<p:column headerText="Descrição">
+						<h:outputText value="#{item.descricao}" />
+					</p:column>
+
+					<p:column headerText="Valor">
+						<h:outputText value="#{item.valor}">
+							<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Porcentagem">
+						<h:outputText value="#{item.porcentagem}">
+							<f:convertNumber type="percent" pattern="#.000000" />
+						</h:outputText>
+					</p:column>
+
+					<p:column style="width:10%; text-align:center;"
+						headerText="Alterar">
+						<p:commandButton id="selectButton" icon="ui-icon-gear"
+							action="#{infraMateriaisBean.selecionarItem(item)}"
+							update="@form" />
+					</p:column>
+					<p:column style="width:10%; text-align:center;"
+						headerText="Excluir">
+						<p:commandButton icon="	ui-icon-trash" update="@form"
+							action="#{infraMateriaisBean.removerItem(item)}">
+							<p:confirm header="Excluir Item"
+								message="Tem certeza que deseja excluir o item selecionado ?"
+								icon="ui-icon-trash" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+
+			</p:panel>
+		</h:form>
+		<br />
+		<br />
+		<br />
+		<br />
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

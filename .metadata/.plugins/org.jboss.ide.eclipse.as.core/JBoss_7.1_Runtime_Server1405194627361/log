@@ -1,0 +1,31 @@
+!SESSION 2014-07-12 16:34:15.448 -----------------------------------------------
+eclipse.buildId=4.3.2.M20140221-1700
+java.version=1.7.0_55
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=pt_BR
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -data D:\repositorioGit\projetosNucleoEngenharia -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.jboss.ide.eclipse.as.core 0 33685505 2014-07-12 16:58:57.867
+!MESSAGE Module Nucleo published without error.
+
+!ENTRY org.jboss.ide.eclipse.as.core 0 33685505 2014-07-12 16:58:59.205
+!MESSAGE Module Nucleo.Web published without error.
+
+!ENTRY org.jboss.ide.eclipse.as.core 0 33685505 2014-07-12 16:58:59.390
+!MESSAGE Module Nucleo.intranet published without error.
+
+!ENTRY org.jboss.ide.eclipse.as.core 0 33685505 2014-07-12 16:59:01.044
+!MESSAGE Module Nucleo.Medicao published without error.
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842760 2014-07-12 16:59:04.794
+!MESSAGE Server Starting
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842769 2014-07-12 16:59:10.671
+!MESSAGE Server Startup Succeeded
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842776 2014-07-12 17:01:59.315
+!MESSAGE Server shutting down
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16973825 2014-07-12 17:01:59.931
+!MESSAGE Server processes have been terminated.

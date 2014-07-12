@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<p:panelGrid styleClass="panelForm" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+			<p:row>
+				<p:column styleClass="colLabel" style="width:300px;">
+					<p:outputLabel value="Dia da atualização do reajuste (DD/MM/YY):" />
+				</p:column>
+				<p:column colspan="2">
+					<p:calendar onkeypress="mascara(this,data)"
+						value="#{cadastroProjetoBean.projetoSelecionado.dataLimiteReajuste}"
+						styleClass="data" required="true"
+						pattern="dd/MM/yyyy" converter="CalendarConverter"
+						requiredMessage="Data do reajuste é obrigatório" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<p:spacer height="50" />
+		<p:panelGrid styleClass="panelForm" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+			<p:row>
+				<p:column styleClass="colLabel" style="text-align: left;">
+					<p:commandButton value="Cadastrar reajuste" type="button"
+						onclick="PF('dlg1').show();" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+
+		<p:dataTable var="reajuste" id="reajustes"
+			value="#{cadastroProjetoBean.reajustes}">
+
+			<p:column headerText="Indice do reajuste">
+				<p:outputLabel value="#{reajuste.indice}">
+					<f:convertNumber pattern="0.00" type="percent" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Data">
+				<p:outputLabel value="#{reajuste.dataCriacao.time}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column style="width:20%; text-align:center;"
+				headerText="Excluir Reajuste" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+				<p:commandButton update="reajustes" icon="ui-icon-trash"
+					actionListener="#{cadastroProjetoBean.removerReajuste(reajuste)}">
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog id="versionPanel" header="Cadastro de reajuste"
+			widgetVar="dlg1" modal="true">
+
+			<p:panelGrid styleClass="panelForm">
+				<p:row>
+					<p:column>
+						<p:graphicImage library="imagens" name="atencao.png" />
+					</p:column>
+					<p:column width="100">
+						<p:outputPanel style="font-size:12px;">
+							<p>
+								Lembrete: Cadastrando um novo índice de reajuste, <br /> apenas
+								o mais atual sera considerado na hora de calcular o valor da
+								medição. <br /> Por esta razão, se o projeto ja tem por exemplo
+								um índice de reajuste de 1.05, <br /> e o próximo seja de 1.06,
+								o índice deve ser cadastrado da seguinte forma: 1.11. <br /> O
+								último deve sempre acumular os reajustes anteriores.
+							</p>
+						</p:outputPanel>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2" style="text-align:center;">
+						<p:outputLabel value="Índice de reajuste:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2" style="text-align:center;">
+						<p:inputText onkeypress="mascara(this,decimal)" id="taxa_reajuste"
+							value="#{cadastroProjetoBean.reajuste.indice}">
+						</p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column style="text-align:right;" colspan="2">
+						<p:commandButton value="Salvar reajuste"
+							action="#{cadastroProjetoBean.cadastrarReajuste}"
+							oncomplete="PF('dlg1').hide();" update="@all" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:dialog>
+
+	</ui:composition>
+</h:body>
+</html>

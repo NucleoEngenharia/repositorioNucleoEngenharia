@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<h:form id="listaPeriodos">
+			<p:accordionPanel activeIndex="#{medicaoProjetoBean.tabLista}">
+				<p:tab title="Períodos em aberto">
+
+					<p:dataTable id="periodosAberto" var="periodo" paginator="true"
+						rows="10" value="#{medicaoProjetoBean.periodosAberto}"
+						emptyMessage="Nenhum período encontrado" rowKey="#{periodo.id}"
+						selection="#{medicaoProjetoBean.periodoAberto}"
+						selectionMode="single">
+
+						<p:column headerText="Período" filterBy="numSequencial" sortBy="numSequencial">
+							<h:outputText value="#{periodo.numSequencial}" />
+						</p:column>
+						<p:column headerText="Projeto" filterBy="projeto.CN"
+							sortBy="projeto.CN">
+							<h:outputText value="CN #{periodo.projeto.CN}" />
+						</p:column>
+						<p:column headerText="Período pendente" filterBy="descricao"
+							sortBy="descricao">
+							<h:outputText value="#{periodo.descricao}" />
+						</p:column>
+						<p:column headerText="Situação">
+							<h:outputText value="Pendente" />
+						</p:column>
+
+						<f:facet name="footer">
+							<div style="height: 30px;">
+								<p:commandButton value="Lançar medição" icon="ui-icon-gear"
+									action="#{medicaoProjetoBean.selecionarAberto}"
+									style="float:right;" update="@all" />
+							</div>
+						</f:facet>
+					</p:dataTable>
+				</p:tab>
+
+				<p:tab title="Medições aguardando validação">
+					<p:dataTable var="periodo" paginator="true" rows="10"
+						value="#{medicaoProjetoBean.periodosValidacao}"
+						emptyMessage="Nenhum período encontrado" rowKey="#{periodo.id}"
+						selection="#{medicaoProjetoBean.periodoValidacao}"
+						selectionMode="single">
+
+						<p:column headerText="Período" filterBy="numSequencial" sortBy="numSequencial">
+							<h:outputText value="#{periodo.numSequencial}" />
+						</p:column>
+						<p:column headerText="Projeto" filterBy="projeto.CN"
+							sortBy="projeto.CN">
+							<h:outputText value="CN #{periodo.projeto.CN}" />
+						</p:column>
+						<p:column headerText="Período pendente" filterBy="descricao"
+							sortBy="descricao">
+							<h:outputText value="#{periodo.descricao}" />
+						</p:column>
+						<p:column headerText="Situação">
+							<h:outputText value="Aguardando Validação" />
+						</p:column>
+
+						<f:facet name="footer">
+							<div style="height: 30px;">
+								<p:commandButton value="Consultar medição" icon="ui-icon-gear"
+									action="#{medicaoProjetoBean.selecionarValidacao}"
+									style="float:right;" update="@all" />
+							</div>
+						</f:facet>
+					</p:dataTable>
+				</p:tab>
+
+				<p:tab title="Medições aguardando aprovação do cliente">
+					<p:dataTable var="periodo" paginator="true" rows="10"
+						value="#{medicaoProjetoBean.periodosAprovacao}"
+						emptyMessage="Nenhum período encontrado" rowKey="#{periodo.id}"
+						selection="#{medicaoProjetoBean.periodoAprovacao}"
+						selectionMode="single">
+
+						<p:column headerText="Período" filterBy="numSequencial" sortBy="numSequencial">
+							<h:outputText value="#{periodo.numSequencial}" />
+						</p:column>
+						<p:column headerText="Projeto" filterBy="projeto.CN"
+							sortBy="projeto.CN">
+							<h:outputText value="CN #{periodo.projeto.CN}" />
+						</p:column>
+						<p:column headerText="Período pendente" filterBy="descricao"
+							sortBy="descricao">
+							<h:outputText value="#{periodo.descricao}" />
+						</p:column>
+						<p:column headerText="Versão">
+							<p:outputLabel value="#{medicaoProjetoBean.gerarVersao(periodo)}"/>
+						</p:column>
+						<p:column headerText="Situação">
+							<h:outputText value="Aguardando aprovação" />
+						</p:column>
+						<f:facet name="footer">
+							<div style="height: 30px; width: 100%; text-align: right;">
+								<p:commandButton id="downloadLink" value="Baixar relatório"
+									ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
+									icon="	ui-icon-arrowthickstop-1-s">
+									<p:fileDownload value="#{medicaoProjetoBean.relatorioPeriodo}" />
+								</p:commandButton>
+								&nbsp;
+								<p:commandButton value="Consultar versões" update="@form"
+								 action="#{medicaoProjetoBean.pegaLogVersoes}" oncomplete="PF('versoes').show();" icon="ui-icon-gear"/>
+								&nbsp;
+								<p:commandButton value="Consultar medição" icon="ui-icon-gear"
+									action="#{medicaoProjetoBean.selecionarAprovacao}"
+									update="@all" />
+							</div>
+						</f:facet>
+					</p:dataTable>
+					<p:dialog header="Versões" widgetVar="versoes" modal="true">
+						<p:dataTable value="#{medicaoProjetoBean.alteracaoPeriodoMedicoes}"
+									 emptyMessage="Nenhum periodo encontrado" var="alteracoes"
+									 paginator="true" rows="10">
+							 <p:column headerText="Data">
+								<h:outputText value="#{alteracoes.dataCriacao.time}">
+									<f:convertDateTime pattern="dd/MM/yyyy"/>
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Tipo">
+								<h:outputText value="#{alteracoes.motivo}"/>
+							</p:column>
+							<p:column headerText="Motivo" width="200">
+								<h:outputText value="#{alteracoes.observacao}"/>
+							</p:column>
+						</p:dataTable>
+					</p:dialog>
+				</p:tab>
+
+				<p:tab title="Medições aprovadas">
+					<p:dataTable var="periodo" paginator="true" rows="10"
+						value="#{medicaoProjetoBean.periodosAprovado}"
+						emptyMessage="Nenhum período encontrado">
+
+						<p:column headerText="Período" filterBy="numSequencial" sortBy="numSequencial">
+							<h:outputText value="#{periodo.numSequencial}" />
+						</p:column>
+						<p:column headerText="Projeto" filterBy="projeto.CN"
+							sortBy="projeto.CN">
+							<h:outputText value="CN #{periodo.projeto.CN}" />
+						</p:column>
+						<p:column headerText="Período pendente" filterBy="descricao"
+							sortBy="descricao">
+							<h:outputText value="#{periodo.descricao}" />
+						</p:column>
+						<p:column headerText="Nota fiscal">
+							<h:outputText value="Gerada ou aguardando" />
+						</p:column>
+
+						<p:column headerText="Relatório">
+							<p:commandButton id="downloadLink" value="Baixar"
+								ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)"
+								icon="	ui-icon-arrowthickstop-1-s">
+								<p:fileDownload value="#{medicaoProjetoBean.baixarRelatorio(periodo)}" />
+							</p:commandButton>
+						</p:column>
+
+						<!-- f:facet name="footer">
+							<div style="height: 30px;">
+								<p:commandButton value="Abrir medição" icon="ui-icon-gear"
+									action="#{medicaoProjetoBean.selecionarPeriodo()}"
+									style="float:right;" />
+							</div>
+						</f:facet-->
+					</p:dataTable>
+				</p:tab>
+			</p:accordionPanel>
+		</h:form>
+
+		<script type="text/javascript">
+			function start() {
+				PF('statusDialog').show();
+			}
+
+			function stop() {
+				PF('statusDialog').hide();
+			}
+		</script>
+
+	</ui:composition>
+</h:body>
+</html>

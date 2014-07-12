@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<h:form>
+			<p:tabView>
+				<p:tab title="Modelo relatório sistema">
+					<p:dataTable emptyMessage="Nunhum dado encontrado">
+						<p:column headerText="Nome">
+
+						</p:column>
+						<p:column headerText="Data de criação">
+
+						</p:column>
+						<p:column headerText="Baixar">
+							<p:commandButton value="Baixar"/>
+						</p:column>
+					</p:dataTable>
+					<br></br>
+					<h:panelGrid rendered="#{!medicaoProjetoBean.apenasLeitura}">
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Selecione um periodo a partir de: "/>
+							</p:column>
+							
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:commandLink action="#{medicaoProjetoBean.gerarRelatorioRMS}">
+									<p:graphicImage library="imagens" name="iconeXls.jpg"/>
+								</p:commandLink>
+							</p:column>
+						</p:row>
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="Acompanhamento Medição">
+
+				</p:tab>
+				<p:tab title="Horas improdutivas">
+
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</h:body>
+</ui:composition>

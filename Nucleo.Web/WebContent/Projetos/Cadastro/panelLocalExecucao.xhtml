@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<p:panelGrid styleClass="panelForm" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+			<p:row>
+				<p:column styleClass="colLabel">
+					<p:outputLabel value="Estado:" />
+				</p:column>
+				<p:column colspan="2">
+					<p:selectOneMenu effect="fade" value="#{cadastroProjetoBean.estado}"
+						filter="true">
+						<f:selectItem itemLabel="Selecione o estado..." itemValue="" />
+						<f:selectItems value="#{cadastroProjetoBean.estados}" />
+						<p:ajax update="cidades"
+							listener="#{cadastroProjetoBean.carregaCidades}" event="change" />
+					</p:selectOneMenu>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="colLabel">
+					<p:outputLabel value="Cidade:" />
+				</p:column>
+				<p:column colspan="2">
+					<p:selectOneMenu effect="fade" var="p" filter="true" id="cidades"
+						value="#{cadastroProjetoBean.cidade}">
+						<f:selectItems value="#{cadastroProjetoBean.cidades}" />
+					</p:selectOneMenu>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="4" style="text-align:right;">
+					<p:commandButton value="Adicionar Local"
+						actionListener="#{cadastroProjetoBean.cadastrarLocal}"
+						update="locaisExecucao" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<br />
+		<p:dataTable id="locaisExecucao" var="local"
+			value="#{cadastroProjetoBean.locaisExecucao}">
+
+			<p:column headerText="Estado">
+				<h:outputText value="#{local.estado}" />
+			</p:column>
+
+			<p:column headerText="Cidade">
+				<h:outputText value="#{local.cidade}" />
+			</p:column>
+
+			<p:column style="width:20%; text-align:center;"
+				headerText="Excluir Cidade" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+				<p:commandButton update="locaisExecucao" icon="ui-icon-trash"
+					title="Excluir Cidade"
+					actionListener="#{cadastroProjetoBean.removerLocal(local)}">
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+	</ui:composition>
+</h:body>
+</html>

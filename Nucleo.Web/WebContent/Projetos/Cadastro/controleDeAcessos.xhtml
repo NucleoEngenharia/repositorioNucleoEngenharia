@@ -1,0 +1,36 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="../../_template.xhtml">
+	<ui:define name="conteudo">
+		<p:panel>
+			<h:form id="form">
+			<p:accordionPanel>
+				<p:tab title="Usuarios Medicao e controle">
+					<p:dataTable value="#{controleAcessoBean.funcionariosMedicaoControle}" 
+									 var="funcionario" paginator="true" rows="10" rowKey="#{funcionario.pessoa_id}"
+									 selection="#{controleAcessoBean.funcionarioSelecionado}" selectionMode="single">
+								<p:column headerText="ID" filterBy="pessoa_id" >
+									<h:outputText value="#{funcionario.pessoa_id}"/>
+								</p:column>
+								<p:column headerText="Nome" filterBy="nome" >
+									<h:outputText value="#{funcionario.nome}"/>
+								</p:column>
+								<p:column headerText="E-mail" filterBy="email" >
+									<h:outputText value="#{funcionario.email}"/>
+								</p:column>
+								<p:column headerText="Ramal" filterBy="ramal" >
+									<h:outputText value="#{funcionario.ramal}"/>
+								</p:column>
+								<f:facet name="footer">
+									<p:commandButton value="Associar Projetos" update="@all" action="#{controleAcessoBean.associarUsuario}" />
+								</f:facet>
+						</p:dataTable>
+				</p:tab>
+			</p:accordionPanel>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,150 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="../../_template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="form">
+			<p:tabView>
+				<p:tab title="Associar projetos">
+					<p:panel header="Usuario selecionado">
+						<p:panelGrid style="width:100%;" styleClass="panel_inf_proj">
+							<p:row>
+								<p:column styleClass="colLabel">
+									<h:outputText value="Id: " />
+								</p:column>
+								<p:column style="width:20%;">
+									<h:outputText
+										value="#{associarUsuarioProjetoBean.usuarioSelecionado.pessoa_id}" />
+								</p:column>
+								<p:column styleClass="colLabel">
+									<h:outputText value="Nome: " />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{associarUsuarioProjetoBean.usuarioSelecionado.nome}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<h:outputText value="Ramal: " />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{associarUsuarioProjetoBean.usuarioSelecionado.ramal}" />
+								</p:column>
+								<p:column styleClass="colLabel">
+									<h:outputText value="E-mail: " />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{associarUsuarioProjetoBean.usuarioSelecionado.email}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<p:outputLabel value="Administrador" />
+								</p:column>
+								<p:column>
+									<p:selectBooleanCheckbox
+										value="#{associarUsuarioProjetoBean.acessosUsuario.administrador}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
+					<br />
+					<br />
+					<p:dataTable value="#{associarUsuarioProjetoBean.projetos}"
+						var="projeto" paginator="true" rows="10" rowKey="#{projeto.CN}"
+						emptyMessage="Usuário administrador"
+						selection="#{associarUsuarioProjetoBean.projetosSelecionados}">
+						<p:column selectionMode="multiple" />
+						<p:column headerText="CN" filterBy="CN" sortBy="CN">
+							<h:outputText value="#{projeto.CN}" />
+						</p:column>
+						<p:column headerText="Projeto" filterBy="descricao"
+							sortBy="descricao">
+							<h:outputText value="#{projeto.descricao}" />
+						</p:column>
+
+						<p:column headerText="Data Início" sortBy="dtInicio">
+							<h:outputText value="#{projeto.dataInicio.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Data Fim" sortBy="dtFim">
+							<h:outputText value="#{projeto.dataFim.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton value="Associar projetos" update="@all"
+								action="#{associarUsuarioProjetoBean.associarProjeto}" />
+						</f:facet>
+					</p:dataTable>
+				</p:tab>
+				<p:tab title="Associar Grupos">
+					<p:panel header="Usuario selecionado">
+						<p:panelGrid style="width:100%;" styleClass="panel_inf_proj">
+							<p:row>
+								<p:column styleClass="colLabel">
+									<h:outputText value="Id: " />
+								</p:column>
+								<p:column style="width:20%;">
+									<h:outputText
+										value="#{associarUsuarioProjetoBean.usuarioSelecionado.pessoa_id}" />
+								</p:column>
+								<p:column styleClass="colLabel">
+									<h:outputText value="Nome: " />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{associarUsuarioProjetoBean.usuarioSelecionado.nome}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<h:outputText value="Ramal: " />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{associarUsuarioProjetoBean.usuarioSelecionado.ramal}" />
+								</p:column>
+								<p:column styleClass="colLabel">
+									<h:outputText value="E-mail: " />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{associarUsuarioProjetoBean.usuarioSelecionado.email}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
+					<br />
+					<p:dataTable value="#{associarUsuarioProjetoBean.grupos}" var="grupo"
+								 emptyMessage="Nenhum Grupo criado" paginator="true" rows="10"
+								 selection="#{associarUsuarioProjetoBean.gruposSelecionados}" rowKey="#{grupo.id}">
+					<p:column selectionMode="multiple"/>
+					<p:column headerText="ID" filterBy="id">
+							<h:outputText value="#{grupo.id}"/>
+						</p:column>	
+						<p:column headerText="Nome" filterBy="nome">
+							<h:outputText value="#{grupo.nome}"/>
+						</p:column>	
+						<p:column headerText="Data de Criação">
+							<h:outputText value="#{grupo.dataCriacao.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>	
+						<f:facet name="footer">
+							<p:commandButton value="Associar grupos" ajax="false"
+							action="#{associarUsuarioProjetoBean.associarGrupo}"/>
+						</f:facet>		 
+					</p:dataTable>	
+					<br />
+					<br />
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

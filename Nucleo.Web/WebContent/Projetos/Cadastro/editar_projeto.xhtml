@@ -1,0 +1,487 @@
+<ui:composition template="../../_template.xhtml"
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="conteudo">
+		<p:breadCrumb>
+			<p:menuitem url="/faces/index.xhtml" />
+			<p:menuitem value="Lista de Projetos"
+				url="/faces/Projetos/Cadastro/lista_projetos.xhtml" />
+		</p:breadCrumb>
+		<br />
+		<p:panel header="Projeto Selecionado">
+			<h:form id="formInformacoes">
+				<p:panelGrid style="width:100%;" styleClass="panel_inf_proj">
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="CN:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{cadastroProjetoBean.projetoSelecionado.CN}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Número CN Cliente:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{cadastroProjetoBean.projetoSelecionado.CNCliente}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Projeto:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{cadastroProjetoBean.projetoSelecionado.descricaoCurta}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Data Inicio:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{cadastroProjetoBean.projetoSelecionado.dataInicio.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Prazo Total:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{cadastroProjetoBean.prazoTotalDias} dias" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Data Fim:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{cadastroProjetoBean.projetoSelecionado.dataFim.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor atual do Projeto:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{cadastroProjetoBean.valorAtual}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor disponível:"
+								title="Valor que ainda não foi definido como será utilizado dentro do projeto. Não tem relação alguma ainda com as medições." />
+						</p:column>
+						<p:column>
+							<p:outputLabel id="valorDisponivel"
+								title="Valor que ainda não foi definido como será utilizado dentro do projeto. Não tem relação alguma ainda com as medições."
+								value="#{cadastroProjetoBean.valorDisponivel}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+		<br />
+		<br />
+		<br />
+
+		<p:tabView id="editarProjeto">
+
+			<p:tab id="infProjeto" title="1. Informações do Projeto">
+				<br />
+				<h:form id="informacoesProjeto">
+					<p:growl id="msgInformacoes" life="10000" showDetail="true" />
+
+					<p:tabView style="min-height:350px;">
+
+						<p:tab title="Dados Básicos">
+							<br />
+							<p:panelGrid styleClass="panelForm">
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Nome:"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput" colspan="3">
+										<p:inputText
+											value="#{cadastroProjetoBean.projetoSelecionado.descricao}"
+											readonly="true" size="80"></p:inputText>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="CN:"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:inputText
+											value="#{cadastroProjetoBean.projetoSelecionado.CN}"
+											readonly="true"></p:inputText>
+									</p:column>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Valor original (R$):"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput" colspan="3">
+										<p:inputText onkeypress="mascara(this,moeda)"
+											value="#{cadastroProjetoBean.projetoSelecionado.valorOriginal}">
+											<f:convertNumber pattern="#,##0.00" type="currency"
+												locale="pt_BR" />
+										</p:inputText>
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Data de Inicio:"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:calendar required="true" onkeypress="mascara(this,data)"
+											requiredMessage="Data de Inicio é um campo obrigatório"
+											value="#{cadastroProjetoBean.projetoSelecionado.dataInicio}"
+											pattern="dd/MM/yyyy" converter="CalendarConverter" />
+									</p:column>
+
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Data Fim:"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:calendar required="true" onkeypress="mascara(this,data)"
+											requiredMessage="Data fim é um campo obrigatório"
+											value="#{cadastroProjetoBean.projetoSelecionado.dataFim}"
+											pattern="dd/MM/yyyy" styleClass="data"
+											converter="CalendarConverter" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Data de abertura OIS:"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:calendar required="true" onkeypress="mascara(this,data)"
+											requiredMessage="Data de abertura OIS é um campo obrigatório"
+											value="#{cadastroProjetoBean.projetoSelecionado.dataAberturaOIS}"
+											pattern="dd/MM/yyyy" styleClass="date"
+											converter="CalendarConverter">
+										</p:calendar>
+									</p:column>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Data de fechamento OIS:"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:calendar required="true" onkeypress="mascara(this,data)"
+											requiredMessage="Data de fechamento OIS é um campo obrigatório"
+											value="#{cadastroProjetoBean.projetoSelecionado.dataFechamentoOIS}"
+											pattern="dd/MM/yyyy" styleClass="date"
+											converter="CalendarConverter" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="CN Cliente:"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:inputText
+											value="#{cadastroProjetoBean.projetoSelecionado.CNCliente}"></p:inputText>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Setor:"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:selectOneMenu effect="fade" filter="true" required="true"
+											requiredMessage="Setor é um campo obrigatório"
+											value="#{cadastroProjetoBean.projetoSelecionado.setor}">
+
+											<f:selectItem itemLabel="Selecione o Setor..." itemValue=""></f:selectItem>
+											<f:selectItems value="#{cadastroProjetoBean.setores}" var="s"
+												itemLabel="#{s.nome}" itemValue="#{s}" />
+										</p:selectOneMenu>
+									</p:column>
+
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Atividade: "/>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:selectOneMenu effect="fade" required="true"
+											requiredMessage="Atividade é um campo obrigatório"
+											value="#{cadastroProjetoBean.projetoSelecionado.atividade}"
+											filter="true">
+
+											<f:selectItem itemLabel="Selecione a Atividade..."
+												itemValue=""></f:selectItem>
+											<f:selectItems value="#{cadastroProjetoBean.ramos}" var="r"
+												itemLabel="#{r.nome}" itemValue="#{r}" />
+										</p:selectOneMenu>
+									</p:column>
+								</p:row>
+
+							</p:panelGrid>
+							<br />
+							<p:separator />
+							<br />
+							<p:panelGrid styleClass="panelForm">
+								<p:row>
+									<p:column styleClass="colLabel" style="width:250px;">
+										<p:outputLabel value="Despesas reembolsáveis são limitadas?"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:selectBooleanButton offLabel="Não" onLabel="Sim"
+											value="#{cadastroProjetoBean.projetoSelecionado.limiteDespesa}" />
+									</p:column>
+									<p:column styleClass="colLabel" style="width:80px;">
+										<p:outputLabel value="Objeto: "/>
+									</p:column>
+									<p:column styleClass="contact_textarea" >
+										<p:inputTextarea style="width: 100%;"
+										value="#{cadastroProjetoBean.projetoSelecionado.objeto}"/>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Despesa reembolsáveis integra valor do Projeto?"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:selectBooleanButton offLabel="Não" onLabel="Sim"
+											value="#{cadastroProjetoBean.projetoSelecionado.despesaIntegraValor}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Despesas reembolsáveis tem impostos?"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput">
+										<p:selectBooleanButton offLabel="Não" onLabel="Sim"
+											value="#{cadastroProjetoBean.projetoSelecionado.despesaTemImposto}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</p:tab>
+						<br />
+						<p:tab title="Medição">
+							<p:panelGrid styleClass="panelForm" columnClasses="colForm">
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Data de inicio das medições:"></p:outputLabel>
+									</p:column>
+
+									<p:column colspan="3">
+										<p:calendar onkeypress="mascara(this,data)"
+											value="#{cadastroProjetoBean.projetoSelecionado.dataInicialMedicao}"
+											converter="CalendarConverter" pattern="dd/MM/yyyy"
+											styleClass="date" size="15" id="dataMedicao" required="true"
+											requiredMessage="Inicio das medições é obrigatório"
+											title="Toda a estrutura da Medição sera criada baseada nesta data, por isso não é permitido altera depois de cadastrada. Tenha certeza antes de salvar." />
+										<p:tooltip for="dataMedicao" showEvent="focus"
+											hideEvent="blur" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column styleClass="colLabel">
+										<p:outputLabel value="Observação:"></p:outputLabel>
+									</p:column>
+									<p:column colspan="3">
+										<p:inputTextarea
+											value="#{cadastroProjetoBean.projetoSelecionado.medicaoObs}"
+											rows="3" cols="80" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column styleClass="colLabel" style="height:70px;">
+										<p:outputLabel value="Tipo calculo:"></p:outputLabel>
+									</p:column>
+									<p:column styleClass="colInput" colspan="3">
+										<p:selectOneMenu effect="fade" required="true"
+											requiredMessage="Tipo do calculo é um campo obrigatório"
+											value="#{cadastroProjetoBean.projetoSelecionado.calculo}"
+											filter="true">
+
+											<f:selectItems value="#{cadastroProjetoBean.calculos}"
+												var="c" itemLabel="#{c.nome}" itemValue="#{c}" />
+										</p:selectOneMenu>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</p:tab>
+						<p:tab title="Responsável">
+							<ui:include src="panelResponsavel.xhtml"></ui:include>
+						</p:tab>
+						<p:tab title="Locais de execução">
+							<ui:include src="panelLocalExecucao.xhtml"></ui:include>
+						</p:tab>
+						<p:tab title="Impostos">
+							<ui:include src="panelImposto.xhtml"></ui:include>
+						</p:tab>
+						<p:tab title="Renovação">
+							<ui:include src="panelRenovacao.xhtml"></ui:include>
+						</p:tab>
+						<p:tab title="Reajuste">
+							<ui:include src="panelReajuste.xhtml"></ui:include>
+						</p:tab>
+					</p:tabView>
+					<br />
+					<br />
+					<br />
+
+					<p:panelGrid styleClass="panelForm">
+						<p:row>
+							<p:column styleClass="colLabel" style="width:20%;">
+								<p:outputLabel value="Status atual do Projeto:" />
+							</p:column>
+							<p:column>
+								<p:selectOneMenu effect="fade" filter="true" required="true"
+									requiredMessage="Status do Projeto é um campo obrigatório"
+									value="#{cadastroProjetoBean.projetoSelecionado.status}">
+									<f:selectItems value="#{cadastroProjetoBean.statusProjeto}"
+										var="s" itemLabel="#{s.nome}" itemValue="#{s}" />
+								</p:selectOneMenu>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					<br />
+					<p:separator />
+
+					<p:panelGrid styleClass="panelForm" id="panelInformacoes">
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Valor Original (I0):" />
+							</p:column>
+							<p:column>
+								<p:outputLabel
+									value="#{cadastroProjetoBean.projetoSelecionado.valorOriginal}"
+									readonly="true">
+									<f:convertNumber type="currency" currencySymbol="R$ "
+										locale="pt_BR" />
+								</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:outputLabel value="Data Fim Original:" />
+							</p:column>
+							<p:column>
+								<p:outputLabel
+									value="#{cadastroProjetoBean.projetoSelecionado.dataFim.time}"
+									readonly="true">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</p:outputLabel>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Valor Atual (I0):" />
+							</p:column>
+							<p:column>
+								<p:outputLabel value="#{cadastroProjetoBean.valorAtual}"
+									readonly="true">
+									<f:convertNumber type="currency" currencySymbol="R$ "
+										locale="pt_BR" />
+								</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:outputLabel value="Data Fim Atual:" />
+							</p:column>
+							<p:column>
+								<p:outputLabel value="#{cadastroProjetoBean.dataFimAtual.time}"
+									readonly="true">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</p:outputLabel>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Valor orginal (I0) com reajuste"/>
+							</p:column>
+							<p:column>
+								<p:outputLabel value="#{cadastroProjetoBean.valorComReajuste}">
+									<f:convertNumber type="currency" currencySymbol="R$ "
+										locale="pt_BR" />
+								</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:outputLabel value="Valor atual (I0) com reajuste"/>
+							</p:column>
+							<p:column>
+								<p:outputLabel value="#{cadastroProjetoBean.valorAtualComReajuste}">
+									<f:convertNumber type="currency" currencySymbol="R$ "
+										locale="pt_BR" />
+								</p:outputLabel>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Total de aditivos (R$):" />
+							</p:column>
+							<p:column>
+								<p:outputLabel value="#{cadastroProjetoBean.valorTotalAditivos}"
+									readonly="true">
+									<f:convertNumber type="currency" currencySymbol="R$ "
+										locale="pt_BR" />
+								</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:outputLabel value="Total de aditivos (prazo):" />
+							</p:column>
+							<p:column>
+								<p:outputLabel value="#{cadastroProjetoBean.totalPrazoAditivos}"
+									readonly="true" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+					<br />
+					<br />
+					<br />
+					<br />
+
+					<p:panelGrid styleClass="panelForm" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+						<p:row>
+							<p:column style="text-align:right;">
+								<p:commandButton value="Salvar informações do Projeto"
+									action="#{cadastroProjetoBean.salvarInformacoesProjeto}"
+									update="@form,:formInformacoes" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					<br />
+					<br />
+				</h:form>
+			</p:tab>
+
+			<p:tab id="Servicos" title="2. Serviços">
+				<ui:include src="tabServicos.xhtml"></ui:include>
+			</p:tab>
+
+			<p:tab id="InfraMateriais" title="3. Infra-Estrutura e Materiais">
+				<ui:include src="tabInfraMateriais.xhtml"></ui:include>
+			</p:tab>
+
+			<p:tab id="despesas" title="4. Despesas Reembolsáveis">
+				<ui:include src="tabDespesa.xhtml"></ui:include>
+			</p:tab>
+
+			<p:tab title="5. Aditivo">
+				<ui:include src="tabAditivo.xhtml"></ui:include>
+			</p:tab>
+		</p:tabView>
+		<br />
+		<br />
+		<br />
+
+	</ui:define>
+</ui:composition>

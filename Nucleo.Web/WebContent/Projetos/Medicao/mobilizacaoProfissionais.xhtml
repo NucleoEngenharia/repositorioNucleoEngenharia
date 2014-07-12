@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="../../_template.xhtml">
+	<ui:define name="conteudo">
+		<p:accordionPanel activeIndex="#{mobilizacaoBean.tabLista}">
+			<p:tab title="Lista de Projetos Ativos">
+
+				<h:form id="listaProjetosMedicao">
+
+					<p:dataTable var="proj" paginator="true" rows="10"
+						value="#{mobilizacaoBean.projetos}" rowKey="#{proj.CN}"
+						selection="#{mobilizacaoBean.projetoSelecionado}"
+						selectionMode="single" emptyMessage="Nenhum Projeto encontrado">
+
+						<f:facet name="header">Projetos</f:facet>
+
+						<p:column headerText="CN" filterBy="CN" sortBy="CN">
+							<h:outputText value="#{proj.CN}" />
+						</p:column>
+						<p:column headerText="Projeto" filterBy="descricao"
+							sortBy="descricao">
+							<h:outputText value="#{proj.descricaoCurta}" />
+						</p:column>
+
+						<p:column headerText="Data Início" sortBy="dtInicio">
+							<h:outputText value="#{proj.dataInicio.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Data Fim" sortBy="dtFim">
+							<h:outputText value="#{proj.dataFim.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<f:facet name="footer">
+							<div style="height: 30px;">
+								<p:commandButton value="Selecionar Projeto" icon="ui-icon-gear"
+									action="#{mobilizacaoBean.selecionarProjeto}"
+									style="float:right;" update="@all" />
+							</div>
+						</f:facet>
+
+					</p:dataTable>
+
+				</h:form>
+			</p:tab>
+		</p:accordionPanel>
+		<br />
+		<p:panel header="Projeto Selecionado"
+			rendered="#{mobilizacaoBean.exibirDetalhes}">
+			<h:form id="projetoInformacoes">
+				<p:panelGrid style="width:100%;" styleClass="panel_inf_proj">
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="CN:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{mobilizacaoBean.projetoSelecionado.CN}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Projeto:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{mobilizacaoBean.projetoSelecionado.descricaoCurta}" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+		<br />
+		<br />
+		<p:panel rendered="#{mobilizacaoBean.exibirDetalhes}"
+			header="Painel de Mobilizações">
+			<h:form id="formulario">
+				<p:growl life="10000" showDetail="true" />
+				<br />
+				<p:panelGrid styleClass="panelForm" rendered="#{!mobilizacaoBean.apenasLeitura}">
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="CN do Funcionário:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:selectOneMenu filter="true" 
+								value="#{mobilizacaoBean.cnSelecionada}">
+								<f:selectItem itemLabel="Selecione a CN do funcionário..."
+									itemValue="" />
+								<f:selectItems value="#{mobilizacaoBean.cns}" var="cn"
+									itemLabel="#{cn}" itemValue="#{cn}" />
+								<p:ajax event="change" update="funcionarios"
+									listener="#{mobilizacaoBean.carregaFuncionarios}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Funcionário:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:selectOneMenu filter="true" required="true"
+								requiredMessage="Funcionário é um campo obrigatório"
+								value="#{mobilizacaoBean.mobilizacao.funcionario}" id="funcionarios" 
+								converter="FuncionarioContratoConverter">
+								<f:selectItem itemLabel="Selecione o funcionário..."/>
+								<f:selectItems value="#{mobilizacaoBean.funcionarios}"
+									var="func" itemLabel="#{func.nomeCompleto}"
+									itemValue="#{func}" />
+								<p:ajax event="change" update="dataAdmissao,dataRescisao" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Admissão:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mobilizacaoBean.mobilizacao.funcionario.dataAdmissao.time}"
+								id="dataAdmissao">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Rescisão:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mobilizacaoBean.mobilizacao.funcionario.dataRescisao.time}"
+								 id="dataRescisao">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+					</p:row>
+					
+					<p:row>
+						<p:column styleClass="colLabel" colspan="2">
+							<br /><p:separator /><br />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Equipe:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:selectOneMenu filter="true"
+								value="#{mobilizacaoBean.equipeSelecionada}">
+								<f:selectItem itemLabel="Selecione a Equipe..." itemValue="" />
+								<f:selectItems value="#{mobilizacaoBean.equipes}" var="equipe"
+									itemLabel="#{equipe.descricao}" itemValue="#{equipe.id}" />
+								<p:ajax update="cargos"
+									listener="#{mobilizacaoBean.carregaCargos}" event="change" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Função (MD):"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:selectOneMenu filter="true" required="true"
+								requiredMessage="Função (MD) é um campo obrigatório"
+								value="#{mobilizacaoBean.idCargo}" id="cargos">
+								<f:selectItems value="#{mobilizacaoBean.cargos}" var="cargo"
+									itemLabel="#{cargo.funcaoMD}" itemValue="#{cargo.id}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Data mobilização:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:calendar 
+								value="#{mobilizacaoBean.mobilizacao.dataMobilizacao}"
+								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy" size="10"
+								converter="CalendarConverter" required="true"
+								requiredMessage="Data de mobilização é obrigatório" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Data desmobilização:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:calendar
+								value="#{mobilizacaoBean.mobilizacao.dataDesmobilizacao}"
+								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy" size="10"
+								converter="CalendarConverter" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+
+						<p:column style="text-align:right;" colspan="2">
+							<br />
+							<p:commandButton value="Limpar formulário" immediate="true"
+								action="#{mobilizacaoBean.resetForm}" update="@form">
+								<pe:resetInput for="formulario" />
+							</p:commandButton>
+								&nbsp;&nbsp;
+								<p:commandButton value="Salvar mobilização"
+								action="#{mobilizacaoBean.salvarMobilizacao()}" update="@all" />
+						</p:column>
+					</p:row>
+
+				</p:panelGrid>
+				<br />
+			</h:form>
+			<h:form>
+				<p:dataTable value="#{mobilizacaoBean.mobilizacoes}" paginator="true" rows="10"
+					id="mobilizacoes" var="mobilizacao" >
+					<p:column headerText="Função (MD)" filterBy="cargo.funcaoMD" sortBy="cargo.funcaoMD">
+						<h:outputText value="#{mobilizacao.cargo.funcaoMD}" />
+					</p:column>
+
+					<p:column headerText="Funcionario mobilizado" filterBy="funcionario.nomeCompleto" sortBy="funcionario.nomeCompleto">
+						<p:outputLabel value="#{mobilizacao.funcionario.nomeCompleto}" />
+					</p:column>
+
+					<p:column headerText="Data">
+						<h:outputText value="#{mobilizacao.dataMobilizacao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+						<h:outputLabel value=" até " />
+						<h:outputText value="#{mobilizacao.dataDesmobilizacao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column style="width:6%; text-align:center;" headerText="Editar" rendered="#{!mobilizacaoBean.apenasLeitura}">
+						<p:commandButton icon="	ui-icon-gear"
+							action="#{mobilizacaoBean.editarMobilizacao(mobilizacao)}"
+							update="@all" />
+					</p:column>
+					 <p:column style="width:6%; text-align:center;" headerText="Excluir" rendered="#{!mobilizacaoBean.apenasLeitura}">
+						<p:commandButton icon="ui-icon-trash"
+							action="#{mobilizacaoBean.excluirMobilizacao(mobilizacao)}"
+							update="@all">
+							<p:confirm header="Excluir mobilização"
+								message="Deseja realmente excluir a mobilização selecionada?"
+								icon="ui-icon-alert"></p:confirm>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,17 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="../../_template.xhtml">
+	<ui:define name="conteudo">
+		<p:panel>
+			<h:form id="form">
+				<p:fileUpload id="fileupload" label="Selecione o arquivo" disabled="#{cargaFolhaBean.apenasLeitura}"
+					fileUploadListener="#{cargaFolhaBean.handleFileUpload}"
+					allowTypes="/(\.|\/)(csv)$/"/>
+				<h:message for="fileupload" />
+				<h:message for="form"/>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+

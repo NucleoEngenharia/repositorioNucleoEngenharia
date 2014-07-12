@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+
+	<h:head>
+		<title>Núcleo Engenharia Consultiva - Intranet 2.0</title>
+		<h:outputStylesheet name="_template.css" library="css"></h:outputStylesheet>
+		<h:outputStylesheet name="form.css" library="css"></h:outputStylesheet>
+
+		<h:outputScript name="jquery.mask.min.js" library="scripts"></h:outputScript>
+		<h:outputScript name="jquery.maskMoney.js" library="scripts"></h:outputScript>
+		<h:outputScript name="mascara.js" library="scripts"></h:outputScript>
+		<h:outputScript name="geral.js" library="scripts"></h:outputScript>
+
+		<meta http-equiv="Pragma" content="no-cache" />
+	</h:head>
+
+	<h:body>
+
+		<div id="header">
+			<ui:insert name="header">
+
+				<h:graphicImage 
+					library="imagens" name="Logotipo_login.png"
+					width="237" height="71" class="img_logo"></h:graphicImage>
+
+				<div class="inf_usuario">
+					<h:outputText value="Bem vindo #{loginBean.usuarioLogado.nome} | "></h:outputText>
+					<h:link value="Minha Conta"></h:link>
+					<h:outputText value=" | "></h:outputText>
+					<p:commandLink action="#{loginBean.logout}" value="Logout"
+						styleClass="logout"></p:commandLink>
+				</div>
+			</ui:insert>
+		</div>
+
+		<div id="menu">
+			<ui:insert name="menu">
+
+				<h:form>
+					<p:menubar model="#{loginBean.model}" autoDisplay="false"
+						styleClass="menu_principal" />
+				</h:form>
+			</ui:insert>
+		</div>
+
+		<div id="conteudo">
+
+			<p:messages showDetail="true" closable="true"  />
+			<p:confirmDialog global="true" showEffect="puff" hideEffect="puff" >
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+			<p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">
+				<f:facet name="start">
+					<p:graphicImage alt="carregando" library="imagens"
+						name="loading.gif"
+						style="position:fixed;right:10%;top:90%;z-index:100000;" />
+				</f:facet>
+
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus>
+
+
+			<ui:insert name="conteudo">
+				<div id="right_content">Conteúdo Padrão!</div>
+			</ui:insert>
+
+			<div class="clear"></div>
+		</div>
+
+		<div id="footer">
+			<ui:insert name="footer">
+				<p>
+					Intranet 2.0 - Copyright © 2013 - Todos os direitos reservados - <a
+						href="http://www.nucleoengenharia.com.br/" target="_blank">Núcleo
+						Engenharia Consultiva S/A</a>
+				</p>
+			</ui:insert>
+		</div>
+	</h:body>
+
+</f:view>
+
+
+</html>

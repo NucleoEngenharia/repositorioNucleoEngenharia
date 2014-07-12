@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<h:form id="servicoProduto">
+			<p:growl life="30000" showDetail="true" />
+			<ui:repeat var="produtos"
+				value="#{medicaoProjetoBean.servicoProdutos}">
+				<br />
+					<p:dataTable var="medicao"
+						value="#{medicaoProjetoBean.medicoesProduto.get(produtos.id)}"
+						emptyMessage="Nenhum item encontrado">
+
+						<f:facet name="header">#{produtos.descricao}</f:facet>
+
+						<p:column headerText="Código">
+							<p:outputLabel value="#{medicao.produto.codigo}" />
+						</p:column>
+						<p:column headerText="Descrição">
+							<p:outputLabel value="#{medicao.produto.descricao}" />
+						</p:column>
+						<p:column headerText="Unid.">
+							<p:outputLabel value="#{medicao.produto.unidade}" />
+						</p:column>
+						<p:column headerText="Qtd. Total">
+							<p:outputLabel value="#{medicao.produto.quantidade}" />
+						</p:column>
+						<p:column headerText="Qtd. disponível">
+							<p:outputLabel
+								value="#{medicaoProjetoBean.saldoProduto(medicao.produto)}"
+								id="qtdDisponivel" />
+						</p:column>
+						<p:column headerText="Qtd. utilizada">
+							<p:inputText value="#{medicao.quantidadeMedida}" size="10"
+								rendered="#{!medicao.produto.grupo}"
+								onkeyup="mascara(this,decimal);">
+								<p:ajax update="qtdDisponivel, vlMedido" event="keyup" />
+								<p:ajax update="qtdDisponivel, vlMedido" event="blur" />
+							</p:inputText>
+						</p:column>
+						<p:column headerText="Valor medido">
+							<p:outputLabel value="#{medicao.valorMedido}"
+								id="vlMedido" >
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+						
+					</p:dataTable>
+			</ui:repeat>
+			
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

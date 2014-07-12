@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://bo.seguranca.nucleo.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://bo.seguranca.nucleo.com" xmlns:intf="http://bo.seguranca.nucleo.com" xmlns:tns1="http://to.seguranca.nucleo.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://bo.seguranca.nucleo.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://to.seguranca.nucleo.com"/>
+   <element name="autenticarUsuario">
+    <complexType>
+     <sequence>
+      <element name="usuario" type="xsd:string"/>
+      <element name="senha" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="autenticarUsuarioResponse">
+    <complexType>
+     <sequence>
+      <element name="autenticarUsuarioReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFuncionarioAutenticado">
+    <complexType>
+     <sequence>
+      <element name="idFuncionario" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFuncionarioAutenticadoResponse">
+    <complexType>
+     <sequence>
+      <element name="getFuncionarioAutenticadoReturn" type="tns1:FuncionarioTO"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_tns1_MenuTO">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:MenuTO"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOf_tns1_PerfilTO">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:PerfilTO"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://to.seguranca.nucleo.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://bo.seguranca.nucleo.com"/>
+   <complexType name="MenuTO">
+    <sequence>
+     <element name="descricao" nillable="true" type="xsd:string"/>
+     <element name="excluido" type="xsd:boolean"/>
+     <element name="id" type="xsd:int"/>
+     <element name="menuPai" type="xsd:int"/>
+     <element name="url" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="PerfilTO">
+    <sequence>
+     <element name="descricao" nillable="true" type="xsd:string"/>
+     <element name="excluido" type="xsd:boolean"/>
+     <element name="id" type="xsd:int"/>
+     <element name="menus" nillable="true" type="impl:ArrayOf_tns1_MenuTO"/>
+    </sequence>
+   </complexType>
+   <complexType name="FuncionarioTO">
+    <sequence>
+     <element name="cpf" nillable="true" type="xsd:string"/>
+     <element name="dt_adm" nillable="true" type="xsd:dateTime"/>
+     <element name="dt_nasc" nillable="true" type="xsd:dateTime"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="nome" nillable="true" type="xsd:string"/>
+     <element name="perfis" nillable="true" type="impl:ArrayOf_tns1_PerfilTO"/>
+     <element name="pessoa_id" type="xsd:int"/>
+     <element name="ramal" nillable="true" type="xsd:string"/>
+     <element name="senha" nillable="true" type="xsd:string"/>
+     <element name="status" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getFuncionarioAutenticadoResponse">
+
+      <wsdl:part element="impl:getFuncionarioAutenticadoResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getFuncionarioAutenticadoRequest">
+
+      <wsdl:part element="impl:getFuncionarioAutenticado" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="autenticarUsuarioResponse">
+
+      <wsdl:part element="impl:autenticarUsuarioResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="autenticarUsuarioRequest">
+
+      <wsdl:part element="impl:autenticarUsuario" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="AutenticacaoBO">
+
+      <wsdl:operation name="autenticarUsuario">
+
+         <wsdl:input message="impl:autenticarUsuarioRequest" name="autenticarUsuarioRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:autenticarUsuarioResponse" name="autenticarUsuarioResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFuncionarioAutenticado">
+
+         <wsdl:input message="impl:getFuncionarioAutenticadoRequest" name="getFuncionarioAutenticadoRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getFuncionarioAutenticadoResponse" name="getFuncionarioAutenticadoResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="AutenticacaoBOSoapBinding" type="impl:AutenticacaoBO">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="autenticarUsuario">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="autenticarUsuarioRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="autenticarUsuarioResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFuncionarioAutenticado">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getFuncionarioAutenticadoRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getFuncionarioAutenticadoResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="AutenticacaoBOService">
+
+      <wsdl:port binding="impl:AutenticacaoBOSoapBinding" name="AutenticacaoBO">
+
+         <wsdlsoap:address location="http://localhost:8082/Nucleo.Seguranca.ws/services/AutenticacaoBO"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

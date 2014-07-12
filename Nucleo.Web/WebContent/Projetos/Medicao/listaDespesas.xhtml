@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<h:form>
+			<p:dataTable value="#{medicaoProjetoBean.despesas}" id="despesas" 
+			    scrollable="true" scrollRows="10" scrollHeight="200" liveScroll="true"
+				var="despesa">
+				<f:facet name="header">
+					<p:outputLabel value="Despesas"/>
+				</f:facet>
+				<p:column headerText="Equipe">
+					<h:outputText
+						value="#{despesa.mobilizacao.cargo.servico.descricao}" />
+				</p:column>
+
+				<p:column headerText="Profissional">
+					<h:outputText
+						value="#{despesa.mobilizacao.funcionario.nomeCompleto}" />
+				</p:column>
+
+				<p:column headerText="Função (MD)">
+					<p:outputLabel value="#{despesa.mobilizacao.cargo.funcaoMD}" />
+				</p:column>
+
+				<p:column headerText="Período da despesa">
+					<h:outputText value="#{despesa.periodoDe.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+					<h:outputLabel value=" até " />
+					<h:outputText value="#{despesa.periodoAte.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Valor">
+					<p:outputLabel value="#{despesa.valor}">
+						<f:convertNumber locale="pt_BR" type="currency"
+							currencySymbol="R$" />
+					</p:outputLabel>
+				</p:column>
+				<f:facet name="footer">
+					<p:outputLabel value="Valor Total: "/>
+					<p:outputLabel value="#{medicaoProjetoBean.valorTotalDespesas}">
+						<f:convertNumber currencySymbol="R$" locale="pt_BR" type="currency"/>
+					</p:outputLabel>
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

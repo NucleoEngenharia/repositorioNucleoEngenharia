@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<h:form id="materiaisInfra">
+			<p:growl life="30000" showDetail="true" />
+			<ui:repeat var="infra" value="#{medicaoProjetoBean.infraMateriais}">
+
+				<p:panel header="#{infra.descricao}">
+
+					<p:dataTable var="medicao" id="lista_infra"
+						value="#{medicaoProjetoBean.medicoesInfra.get(infra.id)}"
+						emptyMessage="Nenhum item encontrado">
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{medicao.itemInfraMateriais.descricao}" />
+						</p:column>
+						<p:column headerText="Quant. medida (%)" width="12%">
+							<p:inputText value="#{medicao.quantidadeMedida}"
+								onkeypress="mascara(this,porcentagem)" style="width:100px">
+								<f:convertNumber type="percent" pattern="###.000000" />
+								<p:ajax event="blur" update="lista_infra"
+									listener="#{medicaoProjetoBean.calcularValorItemInfra(medicao)}"></p:ajax>
+							</p:inputText>
+						</p:column>
+						<p:column headerText="Valor medido (R$)" width="10%">
+							<p:inputText value="#{medicao.valorMedido}"
+								onkeypress="mascara(this,moeda)" style="width:100px">
+								<f:convertNumber pattern="#,##0.00" type="currency"
+									locale="pt_BR" />
+								<p:ajax event="blur" update="lista_infra"
+									listener="#{medicaoProjetoBean.calcularPorcentagemItemInfra(medicao)}"></p:ajax>
+							</p:inputText>
+						</p:column>
+						<p:column headerText="Disponível" width="15%">
+							<p:outputLabel id="saldoDisponivelItem"
+								value="#{medicaoProjetoBean.saldoItemInfra(medicao.itemInfraMateriais)}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="Total Projeto" width="15%">
+							<h:outputText value="#{medicao.itemInfraMateriais.valor}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</h:outputText>
+						</p:column>
+					</p:dataTable>
+
+				</p:panel>
+				<br />
+			</ui:repeat>
+
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

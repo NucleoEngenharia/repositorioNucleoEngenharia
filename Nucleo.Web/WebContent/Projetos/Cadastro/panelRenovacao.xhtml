@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<p:panelGrid styleClass="panelForm" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+			<p:row>
+				<p:column styleClass="colLabel">
+					<p:outputLabel value="Permite renovação:"></p:outputLabel>
+				</p:column>
+
+				<p:column styleClass="colInput">
+					<p:selectBooleanButton offLabel="Não" onLabel="Sim"
+						value="#{cadastroProjetoBean.projetoSelecionado.permiteRenovacao}"></p:selectBooleanButton>
+				</p:column>
+
+				<p:column styleClass="colLabel">
+					<p:outputLabel value="Limite de renovação:"></p:outputLabel>
+				</p:column>
+				<p:column styleClass="colInput">
+					<p:calendar pattern="dd/MM/yyyy" onkeypress="mascara(this,data)"
+						value="#{cadastroProjetoBean.projetoSelecionado.dataLimiteRenovacao}"
+						styleClass="data" converter="CalendarConverter" />
+				</p:column>
+			</p:row>
+			<br/>
+			<br/>
+			<p:row>
+				<p:column>
+					<p:commandButton value="Cadastrar renovação" icon="ui-icon-plus"
+			actionListener="#{cadastroProjetoBean.abrirRenovacao}">
+			<p:ajax event="dialogReturn"
+				listener="#{cadastroProjetoBean.cadastrarRenovacao}"
+				update="renovacoes" />
+		</p:commandButton>
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<br />
+		<br />
+		<br />
+
+		<p:dataTable var="renov" value="#{cadastroProjetoBean.renovacoes}"
+			id="renovacoes">
+
+			<f:facet name="header">
+				<p:outputLabel value="Lista de renovações" />
+			</f:facet>
+
+			<p:column headerText="Data da renovação">
+				<p:outputLabel value="#{renov.dataCriacao.time}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column headerText="Valor adicionado">
+				<p:outputLabel value="#{renov.valor}" />
+			</p:column>
+
+			<p:column headerText="Prazo adicionado">
+				<p:outputLabel
+					value="+ #{renov.ano} ano(s), + #{renov.mes} mes(es), + #{renov.dia} dia(s)" />
+			</p:column>
+
+			<p:column headerText="Aceita renovação">
+				<p:outputLabel value="#{renov.aceitaOutraRenovacao}" />
+			</p:column>
+
+			<p:column headerText="Limite para renovação">
+				<p:outputLabel value="#{renov.limiteOutraRenovacao.time}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</p:outputLabel>
+			</p:column>
+
+			<p:column style="width:10%; text-align:center;" headerText="Excluir" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+				<p:commandButton update="@form,:formInformacoes" icon="ui-icon-trash"
+					title="Excluir"
+					actionListener="#{cadastroProjetoBean.removerRenovacao(renov)}" />
+			</p:column>
+
+		</p:dataTable>
+	</ui:composition>
+</h:body>
+</html>

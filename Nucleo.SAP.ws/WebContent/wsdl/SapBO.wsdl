@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://bo.sap.nucleo.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://bo.sap.nucleo.com" xmlns:intf="http://bo.sap.nucleo.com" xmlns:tns1="http://to.sap.nucleo.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://bo.sap.nucleo.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://to.sap.nucleo.com"/>
+   <element name="getProjetos">
+    <complexType/>
+   </element>
+   <element name="getProjetosResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getProjetosReturn" type="tns1:ProjetoTO"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getImpostos">
+    <complexType/>
+   </element>
+   <element name="getImpostosResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getImpostosReturn" type="tns1:ImpostoTO"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://to.sap.nucleo.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <complexType name="ProjetoTO">
+    <sequence>
+     <element name="CN" nillable="true" type="xsd:string"/>
+     <element name="atividade" type="xsd:int"/>
+     <element name="dtFim" nillable="true" type="xsd:dateTime"/>
+     <element name="dtInicio" nillable="true" type="xsd:dateTime"/>
+     <element name="nome" nillable="true" type="xsd:string"/>
+     <element name="setor" type="xsd:int"/>
+     <element name="vlOriginal" nillable="true" type="xsd:decimal"/>
+    </sequence>
+   </complexType>
+   <complexType name="ImpostoTO">
+    <sequence>
+     <element name="inativo" nillable="true" type="xsd:string"/>
+     <element name="taxa" nillable="true" type="xsd:decimal"/>
+     <element name="wtCode" nillable="true" type="xsd:string"/>
+     <element name="wtName" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getImpostosResponse">
+
+      <wsdl:part element="impl:getImpostosResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getProjetosResponse">
+
+      <wsdl:part element="impl:getProjetosResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getImpostosRequest">
+
+      <wsdl:part element="impl:getImpostos" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getProjetosRequest">
+
+      <wsdl:part element="impl:getProjetos" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="SapBO">
+
+      <wsdl:operation name="getProjetos">
+
+         <wsdl:input message="impl:getProjetosRequest" name="getProjetosRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getProjetosResponse" name="getProjetosResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getImpostos">
+
+         <wsdl:input message="impl:getImpostosRequest" name="getImpostosRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getImpostosResponse" name="getImpostosResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="SapBOSoapBinding" type="impl:SapBO">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getProjetos">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProjetosRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getProjetosResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getImpostos">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getImpostosRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getImpostosResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="SapBOService">
+
+      <wsdl:port binding="impl:SapBOSoapBinding" name="SapBO">
+
+         <wsdlsoap:address location="http://localhost:8080/Nucleo.SAP.ws/services/SapBO"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

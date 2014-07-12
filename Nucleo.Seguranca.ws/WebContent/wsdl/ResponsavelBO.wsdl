@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://bo.seguranca.nucleo.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://bo.seguranca.nucleo.com" xmlns:intf="http://bo.seguranca.nucleo.com" xmlns:tns1="http://to.seguranca.nucleo.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://bo.seguranca.nucleo.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://to.seguranca.nucleo.com"/>
+   <element name="getFuncionarios">
+    <complexType>
+     <sequence>
+      <element name="unidade" type="xsd:int"/>
+      <element name="departamento" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFuncionariosResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getFuncionariosReturn" type="tns1:FuncionarioTO"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_tns1_MenuTO">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:MenuTO"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOf_tns1_PerfilTO">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:PerfilTO"/>
+    </sequence>
+   </complexType>
+   <element name="getFuncionariosPorUnidade">
+    <complexType>
+     <sequence>
+      <element name="unidade" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getFuncionariosPorUnidadeResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getFuncionariosPorUnidadeReturn" type="tns1:FuncionarioTO"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getTodasUnidades">
+    <complexType/>
+   </element>
+   <element name="getTodasUnidadesResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getTodasUnidadesReturn" type="tns1:UnidadeTO"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_tns1_FuncionarioTO">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:FuncionarioTO"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOf_tns1_DepartamentoTO">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:DepartamentoTO"/>
+    </sequence>
+   </complexType>
+   <element name="getTodosDepartamentos">
+    <complexType/>
+   </element>
+   <element name="getTodosDepartamentosResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getTodosDepartamentosReturn" type="tns1:DepartamentoTO"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://to.seguranca.nucleo.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://bo.seguranca.nucleo.com"/>
+   <complexType name="MenuTO">
+    <sequence>
+     <element name="descricao" nillable="true" type="xsd:string"/>
+     <element name="excluido" type="xsd:boolean"/>
+     <element name="id" type="xsd:int"/>
+     <element name="menuPai" type="xsd:int"/>
+     <element name="url" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="PerfilTO">
+    <sequence>
+     <element name="descricao" nillable="true" type="xsd:string"/>
+     <element name="excluido" type="xsd:boolean"/>
+     <element name="id" type="xsd:int"/>
+     <element name="menus" nillable="true" type="impl:ArrayOf_tns1_MenuTO"/>
+    </sequence>
+   </complexType>
+   <complexType name="FuncionarioTO">
+    <sequence>
+     <element name="cpf" nillable="true" type="xsd:string"/>
+     <element name="dt_adm" nillable="true" type="xsd:dateTime"/>
+     <element name="dt_nasc" nillable="true" type="xsd:dateTime"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="nome" nillable="true" type="xsd:string"/>
+     <element name="perfis" nillable="true" type="impl:ArrayOf_tns1_PerfilTO"/>
+     <element name="pessoa_id" type="xsd:int"/>
+     <element name="ramal" nillable="true" type="xsd:string"/>
+     <element name="senha" nillable="true" type="xsd:string"/>
+     <element name="status" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <complexType name="DepartamentoTO">
+    <sequence>
+     <element name="descricao" nillable="true" type="xsd:string"/>
+     <element name="funcionarios" nillable="true" type="impl:ArrayOf_tns1_FuncionarioTO"/>
+     <element name="id" type="xsd:int"/>
+     <element name="unidade" nillable="true" type="tns1:UnidadeTO"/>
+    </sequence>
+   </complexType>
+   <complexType name="UnidadeTO">
+    <sequence>
+     <element name="departamentos" nillable="true" type="impl:ArrayOf_tns1_DepartamentoTO"/>
+     <element name="descricao" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="getFuncionariosResponse">
+
+      <wsdl:part element="impl:getFuncionariosResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getFuncionariosPorUnidadeRequest">
+
+      <wsdl:part element="impl:getFuncionariosPorUnidade" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTodosDepartamentosResponse">
+
+      <wsdl:part element="impl:getTodosDepartamentosResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getFuncionariosRequest">
+
+      <wsdl:part element="impl:getFuncionarios" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTodasUnidadesRequest">
+
+      <wsdl:part element="impl:getTodasUnidades" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTodosDepartamentosRequest">
+
+      <wsdl:part element="impl:getTodosDepartamentos" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getTodasUnidadesResponse">
+
+      <wsdl:part element="impl:getTodasUnidadesResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getFuncionariosPorUnidadeResponse">
+
+      <wsdl:part element="impl:getFuncionariosPorUnidadeResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="ResponsavelBO">
+
+      <wsdl:operation name="getFuncionarios">
+
+         <wsdl:input message="impl:getFuncionariosRequest" name="getFuncionariosRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getFuncionariosResponse" name="getFuncionariosResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFuncionariosPorUnidade">
+
+         <wsdl:input message="impl:getFuncionariosPorUnidadeRequest" name="getFuncionariosPorUnidadeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getFuncionariosPorUnidadeResponse" name="getFuncionariosPorUnidadeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTodasUnidades">
+
+         <wsdl:input message="impl:getTodasUnidadesRequest" name="getTodasUnidadesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getTodasUnidadesResponse" name="getTodasUnidadesResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTodosDepartamentos">
+
+         <wsdl:input message="impl:getTodosDepartamentosRequest" name="getTodosDepartamentosRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getTodosDepartamentosResponse" name="getTodosDepartamentosResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ResponsavelBOSoapBinding" type="impl:ResponsavelBO">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getFuncionarios">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getFuncionariosRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getFuncionariosResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getFuncionariosPorUnidade">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getFuncionariosPorUnidadeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getFuncionariosPorUnidadeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTodasUnidades">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getTodasUnidadesRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getTodasUnidadesResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getTodosDepartamentos">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getTodosDepartamentosRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getTodosDepartamentosResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ResponsavelBOService">
+
+      <wsdl:port binding="impl:ResponsavelBOSoapBinding" name="ResponsavelBO">
+
+         <wsdlsoap:address location="http://localhost:8082/Nucleo.Seguranca.ws/services/ResponsavelBO"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

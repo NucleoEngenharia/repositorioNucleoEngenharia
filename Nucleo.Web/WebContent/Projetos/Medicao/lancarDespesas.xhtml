@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="../../_template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<p:accordionPanel activeIndex="#{despesaBean.tabLista}">
+			<p:tab title="Lista de Projetos Ativos">
+				<h:form id="listaProjetosMedicao">
+					<p:dataTable var="proj" paginator="true" rows="10"
+						value="#{despesaBean.projetos}" rowKey="#{proj.CN}"
+						selection="#{despesaBean.projetoSelecionado}"
+						selectionMode="single" emptyMessage="Nenhum Projeto encontrado">
+
+						<f:facet name="header">Projetos</f:facet>
+
+						<p:column headerText="CN" filterBy="CN" sortBy="CN">
+							<h:outputText value="#{proj.CN}" />
+						</p:column>
+						<p:column headerText="Projeto" filterBy="descricao"
+							sortBy="descricao">
+							<h:outputText value="#{proj.descricao}" />
+						</p:column>
+
+						<p:column headerText="Data Início" sortBy="dtInicio">
+							<h:outputText value="#{proj.dataInicio.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Data Fim" sortBy="dtFim">
+							<h:outputText value="#{proj.dataFim.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<f:facet name="footer">
+							<div style="height: 30px;">
+								<p:commandButton value="Selecionar Projeto" icon="ui-icon-gear"
+									action="#{despesaBean.selecionarProjeto}" style="float:right;"
+									update="@all" />
+							</div>
+						</f:facet>
+					</p:dataTable>
+
+				</h:form>
+			</p:tab>
+		</p:accordionPanel>
+		<br />
+		<p:panel header="Projeto Selecionado"
+			rendered="#{despesaBean.exibirDetalhes}">
+			<h:form id="projetoInformacoes">
+				<p:panelGrid style="width:100%;" styleClass="panel_inf_proj">
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="CN:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{despesaBean.projetoSelecionado.CN}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Projeto:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{despesaBean.projetoSelecionado.descricaoCurta}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Tem limite de despesas?" />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Sim"
+								rendered="#{despesaBean.projetoSelecionado.limiteDespesa}" />
+							<p:outputLabel value="Não"
+								rendered="#{!despesaBean.projetoSelecionado.limiteDespesa}" />
+						</p:column>
+
+						<p:column style="text-align:right;"
+							rendered="#{despesaBean.projetoSelecionado.limiteDespesa}">
+							<p:outputLabel value="Limite disponível (R$):" />
+						</p:column>
+						<p:column
+							rendered="#{despesaBean.projetoSelecionado.limiteDespesa}">
+							<p:outputLabel value="#{despesaBean.limiteDisponivel}">
+								<f:convertNumber type="currency" locale="pt_BR"
+									currencySymbol="R$" />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+		</p:panel>
+		<br />
+		<br />
+		<p:panel rendered="#{despesaBean.exibirDetalhes}">
+			<h:form id="formulario">
+				<p:panelGrid rendered="#{!despesaBean.apenasLeitura}" styleClass="panelForm" columnClasses="colForm">
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Profissional:" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu filter="true" required="true"
+								requiredMessage="Profissional é um campo obrigatório"
+								value="#{despesaBean.despesa.mobilizacao}"
+								converter="MobilizacaoConverter">
+								<f:selectItem itemLabel="Selecione o profissional..." />
+								<f:selectItems value="#{despesaBean.mobilizacoes}" var="mobil"
+									itemLabel="#{mobil.funcionario.nomeCompleto}"
+									itemValue="#{mobil}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Período:" />
+						</p:column>
+						<p:column>
+							<p:calendar onkeypress="mascara(this,data)" pattern="dd/MM/yyyy"
+								converter="CalendarConverter" size="13" required="true"
+								requiredMessage="Selecione as Datas da despesa"
+								value="#{despesaBean.despesa.periodoDe}" />
+						&nbsp;
+						<p:outputLabel value=" até " />
+						&nbsp;
+						<p:calendar onkeypress="mascara(this,data)" pattern="dd/MM/yyyy"
+								converter="CalendarConverter" size="13" required="true"
+								requiredMessage="Selecione as Datas da despesa"
+								value="#{despesaBean.despesa.periodoAte}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor:" />
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,moeda)" required="true"
+								requiredMessage="Selecione o Valor da despesa"
+								value="#{despesaBean.despesa.valor}">
+								<f:convertNumber pattern="#,##0.00" type="currency"
+									locale="pt_BR" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Tipo:" />
+						</p:column>
+						<p:column>
+							<p:inputTextarea cols="80" rows="3" required="true"
+								requiredMessage="Descreva qual o tipo da Despesa"
+								value="#{despesaBean.despesa.tipo}" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<br />
+				<p:separator rendered="#{!despesaBean.apenasLeitura}"/>
+				<br />
+				<p:panelGrid styleClass="panelForm" columnClasses="colForm">
+					<p:row rendered="#{!despesaBean.apenasLeitura}">
+						<p:column style="text-align:right;">
+							<p:outputLabel
+								value="Selecione o periodo que será cobrado a despesa:" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu value="#{despesaBean.despesa.periodo}" 
+								converter="PeriodoMedicaoConverter" required="true"
+								requiredMessage="Período de medição é um campo obrigatório">
+								<f:selectItem itemLabel="Selecione o período..." />
+								<f:selectItems value="#{despesaBean.periodos}" var="periodo"
+									itemLabel="#{periodo.descricao}" itemValue="#{periodo}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<br />
+				<br />
+				<p:panelGrid styleClass="panelForm" columnClasses="colForm">
+					<p:row rendered="#{!despesaBean.apenasLeitura}">
+						<p:column style="text-align:right; heigth:100px;" colspan="2">
+							<p:commandButton value="Limpar formulário" immediate="true"
+								action="#{despesaBean.resetForm}" update="@form">
+								<pe:resetInput for="formulario" />
+							</p:commandButton>
+							&nbsp;&nbsp;
+							<p:commandButton value="Salvar despesa"
+								action="#{despesaBean.salvarDespesa}" update="@all">
+							</p:commandButton>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<br />
+				<br />
+
+			</h:form>
+			<br />
+			<br />
+			<h:form prependId="false" id="listaDespesas">
+				<p:outputLabel value="Filtro por período de medição"/>
+				<p:selectOneMenu value="#{despesaBean.idPeriodoSelecionado}" effect="fade">
+					<f:selectItem itemLabel="Selecione o período" />
+					<f:selectItems value="#{despesaBean.periodosProjeto}" var="periodo"
+					itemLabel="#{periodo.numSequencial} - (#{periodo.descricao})" itemValue="#{periodo.id}"/>
+					<p:ajax update="@form" listener="#{despesaBean.filtraDespesasPorPeriodo}" event="change"/>
+				</p:selectOneMenu>
+				<p:dataTable value="#{despesaBean.despesas}" id="despesas"
+					var="despesa" scrollRows="5" scrollHeight="200" scrollable="true" emptyMessage="Nenhuma despesa para a medição selecionada">
+					<f:facet name="header">
+						<p:outputLabel value="Despesas"></p:outputLabel>
+					</f:facet>
+					<p:column headerText="Profissional">
+						<h:outputText
+							value="#{despesa.mobilizacao.funcionario.nomeCompleto}" />
+					</p:column>
+
+					<p:column headerText="Função (MD)">
+						<p:outputLabel value="#{despesa.mobilizacao.cargo.funcaoMD}" />
+					</p:column>
+
+					<p:column headerText="Período da despesa">
+						<h:outputText value="#{despesa.periodoDe.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+						<h:outputLabel value=" até " />
+						<h:outputText value="#{despesa.periodoAte.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Tipo">
+						<p:outputLabel value="#{despesa.tipo}"/>
+					</p:column>
+					<p:column headerText="Valor">
+						<p:outputLabel value="#{despesa.valor}">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$" />
+						</p:outputLabel>
+					</p:column>
+
+					<p:column rendered="#{!despesaBean.apenasLeitura}" style="width:6%; text-align:center;" headerText="Editar">
+						<p:commandButton icon="	ui-icon-gear"
+							action="#{despesaBean.editarDespesa(despesa)}" update="@all">
+						</p:commandButton>
+					</p:column>
+					<p:column rendered="#{!despesaBean.apenasLeitura}" style="width:6%; text-align:center;" headerText="Excluir">
+						<p:commandButton icon="ui-icon-trash"
+							action="#{despesaBean.excluirDespesa(despesa)}" update="@all">
+							<p:confirm header="Excluir Despesa"
+								message="Deseja realmente excluir a despesa selecionada?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+					</p:column>
+					<f:facet name="footer">
+						<p:outputLabel value="Valor total: "/>
+						<p:outputLabel value="#{despesaBean.valorTotal}">
+							<f:convertNumber currencySymbol="R$" locale="pt_BR" type="currency"/>
+						</p:outputLabel>
+					</f:facet>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../_template.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form>
+			<p:growl life="30000" showDetail="true" id="message" />
+			<p:breadCrumb>
+				<p:menuitem url="/faces/index.xhtml" />
+				<p:menuitem value="Lista de Projetos"
+					url="/faces/Projetos/Cadastro/lista_projetos.xhtml" />
+				<p:menuitem value="Projeto selecionado" onclick="history.go(-1);"
+					url="#" />
+			</p:breadCrumb>
+			<br />
+
+			<p:panel header="Serviço Selecionado">
+				<p:panelGrid style="width:100%;" styleClass="panel_inf_proj">
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="CN:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoProdutoBean.servicoSelecionado.projeto.CN}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Projeto:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoProdutoBean.servicoSelecionado.projeto.descricaoCurta}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Serviço:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoProdutoBean.servicoSelecionado.descricao}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Data Inicio:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoProdutoBean.servicoSelecionado.dataInicial.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Tipo:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoProdutoBean.servicoSelecionado.tipo.nome}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Data Fim:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoProdutoBean.servicoSelecionado.dataFim.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor do Serviço" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{servicoProdutoBean.servicoSelecionado.valorTotal}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor disponível:"
+								title="Valor que ainda não foi definido como será utilizado dentro do serviço. Não tem relação alguma ainda com as medições." />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								title="Valor que ainda não foi definido como será utilizado dentro do serviço. Não tem relação alguma ainda com as medições."
+								value="#{servicoProdutoBean.valorDisponivel}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:panel>
+
+			<br />
+			<p:panel header="Painel de Produtos">
+
+				<p:tabView effect="fade" effectDuration="normal"
+					activeIndex="#{servicoProdutoBean.tabSelect}">
+					<p:tab title="Produtos" id="tabproduto">
+						<br />
+						<p:panelGrid styleClass="panelForm">
+							<p:row>
+								<p:column styleClass="colLabel" style="width:30%;">
+									<p:outputLabel value="Grupo:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu filter="true"
+										value="#{servicoProdutoBean.idProdutoPai}">
+										<f:selectItem itemLabel="Selecione o grupo do Produto..." />
+										<f:selectItems value="#{servicoProdutoBean.grupos}" var="prod"
+											itemLabel="#{prod.descricao}" itemValue="#{prod.id}"></f:selectItems>
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<p:outputLabel value="Código:" />
+								</p:column>
+								<p:column>
+									<p:inputText size="10"
+										value="#{servicoProdutoBean.produto.codigo}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<p:outputLabel value="Descrição:" />
+								</p:column>
+								<p:column>
+									<p:inputText size="60"
+										value="#{servicoProdutoBean.produto.descricao}" />
+								</p:column>
+							</p:row>
+
+							<p:row>
+								<p:column styleClass="colLabel" style="width:30%;">
+									<p:outputLabel value="Unidade:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu value="#{servicoProdutoBean.produto.unidade}"
+										filter="true">
+										<f:selectItem itemLabel="Selecione unidade de medida..."></f:selectItem>
+										<f:selectItem itemLabel="verba" itemValue="verba"></f:selectItem>
+										<f:selectItem itemLabel="m²" itemValue="m²"></f:selectItem>
+										<f:selectItem itemLabel="m³" itemValue="m³"></f:selectItem>
+										<f:selectItem itemLabel="kilometro" itemValue="kilometro"></f:selectItem>
+										<f:selectItem itemLabel="metro" itemValue="metro"></f:selectItem>
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<p:outputLabel value="Quantidade:" />
+								</p:column>
+								<p:column>
+									<p:inputText size="10" onkeypress="mascara(this,decimal)"
+										value="#{servicoProdutoBean.produto.quantidade}">
+										<p:ajax event="blur" update="previsoesUso,valorTotal"
+											listener="#{servicoProdutoBean.distribuirUsoFuncao}" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<p:outputLabel value="Valor de venda (R$):" />
+								</p:column>
+								<p:column>
+									<p:inputText onkeypress="mascara(this,moeda)" size="20"
+										value="#{servicoProdutoBean.produto.valorVenda}">
+										<f:convertNumber pattern="#,##0.00" type="currency"
+											locale="pt_BR" />
+										<p:ajax event="blur" update="valorTotal" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<p:outputLabel value="Valor total (R$):" />
+								</p:column>
+								<p:column>
+									<p:inputText readonly="true"
+										value="#{servicoProdutoBean.produto.valorTotal}"
+										id="valorTotal">
+										<f:convertNumber locale="pt_BR" type="currency"
+											currencySymbol="R$ " />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<p:outputLabel value="Valor de compra (R$):" />
+								</p:column>
+								<p:column>
+									<p:inputText onkeypress="mascara(this,moeda)" size="10"
+										value="#{servicoProdutoBean.produto.valorCompraDe}">
+										<f:convertNumber pattern="#,##0.00" type="currency"
+											locale="pt_BR" />
+									</p:inputText>
+						&nbsp;
+						<p:outputLabel value="até" />&nbsp;
+							<p:inputText onkeypress="mascara(this,moeda)" size="10"
+										value="#{servicoProdutoBean.produto.valorCompraAte}">
+										<f:convertNumber pattern="#,##0.00" type="currency"
+											locale="pt_BR" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+
+						<br />
+						<br />
+
+						<p:fieldset legend="Cronograma">
+							<p:dataTable value="#{servicoProdutoBean.previsoesUso}"
+								var="previsao" id="previsoesUso" paginator="true" rows="6">
+
+								<p:column headerText="Mês" style="text-align:center;width:100px">
+									<p:outputLabel value="#{previsao.periodoMedicao.dataDe.time}">
+										<f:convertDateTime pattern="MMMM" />
+									</p:outputLabel>
+								</p:column>
+
+								<p:column headerText="Ano" style="text-align:center;width:100px">
+									<p:outputLabel value="#{previsao.periodoMedicao.dataDe.time}">
+										<f:convertDateTime pattern="yyyy" />
+									</p:outputLabel>
+								</p:column>
+
+								<p:column headerText="Quantidade utilizada"
+									style="text-align:left">
+									<p:inputText value="#{previsao.quantidade}"
+										onkeypress="mascara(this,decimal)">
+									</p:inputText>
+								</p:column>
+							</p:dataTable>
+						</p:fieldset>
+						<br />
+						<br />
+
+						<p:commandButton value="Salvar Produto" style="float:right;"
+							action="#{servicoProdutoBean.salvarProduto}" update="@form" />
+
+					</p:tab>
+
+					<p:tab title="Grupo de Produtos" id="tabgproduto">
+						<br />
+						<p:panelGrid styleClass="panelForm">
+							<p:row>
+								<p:column styleClass="colLabel" style="width:30%;">
+									<p:outputLabel value="Grupo pai:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu filter="true"
+										value="#{servicoProdutoBean.idGrupoPai}">
+										<f:selectItem itemLabel="Selecione o grupo pai..." />
+										<f:selectItems value="#{servicoProdutoBean.grupos}" var="prod"
+											itemLabel="#{prod.descricao}" itemValue="#{prod.id}"></f:selectItems>
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<p:outputLabel value="Código:" />
+								</p:column>
+								<p:column>
+									<p:inputText size="10"
+										value="#{servicoProdutoBean.grupo.codigo}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="colLabel">
+									<p:outputLabel value="Descrição:" />
+								</p:column>
+								<p:column>
+									<p:inputText size="60"
+										value="#{servicoProdutoBean.grupo.descricao}" />
+								</p:column>
+							</p:row>
+
+						</p:panelGrid>
+
+						<p:commandButton value="Salvar Grupo" style="float:right;" rendered="#{!cadastroProjetoBean.apenasLeitura}"
+							action="#{servicoProdutoBean.salvarGrupo}" update="@form" />
+
+					</p:tab>
+
+				</p:tabView>
+
+				<br />
+				<br />
+				<br />
+				<br />
+				<p:dataTable var="prod" value="#{servicoProdutoBean.produtos}">
+
+					<p:column headerText="Código" style="width:80px;">
+						<h:outputText value="#{prod.codigo}" />
+					</p:column>
+
+					<p:column headerText="Descrição">
+						<h:outputText value="#{prod.descricao}" />
+					</p:column>
+
+					<p:column headerText="Unidade" style="width:80px;">
+						<h:outputText value="#{prod.unidade}" rendered="#{!prod.grupo}" />
+					</p:column>
+
+					<p:column headerText="Quantidade" style="width:80px;">
+						<h:outputText value="#{prod.quantidade}" rendered="#{!prod.grupo}" />
+					</p:column>
+
+					<p:column headerText="Valor venda">
+						<h:outputText value="#{prod.valorVenda}" rendered="#{!prod.grupo}">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$ " />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Total">
+						<h:outputText value="#{prod.valorTotal}">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$ " />
+						</h:outputText>
+					</p:column>
+					<p:column style="width:5%; text-align:center;" headerText="Alterar" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+						<p:commandButton id="selectButton" icon="ui-icon-gear"
+							actionListener="#{servicoProdutoBean.selecionarProduto(prod)}"
+							update="@form" />
+					</p:column>
+					<p:column style="width:10%; text-align:center;" rendered="#{!cadastroProjetoBean.apenasLeitura}"
+						headerText="Excluir">
+						<p:commandButton icon="	ui-icon-trash" update="@form"
+							action="#{servicoProdutoBean.removerProduto(prod)}">
+							<p:confirm header="Excluir Produto"
+								message="Tem certeza que deseja excluir o produto selecionado ?"
+								icon="ui-icon-trash" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

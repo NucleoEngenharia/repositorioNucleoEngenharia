@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<h:form id="formServicos">
+			<p:growl life="30000" showDetail="true" />
+			<p:panel header="Painel de Serviços" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+				<p:panelGrid styleClass="panelForm">
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Descrição:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText size="50"
+								value="#{cadastroProjetoBean.servico.descricao}" />
+						</p:column>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Tipo:"/>
+						</p:column>
+						<p:column>
+							<p:selectOneMenu filter="true"
+								value="#{cadastroProjetoBean.servico.tipo}">
+								<f:selectItem itemLabel="Selecione o tipo do Serviço..."
+									itemValue="" />
+								<f:selectItems value="#{cadastroProjetoBean.tiposServico}"
+									var="tipo" itemLabel="#{tipo.nome}" itemValue="#{tipo}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Duração:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:calendar value="#{cadastroProjetoBean.servico.dataInicial}"
+								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy"
+								styleClass="date" size="13" converter="CalendarConverter" />
+							&nbsp;
+							<p:outputLabel value="Até" />
+							&nbsp;
+						<p:calendar value="#{cadastroProjetoBean.servico.dataFim}"
+								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy"
+								styleClass="date" size="13" converter="CalendarConverter" />
+						</p:column>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Preço unitário:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,moeda)"
+								value="#{cadastroProjetoBean.servico.valorUnitario}"
+								id="valorUnitario">
+								<f:convertNumber pattern="#,##0.00" type="currency"
+									locale="pt_BR" />
+								<p:ajax event="blur" update="precoTotal"></p:ajax>
+							</p:inputText>
+
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Quantidade:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,decimal)"
+								value="#{cadastroProjetoBean.servico.quantidade}">
+								<p:ajax event="blur" update="precoTotal"></p:ajax>
+							</p:inputText>
+						</p:column>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Preço Total:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText readonly="true"
+								value="#{cadastroProjetoBean.servico.valorTotal}"
+								id="precoTotal">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:inputText>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Observação:"></p:outputLabel>
+						</p:column>
+						<p:column colspan="3">
+							<p:inputTextarea rows="4" cols="85"
+								value="#{cadastroProjetoBean.servico.observacao}" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="3" style="text-align:right;height:70px;">
+							<p:commandButton value="Limpar formulário"
+								action="#{cadastroProjetoBean.limparServico}" update="@form" />
+						</p:column>
+						<p:column style="height:70px;">
+							<p:commandButton value="Salvar Serviço"
+								actionListener="#{cadastroProjetoBean.salvarServico}"
+								update="@form,:formInformacoes" />
+						</p:column>
+					</p:row>
+
+				</p:panelGrid>
+			</p:panel>
+			<br />
+
+
+			<p:dataTable value="#{cadastroProjetoBean.servicos}" id="servicos"
+				var="servico" rowKey="#{servico.id}"
+				selection="#{cadastroProjetoBean.servicoSelecionado}"
+				selectionMode="single" emptyMessage="Nenhum registro encontrado">
+				<p:column headerText="Descrição">
+					<h:outputText value="#{servico.descricao}" />
+				</p:column>
+
+				<p:column headerText="Valor Total" style="width:15%;">
+					<p:outputLabel value="#{servico.valorTotal}">
+						<f:convertNumber locale="pt_BR" type="currency"
+							currencySymbol="R$ " />
+					</p:outputLabel>
+				</p:column>
+
+				<p:column headerText="Tipo" style="width:10%;">
+					<h:outputText value="#{servico.tipo.nome}" />
+				</p:column>
+
+				<p:column style="width:10%; text-align:center;"
+					headerText="Observação">
+
+					<p:commandButton id="fade" icon="ui-icon-search" />
+					<p:tooltip for="fade" value="#{servico.observacao}"
+						showEffect="fade" hideEffect="fade" />
+
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton value="Excluir" icon="ui-icon-trash" update="@form,:formInformacoes"
+						actionListener="#{cadastroProjetoBean.removerServico}" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+						<p:confirm header="Excluir Serviço"
+							message="Tem certeza que deseja excluir o serviço selecionado ?"
+							icon="ui-icon-trash" />
+					</p:commandButton>
+						&nbsp;&nbsp;&nbsp;
+					<p:commandButton value="Alterar" icon="ui-icon-gear" update="@form" rendered="#{!cadastroProjetoBean.apenasLeitura}"
+						actionListener="#{cadastroProjetoBean.selecionarServico}" />
+						&nbsp;&nbsp;&nbsp;
+					<p:commandButton value="Detalhar" icon="ui-icon-plus" update="@form"
+						action="#{cadastroProjetoBean.detalharServico}" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../../_template.xhtml">
+	<ui:define name="conteudo">
+		<form id="form">
+		<p:panel header="Cadastro de Grupos"
+				rendered="#{cadastroGrupoBean.criarGrupo}">
+				<h:panelGrid styleClass="panelForm">
+					<p:panel header="Grupo">
+						<p:row>
+							<p:column>
+								<h:outputText value="Nome: " styleClass="colLabel" />
+							</p:column>
+							<p:column>
+								<p:inputText style="width: 70%;"
+									value="#{cadastroGrupoBean.grupo.nome}" />
+							</p:column>
+						</p:row>
+						<br />
+						<br />
+						<p:commandButton value="Salvar Grupo" update="grupos"
+							action="#{cadastroGrupoBean.salvarGrupo}" />
+					</p:panel>
+				</h:panelGrid>
+				<br />
+				<br />
+				<p:dataTable id="grupos" value="#{cadastroGrupoBean.grupos}"
+					var="grupo" emptyMessage="Nenhum grupo cadastrado" paginator="true"
+					rows="10" rowKey="#{grupo.id}"
+					selection="#{cadastroGrupoBean.grupoSelecionado}"
+					selectionMode="single">
+
+					<p:column headerText="ID">
+						<h:outputText value="#{grupo.id}" />
+					</p:column>
+					<p:column headerText="Nome">
+						<h:outputText value="#{grupo.nome}" />
+					</p:column>
+					<p:column headerText="Data de Criação">
+						<h:outputText value="#{grupo.dataCriacao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<f:facet name="footer">
+						<p:commandButton value="Permissões" update="@all"
+							action="#{cadastroGrupoBean.associarMenus}" />
+					</f:facet>
+				</p:dataTable>
+			</p:panel>
+			<p:panel id="defineMenus" header="Definir permissões"
+				rendered="#{cadastroGrupoBean.associarMenus}">
+				<p:fieldset legend="Grupo selecionado">
+					<p:panelGrid styleClass="panel_inf_proj">
+						<p:row>
+							<p:column styleClass="colLabel">
+								<h:outputText value="Id: " />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{cadastroGrupoBean.grupoSelecionado.id}" />
+							</p:column>
+							<p:column styleClass="colLabel" style="width: 25%;">
+								<h:outputText value="Nome: " />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{cadastroGrupoBean.grupoSelecionado.nome}" />
+							</p:column>
+							<p:column styleClass="colLabel" style="width: 30%;">
+								<h:outputText value="Data criação: " />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{cadastroGrupoBean.grupoSelecionado.dataCriacao.time}">
+									<f:convertDateTime pattern="dd/MM/yyyy"/>
+								</h:outputText>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					<br />
+					<p:dataTable id="menusDoGrupo" value="#{cadastroGrupoBean.menusByGrupoSelecionado}" var="menu"
+								emptyMessage="Nenhum menu associado a este grupo">
+						<p:column headerText="Nome">
+							<h:outputText value="#{menu.descricao}"/>
+						</p:column>
+						<p:column headerText="Acesso">
+							<p:selectOneRadio value="#{menu.acesso}">
+								<f:selectItems value="#{cadastroGrupoBean.permissoes}" var="permissao"
+											   itemLabel="#{permissao}" itemValue="#{permissao}"/>
+							</p:selectOneRadio>
+						</p:column>
+					</p:dataTable>
+					<br />
+				<p:commandButton value="Salvar permissões" action="#{cadastroGrupoBean.salvarPermissoes}"/>
+				</p:fieldset>
+				<br />
+				<p:dataTable value="#{cadastroGrupoBean.menus}" var="menu"
+					paginator="true" rows="10">
+					<p:column headerText="ID" filterBy="id">
+						<h:outputText value="#{menu.id}" />
+					</p:column>
+					<p:column headerText="Descrição" filterBy="descricao">
+						<h:outputText value="#{menu.descricao}" />
+					</p:column>
+					<p:column headerText="URL">
+						<h:outputText value="#{menu.url}" />
+					</p:column>
+					<p:column headerText="Associar ao grupo">
+						<p:commandButton value="+" update="@all" action="#{cadastroGrupoBean.associaMenuAoGrupo}">
+							<f:setPropertyActionListener target="#{cadastroGrupoBean.menuSelecionado}" value="#{menu}"/>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</form>
+	</ui:define>
+</ui:composition>

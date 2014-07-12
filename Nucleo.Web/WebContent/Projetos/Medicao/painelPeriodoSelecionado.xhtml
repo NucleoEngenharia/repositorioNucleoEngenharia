@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+
+		<br />
+		<br />
+		<h:form id="painelInformacoes">
+			<p:growl life="30000" showDetail="true" />
+			<p:panel header="Projeto e Período Selecionado"
+				rendered="#{medicaoProjetoBean.exibirDetalhes}">
+				<p:panelGrid style="width:100%;" styleClass="panel_inf_proj">
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="CN:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{medicaoProjetoBean.periodoSelecionado.projeto.CN}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Projeto:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{medicaoProjetoBean.periodoSelecionado.projeto.descricaoCurta}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Valor do Projeto:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{medicaoProjetoBean.valorProjeto}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Saldo:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{medicaoProjetoBean.saldoProjeto}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Nº Período:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{medicaoProjetoBean.periodoSelecionado.numSequencial}" />
+						</p:column>
+
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Período:" />
+						</p:column>
+						<p:column>
+							<p:outputLabel
+								value="#{medicaoProjetoBean.periodoSelecionado.dataDe.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+							<p:outputLabel value=" até " />
+							<p:outputLabel
+								value="#{medicaoProjetoBean.periodoSelecionado.dataAte.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Status do período:" />
+						</p:column>
+						<p:column colspan="3">
+							<p:outputLabel value="#{medicaoProjetoBean.periodoSelecionado.status.nome}" />
+						</p:column>
+						<p:column headerText="Total medido I0: ">
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

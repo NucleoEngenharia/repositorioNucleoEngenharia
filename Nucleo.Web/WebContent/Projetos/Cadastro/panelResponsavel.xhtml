@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<p:panelGrid styleClass="panelForm">
+			<p:row>
+				<p:column styleClass="colLabel">
+					<p:outputLabel value="Unidade:" />
+				</p:column>
+				<p:column colspan="2">
+					<p:selectOneMenu effect="fade"
+						value="#{cadastroProjetoBean.projetoSelecionado.responsavelAdm.idUnidade}"
+						filter="true">
+						<f:selectItem itemLabel="Selecione unidade" itemValue="" />
+						<f:selectItems value="#{cadastroProjetoBean.unidades}" var="unid" required="true" requiredMessage="Unidade responsável é um campo obrigatório"
+							itemLabel="#{unid.descricao}" itemValue="#{unid.id}" />
+						<p:ajax update="proposto,supervisor"
+							listener="#{cadastroProjetoBean.carregaFuncionarios}"
+							event="change" />
+					</p:selectOneMenu>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="colLabel">
+					<p:outputLabel value="Sup./Analista contr.:" />
+				</p:column>
+				<p:column colspan="2">
+					
+					<p:selectOneMenu effect="fade" required="true" requiredMessage="Supervisor é um campo obrigatório"
+						value="#{cadastroProjetoBean.projetoSelecionado.responsavelAdm.nomeSupervisor}"
+						filter="true" id="supervisor">
+						<f:selectItem itemLabel="Selecione o Funcionario" itemValue="" />
+						<f:selectItems value="#{cadastroProjetoBean.funcionarios}" var="func"
+							itemLabel="#{func.nome}" itemValue="#{func.nome}"  />
+					</p:selectOneMenu>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="colLabel">
+					<p:outputLabel value="Proposto:" />
+				</p:column>
+				<p:column colspan="2">
+					
+					<p:selectOneMenu effect="fade" required="true" requiredMessage="Proposto é um campo obrigatório"
+						value="#{cadastroProjetoBean.projetoSelecionado.responsavelAdm.nomeProposto}"
+						filter="true" id="proposto">
+						<f:selectItem itemLabel="Selecione o Funcionario" itemValue="" />
+						<f:selectItems value="#{cadastroProjetoBean.funcionarios}" var="func"
+							itemLabel="#{func.nome}" itemValue="#{func.nome}"  />
+					</p:selectOneMenu>
+				</p:column>
+			</p:row>
+			<p:row>
+			   <p:column styleClass="colLabel">
+			     <p:outputLabel value="Gerente núcleo:"/>
+			   </p:column>
+			   <p:column colspan="2">
+			     <p:inputText value="#{cadastroProjetoBean.projetoSelecionado.responsavelAdm.nomeGerenteNucleo}" />
+			   </p:column>
+			</p:row>
+			<p:row>
+			   <p:column styleClass="colLabel">
+			     <p:outputLabel value="Gerente cliente:"/>
+			   </p:column>
+			   <p:column colspan="2">
+			     <p:inputText value="#{cadastroProjetoBean.projetoSelecionado.responsavelAdm.nomeGerenteRelacionamento}" />
+			   </p:column>
+			</p:row>
+			<p:row>
+			   <p:column styleClass="colLabel">
+			     <p:outputLabel value="Fiscal:"/>
+			   </p:column>
+			   <p:column colspan="2">
+			     <p:inputText value="#{cadastroProjetoBean.projetoSelecionado.responsavelAdm.fiscal}" />
+			   </p:column>
+			</p:row>
+		</p:panelGrid>
+		<br />
+
+	</ui:composition>
+</h:body>
+</html>

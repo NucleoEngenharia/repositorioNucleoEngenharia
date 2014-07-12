@@ -1,0 +1,71 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from AutenticacaoBOService WSDL service -->
+
+  <service name="AutenticacaoBO" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://bo.seguranca.nucleo.com"/>
+      <parameter name="wsdlServiceElement" value="AutenticacaoBOService"/>
+      <parameter name="schemaQualified" value="http://to.seguranca.nucleo.com,http://bo.seguranca.nucleo.com"/>
+      <parameter name="wsdlServicePort" value="AutenticacaoBO"/>
+      <parameter name="className" value="com.nucleo.seguranca.bo.AutenticacaoBOSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="AutenticacaoBO"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="autenticarUsuario" qname="operNS:autenticarUsuario" xmlns:operNS="http://bo.seguranca.nucleo.com" returnQName="retNS:autenticarUsuarioReturn" xmlns:retNS="http://bo.seguranca.nucleo.com" returnType="rtns:int" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:usuario" xmlns:pns="http://bo.seguranca.nucleo.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:senha" xmlns:pns="http://bo.seguranca.nucleo.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="getFuncionarioAutenticado" qname="operNS:getFuncionarioAutenticado" xmlns:operNS="http://bo.seguranca.nucleo.com" returnQName="retNS:getFuncionarioAutenticadoReturn" xmlns:retNS="http://bo.seguranca.nucleo.com" returnType="rtns:FuncionarioTO" xmlns:rtns="http://to.seguranca.nucleo.com" soapAction="" >
+        <parameter qname="pns:idFuncionario" xmlns:pns="http://bo.seguranca.nucleo.com" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="getFuncionarioAutenticado autenticarUsuario"/>
+
+      <typeMapping
+        xmlns:ns="http://to.seguranca.nucleo.com"
+        qname="ns:FuncionarioTO"
+        type="java:com.nucleo.seguranca.to.FuncionarioTO"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://bo.seguranca.nucleo.com"
+        qname="ns:ArrayOf_tns1_MenuTO"
+        type="java:com.nucleo.seguranca.to.MenuTO[]"
+        innerType="cmp-ns:MenuTO" xmlns:cmp-ns="http://to.seguranca.nucleo.com"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://to.seguranca.nucleo.com"
+        qname="ns:MenuTO"
+        type="java:com.nucleo.seguranca.to.MenuTO"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://bo.seguranca.nucleo.com"
+        qname="ns:ArrayOf_tns1_PerfilTO"
+        type="java:com.nucleo.seguranca.to.PerfilTO[]"
+        innerType="cmp-ns:PerfilTO" xmlns:cmp-ns="http://to.seguranca.nucleo.com"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://to.seguranca.nucleo.com"
+        qname="ns:PerfilTO"
+        type="java:com.nucleo.seguranca.to.PerfilTO"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

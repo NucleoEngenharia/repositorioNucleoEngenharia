@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<h:form>
+			<p:tabView rendered="#{!cadastroProjetoBean.apenasLeitura}">
+				<p:tab title="Preço">
+					<p:panelGrid styleClass="panelForm">
+						<p:row>
+							<p:column styleClass="colLabel" style="width: 20%;">
+								<p:outputLabel value="Valor (R$):"></p:outputLabel>
+							</p:column>
+							<p:column colspan="2" styleClass="colInput">
+								<p:inputText onkeypress="mascara(this,moeda)"
+									value="#{cadastroProjetoBean.aditivo.valor}" id="valorAditivo">
+									<f:convertNumber pattern="#,##0.00" type="currency" locale="pt_BR" />
+									<p:ajax event="blur" update="porcentAditivo"
+										listener="#{cadastroProjetoBean.calcularPorcent}"></p:ajax>
+								</p:inputText>
+
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column styleClass="colLabel">
+								<p:outputLabel value="Porcentagem (%):"></p:outputLabel>
+							</p:column>
+							<p:column colspan="2" styleClass="colInput">
+								<p:inputText value="#{cadastroProjetoBean.aditivo.porcentagem}"
+									onkeypress="mascara(this,porcentagem)" id="porcentAditivo">
+									<f:convertNumber type="percent" pattern="###.000000" />
+									<p:ajax event="blur" update="valorAditivo"
+										listener="#{cadastroProjetoBean.calcularValor}"></p:ajax>
+								</p:inputText>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="3" style="text-align:right;">
+								<p:commandButton value="Salvar aditivo"
+									actionListener="#{cadastroProjetoBean.salvarAditivo('PRECO')}"
+									update="@form,:formInformacoes" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					<br />
+					<br />
+					<br />
+
+				</p:tab>
+				<p:tab title="Prazo">
+					<p:panelGrid styleClass="panelForm">
+						<p:row>
+							<p:column styleClass="colLabel" style="width:120px;">
+								<p:outputLabel value="Ano:"></p:outputLabel>
+							</p:column>
+							<p:column colspan="2" styleClass="colInput">
+								<p:spinner value="#{cadastroProjetoBean.aditivo.ano}" size="5" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column styleClass="colLabel">
+								<p:outputLabel value="Mes:"></p:outputLabel>
+							</p:column>
+							<p:column colspan="2" styleClass="colInput">
+								<p:spinner value="#{cadastroProjetoBean.aditivo.mes}" size="5" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column styleClass="colLabel">
+								<p:outputLabel value="Dia:"></p:outputLabel>
+							</p:column>
+							<p:column colspan="2" styleClass="colInput">
+								<p:spinner value="#{cadastroProjetoBean.aditivo.dia}" size="5" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="3" style="text-align:right;">
+								<p:commandButton value="Salvar aditivo"
+									actionListener="#{cadastroProjetoBean.salvarAditivo('PRAZO')}"
+									update="@form,:formInformacoes" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:tab>
+				<p:tab title="Outros">
+					<p:panelGrid styleClass="panelForm">
+						<p:row>
+							<p:column styleClass="colLabel">
+								<p:outputLabel value="Observação:"></p:outputLabel>
+							</p:column>
+							<p:column colspan="2" styleClass="colInput">
+								<p:inputTextarea cols="80" rows="3"
+									value="#{cadastroProjetoBean.aditivo.observacao}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="3" style="text-align:right;">
+								<p:commandButton value="Salvar aditivo"
+									actionListener="#{cadastroProjetoBean.salvarAditivo('OBSERVACAO')}"
+									update="@form,:formInformacoes" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:tab>
+			</p:tabView>
+			<br />
+			
+			<p:dataTable id="listaAditivos" var="aditivo"
+				value="#{cadastroProjetoBean.aditivos}">
+
+				<f:facet name="header">
+					<p:outputLabel value="Lista de aditivos" />
+				</f:facet>
+
+				<p:column headerText="Data do aditivo">
+					<h:outputText value="#{aditivo.dataCriacao.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Tipo">
+					<h:outputText value="#{aditivo.tipo.nome}" />
+				</p:column>
+
+				<p:column headerText="Aditivo">
+					<h:outputText
+						value="+ #{aditivo.ano} ano(s), + #{aditivo.mes} mes(es), + #{aditivo.dia} dia(s)"
+						rendered="#{aditivo.tipo.valor == 0}" />
+
+					<h:outputText value="#{aditivo.valor}"
+						rendered="#{aditivo.tipo.valor == 1}">
+						<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+					</h:outputText>
+
+					<h:outputText value="#{aditivo.observacao}"
+						rendered="#{aditivo.tipo.valor == 2}" />
+				</p:column>
+
+
+				<p:column style="width:10%; text-align:center;" headerText="Excluir" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+					<p:commandButton update="listaAditivos,:formInformacoes" icon="ui-icon-trash"
+						title="Excluir Aditivo"
+						actionListener="#{cadastroProjetoBean.removerAditivo(aditivo)}" />
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="../../_template.xhtml">
+
+	<ui:define name="conteudo">
+		<p:panel header="Painel de profissionais">
+			<h:form rendered="#{!profissionaisBean.apenasLeitura}">
+				<p:growl showDetail="true"></p:growl>
+
+				<p:panelGrid styleClass="panelForm">
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Tipo do contrato:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:selectBooleanButton
+								value="#{profissionaisBean.profissional.pj}" offLabel="CLT"
+								onLabel="Pessoa jurídica">
+								<p:ajax update="@form" event="change"></p:ajax>
+							</p:selectBooleanButton>
+						</p:column>
+					</p:row>
+
+					<p:row rendered="#{profissionaisBean.profissional.pj}">
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="CNPJ:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this, cnpj)" required="true"
+								requiredMessage="CNPJ é um campo obrigatório"
+								value="#{profissionaisBean.profissional.cnpj}" />
+						</p:column>
+					</p:row>
+					<p:row rendered="#{profissionaisBean.profissional.pj}">
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Nome da empresa:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText size="50" required="true"
+								requiredMessage="Nome da empresa é um campo obrigatório"
+								value="#{profissionaisBean.profissional.nomeEmpresa}" />
+						</p:column>
+					</p:row>
+					<p:row rendered="#{!profissionaisBean.profissional.pj}">
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="CPF:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,cpf)"
+								value="#{profissionaisBean.profissional.cpf}" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Nome do profissional:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText size="50" required="true"
+								requiredMessage="Nome do profissional é um campo obrigatório"
+								value="#{profissionaisBean.profissional.nomeCompleto}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="CN:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText value="#{profissionaisBean.profissional.cn}"
+								size="5" required="true"
+								requiredMessage="CN é um campo obrigatório" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column rendered="#{profissionaisBean.profissional.pj}" styleClass="colLabel">
+							<p:outputLabel value="Verba (R$):"></p:outputLabel>
+						</p:column>
+						<p:column rendered="#{!profissionaisBean.profissional.pj}" styleClass="colLabel">
+							<p:outputLabel value="Salário (R$):"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,moeda)" required="true"
+								requiredMessage="Selecione o salário do profissional"
+								value="#{profissionaisBean.profissional.salario}">
+								<f:convertNumber pattern="#,##0.00" type="currency"
+									locale="pt_BR" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column rendered="#{profissionaisBean.profissional.pj}" styleClass="colLabel">
+							<p:outputLabel value="Data de OIS:"></p:outputLabel>
+						</p:column>
+						<p:column rendered="#{!profissionaisBean.profissional.pj}" styleClass="colLabel">
+							<p:outputLabel value="Data de admissão:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:calendar
+								value="#{profissionaisBean.profissional.dataAdmissao}"
+								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy" size="10"
+								converter="CalendarConverter" required="true"
+								requiredMessage="Data de admissão é obrigatório" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column rendered="#{profissionaisBean.profissional.pj}" styleClass="colLabel">
+							<p:outputLabel value="Data final:"></p:outputLabel>
+						</p:column>
+						<p:column rendered="#{!profissionaisBean.profissional.pj}" styleClass="colLabel">
+							<p:outputLabel value="Data de rescisão:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:calendar
+								value="#{profissionaisBean.profissional.dataRescisao}"
+								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy" size="10"
+								converter="CalendarConverter" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column style="text-align:right; heigth:100px;" colspan="2">
+							<p:commandButton value="Limpar formulário" immediate="true"
+								action="#{profissionaisBean.resetForm}" update="@form">
+								<pe:resetInput for="formulario" />
+							</p:commandButton>
+							&nbsp;&nbsp;
+							<p:commandButton value="Salvar"
+								action="#{profissionaisBean.salvar}" update="@all">
+							</p:commandButton>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+			<p:spacer height="50px" />
+			<h:form>
+				<p:dataTable value="#{profissionaisBean.profissionais}"
+					var="profissional" paginator="true" rows="10">
+
+					<p:column headerText="Profissional" filterBy="nomeCompleto"
+						sortBy="nomeCompleto">
+						<h:outputText value="#{profissional.nomeCompleto}" />
+					</p:column>
+					<p:column headerText="CN" filterBy="cn"
+						sortBy="cn">
+						<h:outputText value="#{profissional.cn}" />
+					</p:column>
+
+					<p:column headerText="Documento">
+						<p:outputLabel value="#{profissional.cnpj}"
+							rendered="#{profissional.pj}" />
+						<p:outputLabel value="#{profissional.cpf}"
+							rendered="#{!profissional.pj}" />
+					</p:column>
+
+					<p:column headerText="Admissão" sortBy="dataAdmissao">
+						<h:outputText value="#{profissional.dataAdmissao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Rescisão" sortBy="dataRescisao">
+						<h:outputText value="#{profissional.dataRescisao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Salário" filterBy="salario" sortBy="salario">
+						<p:outputLabel value="#{profissional.salario}">
+							<f:convertNumber locale="pt_BR" type="currency"
+								currencySymbol="R$" />
+						</p:outputLabel>
+					</p:column>
+
+					<p:column style="width:6%; text-align:center;" headerText="Editar" rendered="#{!profissionaisBean.apenasLeitura}">
+						<p:commandButton icon="	ui-icon-gear"
+							action="#{profissionaisBean.editar(profissional)}" update="@all">
+						</p:commandButton>
+					</p:column>
+					<p:column style="width:6%; text-align:center;" headerText="Excluir" rendered="#{!profissionaisBean.apenasLeitura}">
+						<p:commandButton icon="ui-icon-trash"
+							action="#{profissionaisBean.excluir(profissional)}"
+							update="@all">
+							<p:confirm header="Excluir Profissional"
+								message="Deseja realmente excluir o profissional selecionado?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition>
+		<h:form id="formInfraMateriais">
+			<p:growl life="30000" showDetail="true" />
+			<p:panel header="Painel de Infra - Materiais" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+				<p:panelGrid styleClass="panelForm">
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Descrição:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText size="50"
+								value="#{cadastroProjetoBean.infraMateriais.descricao}" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Valor:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,moeda)"
+								value="#{cadastroProjetoBean.infraMateriais.valor}">
+								<f:convertNumber pattern="#,##0.00" type="currency"
+									locale="pt_BR" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="3" style="text-align:right;height:70px;">
+							<p:commandButton value="Limpar formulário"
+								action="#{cadastroProjetoBean.limparInfraMateriais}"
+								update="@form" />
+						</p:column>
+						<p:column style="height:70px;">
+							<p:commandButton value="Salvar"
+								actionListener="#{cadastroProjetoBean.salvarInfraMateriais}"
+								update="@form,:formInformacoes" />
+						</p:column>
+					</p:row>
+
+				</p:panelGrid>
+			</p:panel>
+			<br />
+
+			<p:dataTable value="#{cadastroProjetoBean.listaInfraMateriais}"
+				var="infra" emptyMessage="Nenhum registro encontrado">
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{infra.descricao}" />
+				</p:column>
+
+				<p:column headerText="Valor" style="width:20%;">
+					<h:outputText value="#{infra.valor}">
+						<f:convertNumber locale="pt_BR" type="currency"
+							currencySymbol="R$ " />
+					</h:outputText>
+				</p:column>
+
+				<p:column style="width:10%; text-align:center;" headerText="Alterar" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+					<p:commandButton icon="ui-icon-gear"
+						actionListener="#{cadastroProjetoBean.selecionarInfraMateriais(infra)}"
+						update="@form" />
+				</p:column>
+				<p:column style="width:10%; text-align:center;" rendered="#{!cadastroProjetoBean.apenasLeitura}"
+					headerText="Detalhar">
+					<p:commandButton icon="	ui-icon-plus"
+						action="#{cadastroProjetoBean.detalharInfraMateriais(infra)}" />
+				</p:column>
+				<p:column style="width:10%; text-align:center;" headerText="Excluir" rendered="#{!cadastroProjetoBean.apenasLeitura}">
+					<p:commandButton icon="	ui-icon-trash" update="@form,:formInformacoes"
+						action="#{cadastroProjetoBean.removerInfraMateriais(infra)}">
+						<p:confirm header="Excluir Infra Estrutura - Materiais"
+							message="Tem certeza que deseja excluir a Infra Estrutura - Materiais selecionado ?"
+							icon="ui-icon-trash" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<br />
+			<br />
+			<br />
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

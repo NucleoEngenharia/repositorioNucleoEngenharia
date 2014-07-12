@@ -1,0 +1,102 @@
+<ns1:deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java" xmlns:ns1="http://xml.apache.org/axis/wsdd/">
+ <ns1:globalConfiguration>
+  <ns1:parameter name="sendMultiRefs" value="true"/>
+  <ns1:parameter name="disablePrettyXML" value="true"/>
+  <ns1:parameter name="adminPassword" value="admin"/>
+  <ns1:parameter name="attachments.Directory" value="C:\jboss7\standalone\deployments\Nucleo.Seguranca.ws.war\WEB-INF\attachments"/>
+  <ns1:parameter name="dotNetSoapEncFix" value="true"/>
+  <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
+  <ns1:parameter name="sendXMLDeclaration" value="true"/>
+  <ns1:parameter name="sendXsiTypes" value="true"/>
+  <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <ns1:requestFlow>
+   <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
+    <ns1:parameter name="scope" value="session"/>
+   </ns1:handler>
+   <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
+    <ns1:parameter name="scope" value="request"/>
+    <ns1:parameter name="extension" value=".jwr"/>
+   </ns1:handler>
+  </ns1:requestFlow>
+ </ns1:globalConfiguration>
+ <ns1:handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
+ <ns1:handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
+ <ns1:handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
+ <ns1:service name="AutenticacaoBO" provider="java:RPC" style="wrapped" use="literal">
+  <ns2:operation name="autenticarUsuario" qname="ns1:autenticarUsuario" returnQName="ns1:autenticarUsuarioReturn" returnType="xsd:int" soapAction="" xmlns:ns1="http://bo.seguranca.nucleo.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
+   <ns2:parameter qname="ns1:usuario" type="xsd:string"/>
+   <ns2:parameter qname="ns1:senha" type="xsd:string"/>
+  </ns2:operation>
+  <ns1:operation name="getFuncionarioAutenticado" qname="ns2:getFuncionarioAutenticado" returnQName="ns2:getFuncionarioAutenticadoReturn" returnType="ns3:FuncionarioTO" soapAction="" xmlns:ns2="http://bo.seguranca.nucleo.com" xmlns:ns3="http://to.seguranca.nucleo.com">
+   <ns1:parameter qname="ns2:idFuncionario" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:parameter name="allowedMethods" value="getFuncionarioAutenticado autenticarUsuario"/>
+  <ns1:parameter name="wsdlPortType" value="AutenticacaoBO"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
+  <ns1:parameter name="schemaQualified" value="http://to.seguranca.nucleo.com,http://bo.seguranca.nucleo.com"/>
+  <ns1:parameter name="wsdlServicePort" value="AutenticacaoBO"/>
+  <ns1:parameter name="className" value="com.nucleo.seguranca.bo.AutenticacaoBO"/>
+  <ns1:parameter name="wsdlTargetNamespace" value="http://bo.seguranca.nucleo.com"/>
+  <ns1:parameter name="wsdlServiceElement" value="AutenticacaoBOService"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns4:FuncionarioTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.nucleo.seguranca.to.FuncionarioTO" xmlns:ns4="http://to.seguranca.nucleo.com"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns5:MenuTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.nucleo.seguranca.to.MenuTO" xmlns:ns5="http://to.seguranca.nucleo.com"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns6:PerfilTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.nucleo.seguranca.to.PerfilTO" xmlns:ns6="http://to.seguranca.nucleo.com"/>
+  <ns1:arrayMapping innerType="ns8:MenuTO" languageSpecificType="java:com.nucleo.seguranca.to.MenuTO[]" qname="ns7:ArrayOf_tns1_MenuTO" xmlns:ns7="http://bo.seguranca.nucleo.com" xmlns:ns8="http://to.seguranca.nucleo.com"/>
+  <ns1:arrayMapping innerType="ns10:PerfilTO" languageSpecificType="java:com.nucleo.seguranca.to.PerfilTO[]" qname="ns9:ArrayOf_tns1_PerfilTO" xmlns:ns10="http://to.seguranca.nucleo.com" xmlns:ns9="http://bo.seguranca.nucleo.com"/>
+ </ns1:service>
+ <ns1:service name="AdminService" provider="java:MSG">
+  <ns1:parameter name="allowedMethods" value="AdminService"/>
+  <ns1:parameter name="enableRemoteAdmin" value="false"/>
+  <ns1:parameter name="className" value="org.apache.axis.utils.Admin"/>
+  <ns1:namespace>http://xml.apache.org/axis/wsdd/</ns1:namespace>
+ </ns1:service>
+ <ns1:service name="ResponsavelBO" provider="java:RPC" style="wrapped" use="literal">
+  <ns1:operation name="getFuncionarios" qname="ns11:getFuncionarios" returnQName="ns11:getFuncionariosReturn" returnType="ns12:FuncionarioTO" soapAction="" xmlns:ns11="http://bo.seguranca.nucleo.com" xmlns:ns12="http://to.seguranca.nucleo.com">
+   <ns1:parameter qname="ns11:unidade" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns1:parameter qname="ns11:departamento" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="getFuncionariosPorUnidade" qname="ns13:getFuncionariosPorUnidade" returnQName="ns13:getFuncionariosPorUnidadeReturn" returnType="ns14:FuncionarioTO" soapAction="" xmlns:ns13="http://bo.seguranca.nucleo.com" xmlns:ns14="http://to.seguranca.nucleo.com">
+   <ns1:parameter qname="ns13:unidade" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="getTodasUnidades" qname="ns15:getTodasUnidades" returnQName="ns15:getTodasUnidadesReturn" returnType="ns16:UnidadeTO" soapAction="" xmlns:ns15="http://bo.seguranca.nucleo.com" xmlns:ns16="http://to.seguranca.nucleo.com"/>
+  <ns1:operation name="getTodosDepartamentos" qname="ns17:getTodosDepartamentos" returnQName="ns17:getTodosDepartamentosReturn" returnType="ns18:DepartamentoTO" soapAction="" xmlns:ns17="http://bo.seguranca.nucleo.com" xmlns:ns18="http://to.seguranca.nucleo.com"/>
+  <ns1:parameter name="allowedMethods" value="getTodosDepartamentos getTodasUnidades getFuncionarios getFuncionariosPorUnidade"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
+  <ns1:parameter name="wsdlPortType" value="ResponsavelBO"/>
+  <ns1:parameter name="className" value="com.nucleo.seguranca.bo.ResponsavelBO"/>
+  <ns1:parameter name="wsdlServicePort" value="ResponsavelBO"/>
+  <ns1:parameter name="schemaQualified" value="http://to.seguranca.nucleo.com,http://bo.seguranca.nucleo.com"/>
+  <ns1:parameter name="wsdlTargetNamespace" value="http://bo.seguranca.nucleo.com"/>
+  <ns1:parameter name="wsdlServiceElement" value="ResponsavelBOService"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns19:DepartamentoTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.nucleo.seguranca.to.DepartamentoTO" xmlns:ns19="http://to.seguranca.nucleo.com"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns20:MenuTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.nucleo.seguranca.to.MenuTO" xmlns:ns20="http://to.seguranca.nucleo.com"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns21:UnidadeTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.nucleo.seguranca.to.UnidadeTO" xmlns:ns21="http://to.seguranca.nucleo.com"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns22:PerfilTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.nucleo.seguranca.to.PerfilTO" xmlns:ns22="http://to.seguranca.nucleo.com"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns23:FuncionarioTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:com.nucleo.seguranca.to.FuncionarioTO" xmlns:ns23="http://to.seguranca.nucleo.com"/>
+  <ns1:arrayMapping innerType="ns25:MenuTO" languageSpecificType="java:com.nucleo.seguranca.to.MenuTO[]" qname="ns24:ArrayOf_tns1_MenuTO" xmlns:ns24="http://bo.seguranca.nucleo.com" xmlns:ns25="http://to.seguranca.nucleo.com"/>
+  <ns1:arrayMapping innerType="ns27:DepartamentoTO" languageSpecificType="java:com.nucleo.seguranca.to.DepartamentoTO[]" qname="ns26:ArrayOf_tns1_DepartamentoTO" xmlns:ns26="http://bo.seguranca.nucleo.com" xmlns:ns27="http://to.seguranca.nucleo.com"/>
+  <ns1:arrayMapping innerType="ns29:PerfilTO" languageSpecificType="java:com.nucleo.seguranca.to.PerfilTO[]" qname="ns28:ArrayOf_tns1_PerfilTO" xmlns:ns28="http://bo.seguranca.nucleo.com" xmlns:ns29="http://to.seguranca.nucleo.com"/>
+  <ns1:arrayMapping innerType="ns31:FuncionarioTO" languageSpecificType="java:com.nucleo.seguranca.to.FuncionarioTO[]" qname="ns30:ArrayOf_tns1_FuncionarioTO" xmlns:ns30="http://bo.seguranca.nucleo.com" xmlns:ns31="http://to.seguranca.nucleo.com"/>
+ </ns1:service>
+ <ns1:service name="Version" provider="java:RPC">
+  <ns1:parameter name="allowedMethods" value="getVersion"/>
+  <ns1:parameter name="className" value="org.apache.axis.Version"/>
+ </ns1:service>
+ <ns1:transport name="http">
+  <ns1:requestFlow>
+   <ns1:handler type="URLMapper"/>
+   <ns1:handler type="java:org.apache.axis.handlers.http.HTTPAuthHandler"/>
+  </ns1:requestFlow>
+  <ns1:parameter name="qs:list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <ns1:parameter name="qs:wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+  <ns1:parameter name="qs.list" value="org.apache.axis.transport.http.QSListHandler"/>
+  <ns1:parameter name="qs.method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <ns1:parameter name="qs:method" value="org.apache.axis.transport.http.QSMethodHandler"/>
+  <ns1:parameter name="qs.wsdl" value="org.apache.axis.transport.http.QSWSDLHandler"/>
+ </ns1:transport>
+ <ns1:transport name="local">
+  <ns1:responseFlow>
+   <ns1:handler type="LocalResponder"/>
+  </ns1:responseFlow>
+ </ns1:transport>
+</ns1:deployment>

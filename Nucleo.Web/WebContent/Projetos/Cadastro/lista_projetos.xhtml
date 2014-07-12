@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../../_template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<p:tabView id="listaProjetos">
+			<p:tab id="projetosMedicao" title="Projetos cadastrados">
+				<h:form id="listaProjetosMedicao">
+
+					<p:dataTable id="projetosMedicao" var="proj" paginator="true"
+						rows="10" value="#{listaProjetosBean.projetosMedicao}"
+						rowKey="#{proj.CN}" selection="#{listaProjetosBean.projeto}"
+						selectionMode="single" emptyMessage="Nenhum Projeto encontrado">
+						<f:facet name="header">Lista de projetos ja cadastrados</f:facet>
+
+						<p:column headerText="CN" filterBy="CN" sortBy="CN">
+							<h:outputText value="#{proj.CN}" />
+						</p:column>
+						<p:column headerText="Projeto" filterBy="descricao"
+							sortBy="descricao">
+							<h:outputText value="#{proj.descricao}" />
+						</p:column>
+
+						<p:column headerText="Data Início" sortBy="dtInicio">
+							<h:outputText value="#{proj.dataInicio.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Data Fim" sortBy="dtFim">
+							<h:outputText value="#{proj.dataFim.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<f:facet name="footer">
+							<p:commandButton value="Histograma" icon="ui-icon-arrow-4-diag " />
+							&nbsp;&nbsp;&nbsp;
+							<p:commandButton value="Cronograma" icon="ui-icon-arrow-4-diag " />
+							&nbsp;&nbsp;&nbsp;
+							<p:commandButton id="editarProjeto" update="@all" value="Editar Projeto" icon="ui-icon-gear"
+								action="#{listaProjetosBean.editarProjeto}" />
+						</f:facet>
+
+					</p:dataTable>
+                        <p:growl/>
+				</h:form>
+
+			</p:tab>
+			<p:tab id="projetosSap" title="Projetos sem cadastro (apenas no SAP)">
+				<h:form id="listaProjetosSAP">
+
+					<p:dataTable id="projetosSAP" var="proj" paginator="true" rows="10"
+						value="#{listaProjetosBean.projetosSAP}" rowKey="#{proj.CN}"
+						selection="#{listaProjetosBean.projetoSAP}" selectionMode="single"
+						emptyMessage="Nenhum Projeto encontrado">
+
+						<f:facet name="header">Lista de projetos apenas no SAP</f:facet>
+
+						<p:column headerText="CN" filterBy="CN" sortBy="CN">
+							<h:outputText value="#{proj.CN}" />
+						</p:column>
+						<p:column headerText="Projeto" filterBy="nome" sortBy="nome">
+							<h:outputText value="#{proj.nome}" />
+						</p:column>
+
+						<p:column headerText="Data Início" sortBy="dtInicio">
+							<h:outputText value="#{proj.dtInicio.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Data Fim" sortBy="dtFim">
+							<h:outputText value="#{proj.dtFim.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<f:facet name="footer">
+							<p:commandButton id="selectProjeto" value="Iniciar Cadastro"
+								icon="ui-icon-plusthick"
+								action="#{listaProjetosBean.editarProjeto}"
+								style="float:right;" />
+							<br />
+							<br />
+						</f:facet>
+					</p:dataTable>
+				</h:form>
+
+			</p:tab>
+
+		</p:tabView>
+	</ui:define>
+</ui:composition>
+</html>
