@@ -29,3 +29,24 @@ Command-line arguments:  -data D:\repositorioGit\projetosNucleoEngenharia -os wi
 
 !ENTRY org.jboss.ide.eclipse.as.core 1 16973825 2014-07-12 17:01:59.931
 !MESSAGE Server processes have been terminated.
+
+!ENTRY org.jboss.ide.eclipse.as.core 0 33685505 2014-07-12 19:30:28.450
+!MESSAGE 2 files modified in module Nucleo.Web
+
+!ENTRY org.jboss.ide.eclipse.as.core 0 33685505 2014-07-12 19:30:28.460
+!MESSAGE 1 files modified in module Nucleo.intranet
+
+!ENTRY org.jboss.ide.eclipse.as.core 0 33685505 2014-07-12 19:30:28.469
+!MESSAGE 1 files modified in module Nucleo.Medicao
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842760 2014-07-12 19:30:29.357
+!MESSAGE Server Starting
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842769 2014-07-12 19:30:34.967
+!MESSAGE Server Startup Succeeded
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16842776 2014-07-14 09:34:20.593
+!MESSAGE Server shutting down
+
+!ENTRY org.jboss.ide.eclipse.as.core 1 16973825 2014-07-14 09:34:21.039
+!MESSAGE Server processes have been terminated.
