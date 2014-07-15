@@ -1029,6 +1029,7 @@ org.eclipse.team.svn.core.operation.UnreportableException: 0x0000000b: Project '
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1450)
 	at org.eclipse.equinox.launcher.Main.main(Main.java:1426)
 
+<<<<<<< HEAD
 !ENTRY org.eclipse.team.svn.core.svnnature 4 0 2014-07-12 19:19:29.568
 !MESSAGE SVN: 'Menu enablement calculation' operation finished with error
 !SUBENTRY 1 org.eclipse.team.svn.core.svnnature 4 0 2014-07-12 19:19:29.568
@@ -1158,6 +1159,11 @@ org.eclipse.team.svn.core.operation.UnreportableException: 0x0000000b: Project '
 !ENTRY org.eclipse.team.svn.core.svnnature 4 0 2014-07-14 09:34:41.276
 !MESSAGE SVN: 'Menu enablement calculation' operation finished with error
 !SUBENTRY 1 org.eclipse.team.svn.core.svnnature 4 0 2014-07-14 09:34:41.276
+=======
+!ENTRY org.eclipse.team.svn.core.svnnature 4 0 2014-07-12 19:21:20.989
+!MESSAGE SVN: 'Menu enablement calculation' operation finished with error
+!SUBENTRY 1 org.eclipse.team.svn.core.svnnature 4 0 2014-07-12 19:21:20.989
+>>>>>>> desenvolvimento
 !MESSAGE SVN: 'Menu enablement calculation' operation finished with error: 0x0000000b: Project 'Nucleo.Seguranca.ws' is connected not to Subversive provider but to another one: 'org.eclipse.egit.core.GitProvider'.
 !STACK 0
 org.eclipse.team.svn.core.operation.UnreportableException: 0x0000000b: Project 'Nucleo.Seguranca.ws' is connected not to Subversive provider but to another one: 'org.eclipse.egit.core.GitProvider'.

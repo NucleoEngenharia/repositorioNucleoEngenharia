@@ -81,10 +81,57 @@
 						<p:column style="text-align:right;">
 							<p:outputLabel value="Status do período:" />
 						</p:column>
-						<p:column colspan="3">
+						<p:column>
 							<p:outputLabel value="#{medicaoProjetoBean.periodoSelecionado.status.nome}" />
 						</p:column>
-						<p:column headerText="Total medido I0: ">
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Total Medição serviços (I0):" />
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{medicaoProjetoBean.detalhamentoPeriodoMedicao.totalMedicaoI0}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+						    </p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Total Reajuste: "/>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{medicaoProjetoBean.detalhamentoPeriodoMedicao.totalReajuste}">
+							  	<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>		
+						</p:column>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Total Medição c/ Reajuste: "/>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{medicaoProjetoBean.detalhamentoPeriodoMedicao.medicaoComReajuste}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Total de desp. reemb.: "/>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{medicaoProjetoBean.detalhamentoPeriodoMedicao.totalDespesa}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+						 	</p:outputLabel>
+						</p:column>
+						<p:column style="text-align:right;">
+							<p:outputLabel value="Total de salarios base: "/>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="#{medicaoProjetoBean.detalhamentoPeriodoMedicao.totalSalarios}">
+								<f:convertNumber locale="pt_BR" type="currency"
+									currencySymbol="R$ " />
+							</p:outputLabel>
 						</p:column>
 					</p:row>
 				</p:panelGrid>

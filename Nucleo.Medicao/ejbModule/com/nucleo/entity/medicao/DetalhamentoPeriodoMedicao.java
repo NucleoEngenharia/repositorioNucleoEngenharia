@@ -19,6 +19,7 @@ public class DetalhamentoPeriodoMedicao extends CommomEntity {
 		totalMedicaoI0 = BigDecimal.ZERO;
 		totalReajuste = BigDecimal.ZERO;
 		medicaoComReajuste = BigDecimal.ZERO;
+		totalValorVenda = BigDecimal.ZERO;
 		totalDespesa = BigDecimal.ZERO;
 		totalSalarios = BigDecimal.ZERO;
 	}
@@ -44,6 +45,9 @@ public class DetalhamentoPeriodoMedicao extends CommomEntity {
 	
 	@Column(precision=18, scale=2)
 	private BigDecimal totalSalarios;
+	
+	@Column(precision=18,scale=2)
+	private BigDecimal totalValorVenda;
 
 	public int getId() {
 		return id;
@@ -101,5 +105,13 @@ public class DetalhamentoPeriodoMedicao extends CommomEntity {
 		this.totalSalarios = totalSalarios;
 	}
 
+	public BigDecimal getTotalValorVenda() {
+		return totalValorVenda;
+	}
+
+	public void setTotalValorVenda(BigDecimal totalValorVenda) {
+		this.totalValorVenda = totalValorVenda;
+	}
+	
 	
 }

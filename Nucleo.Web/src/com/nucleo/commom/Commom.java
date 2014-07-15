@@ -23,7 +23,7 @@ public class Commom {
 	
 
 	public static FuncionarioTO getUsuarioLogado() {
-		System.out.println("Só p testar");
+		System.out.println("agora é só desenv haha");
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		HttpSession session = (HttpSession) externalContext.getSession(true);
 		LoginBean loginBean = (LoginBean) session.getAttribute("loginBean");

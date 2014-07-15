@@ -509,17 +509,25 @@ public class MedicaoProjetoBean implements Serializable {
 	private boolean salvarDetalhamentoMedicao(){
 		boolean salvo = false;
 		try{
-		detalhamentoPeriodoMedicao.setTotalReajuste(detalhamentoPeriodoMedicao.getTotalMedicaoI0().divide(ultimoReajuste.getIndice(),5));
-		detalhamentoPeriodoMedicao.setMedicaoComReajuste(detalhamentoPeriodoMedicao.getTotalMedicaoI0().add(detalhamentoPeriodoMedicao.getTotalReajuste()));
-		if(!detalhamentoPeriodoMedicao.getPeriodoMedicao().equals(periodoSelecionado)){
-		detalhamentoPeriodoMedicao.setPeriodoMedicao(periodoSelecionado);
-		detalhamentoPeriodoMedicaoDAO.inserir(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
-		}else{
-			detalhamentoPeriodoMedicaoDAO.alterar(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
-		}
-		}catch(Exception e){
-			System.out.println(e);
-		}
+				detalhamentoPeriodoMedicao.getTotalMedicaoI0().add(detalhamentoPeriodoMedicao.getTotalDespesa());
+				detalhamentoPeriodoMedicao.setTotalReajuste(detalhamentoPeriodoMedicao.getTotalMedicaoI0().divide(ultimoReajuste.getIndice(),5).subtract(detalhamentoPeriodoMedicao.getTotalMedicaoI0()));
+				detalhamentoPeriodoMedicao.setMedicaoComReajuste(detalhamentoPeriodoMedicao.getTotalMedicaoI0().add(detalhamentoPeriodoMedicao.getTotalDespesa()).add(detalhamentoPeriodoMedicao.getTotalReajuste()));
+				detalhamentoPeriodoMedicao.setTotalSalarios(medicaoEquipeDAO.buscarSalariosMedicoesPorPeriodo(periodoSelecionado));
+				detalhamentoPeriodoMedicao.setTotalValorVenda(medicaoEquipeDAO.buscarValorVendaMedicoesPorPeriodo(periodoSelecionado));
+			 if(!detalhamentoPeriodoMedicao.getPeriodoMedicao().equals(periodoSelecionado)){
+				 detalhamentoPeriodoMedicao.setPeriodoMedicao(periodoSelecionado);
+				 detalhamentoPeriodoMedicaoDAO.inserir(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
+				 salvo = true;
+			 }else{
+				 detalhamentoPeriodoMedicaoDAO.alterar(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
+				 salvo = true;
+			 }
+			}catch(Exception e){
+				System.out.println(e);
+				salvo = false;
+			}finally{
+				detalhamentoPeriodoMedicao = new DetalhamentoPeriodoMedicao();
+			}
 		return salvo;
 	}
 	// WORKFLOW
@@ -541,7 +549,7 @@ public class MedicaoProjetoBean implements Serializable {
 					null,
 					new FacesMessage("Sucesso!",
 							"Todos os dados da medição foram salvos, porém o período ainda permanece no status atual."));
-			return "medicaoProjeto.xhtml?faces-redirect=true";
+			return "/faces/Projetos/Medicao/medicaoProjeto.xhtml?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
 			context.addMessage(null, new FacesMessage("Erro!",
@@ -919,7 +927,12 @@ public class MedicaoProjetoBean implements Serializable {
 			}
 			for (Servico equipe : servicoEquipes) {
 				for (MedicaoEquipe medicao : medicoesEquipe.get(equipe.getId())) {
+					MedicaoEquipe medicaoNew = medicaoEquipeDAO.buscarMedicao(medicao);
+					if(medicaoNew.getId()==0){
+						medicaoEquipeDAO.inserir(medicao, usuarioLogado.getPessoa_id());
+					}else{
 					medicaoEquipeDAO.alterar(medicao, usuarioLogado.getPessoa_id());
+					}
 				}
 			}
 			context.addMessage(null, new FacesMessage("Sucesso!",
@@ -952,7 +965,7 @@ public class MedicaoProjetoBean implements Serializable {
 		detalhamentoPeriodoMedicao.setTotalMedicaoI0(totalPeriodo);
 		return totalEquipe;
 	}
-
+	
 	public List<PeriodoMedicao> getPeriodosAberto() {
 		return periodosAberto;
 	}

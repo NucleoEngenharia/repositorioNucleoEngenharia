@@ -102,7 +102,7 @@ public class ServicoDAOImpl extends DAOImpl<Servico, Integer> implements Servico
 	//Se não souber do problema do n+1, pesquise antes de mexer nas querys
 	private List<Servico> buscarPorProjetoTipo(Projeto projeto, TipoServicoEnum tipo) {
 		TypedQuery<Servico> query = em.createQuery("Select distinct s From Servico s"
-				+ " left join fetch s.projeto as p"
+				+ " left join fetch s.projeto p"
 				+ " join fetch p.responsavelAdm"
 				+ " where s.excluido = :excluido and p = :projeto"
 				+ " and s.tipo = :tipo order by s.id", Servico.class);
