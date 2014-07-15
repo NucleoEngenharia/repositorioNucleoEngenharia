@@ -37,7 +37,7 @@ public class CarregaMedicoesUtil {
 					}
 			}
 					for(Mobilizacao mobilizacao:mobilizacoesDoPeriodo){
-						if(!procuraMobilizacao(list, mobilizacao)&&mobilizacao.getCargo().getServico().getId()==equipe.getId()){
+						if(!procuraMobilizacaoNasMedicoesRodadas(list, mobilizacao)&&mobilizacao.getCargo().getServico().getId()==equipe.getId()){
 							MedicaoEquipe medicaoEquipe = new MedicaoEquipe();
 							medicaoEquipe.setPeriodoMedicao(periodoSelecionado);
 							medicaoEquipe.setMobilizacao(mobilizacao);
@@ -54,7 +54,7 @@ public class CarregaMedicoesUtil {
 		
 		return medicoesEquipe;
 	}
-	private boolean procuraMobilizacao(List<MedicaoEquipe>medicoes, Mobilizacao mobilizacao){
+	private boolean procuraMobilizacaoNasMedicoesRodadas(List<MedicaoEquipe>medicoes, Mobilizacao mobilizacao){
 		boolean achou = false;
 		for(MedicaoEquipe medicaoEquipe:medicoes){
 			
