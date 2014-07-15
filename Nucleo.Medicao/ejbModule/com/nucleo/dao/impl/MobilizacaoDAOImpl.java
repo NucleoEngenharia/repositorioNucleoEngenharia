@@ -77,13 +77,13 @@ public class MobilizacaoDAOImpl extends DAOImpl<Mobilizacao, Integer> implements
 	}
 	@Override
 	public List<Mobilizacao> buscarTodosPorPeriodo(PeriodoMedicao periodo) {
-		String strQuery = "select m from Mobilizacao m " +
-				"where m.cargo.servico.projeto.id = :projeto " +
-				"and (:inicioPeriodo <= m.dataDesmobilizacao or m.dataDesmobilizacao is null) " +
-				"and (:fimPeriodo >= m.dataMobilizacao) " +
-				"and m.excluido = :excluido";
+		String strQuery = "select distinct m from Mobilizacao m" +
+				" where m.cargo.servico.projeto.id = :projetoId" +
+				" and (:inicioPeriodo <= m.dataDesmobilizacao or m.dataDesmobilizacao is null)" +
+				" and (:fimPeriodo >= m.dataMobilizacao)" +
+				" and m.excluido = :excluido";
 		TypedQuery<Mobilizacao> query = em.createQuery(strQuery, Mobilizacao.class);
-		query.setParameter("projeto", periodo.getProjeto().getId());
+		query.setParameter("projetoId", periodo.getProjeto().getId());
 		query.setParameter("inicioPeriodo", periodo.getDataDe());
 		query.setParameter("fimPeriodo", periodo.getDataAte());
 		query.setParameter("excluido", false);

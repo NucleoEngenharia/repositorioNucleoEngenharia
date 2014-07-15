@@ -19,11 +19,35 @@ import com.nucleo.entity.medicao.Mobilizacao;
 import com.nucleo.entity.medicao.PeriodoMedicao;
 
 @Stateless
-public class MedicaoEquipeDAOImpl extends DAOImpl<MedicaoEquipe, Integer> implements MedicaoEquipeDAO{
+public class MedicaoEquipeDAOImpl extends DAOImpl<MedicaoEquipe, Integer>
+implements MedicaoEquipeDAO{
 
 	@EJB
-	MobilizacaoDAO mobilizacaoDAO;
-	
+	private MobilizacaoDAO mobilizacaoDAO;
+	@Override
+	public BigDecimal buscarSalariosMedicoesPorPeriodo(PeriodoMedicao periodo){
+		BigDecimal totalSalarios = BigDecimal.ZERO;
+		String jpql = "select sum(me.mobilizacao.funcionario.salario) from MedicaoEquipe me"
+				+" Where me.excluido = :excluido and"
+				+" me.periodoMedicao.id = :periodoId";
+		totalSalarios = em.createQuery(jpql, BigDecimal.class)
+		.setParameter("excluido", false)
+		.setParameter("periodoId", periodo.getId())
+		.getSingleResult();
+		return totalSalarios;
+	}
+	@Override
+	public BigDecimal buscarValorVendaMedicoesPorPeriodo(PeriodoMedicao periodo){
+		BigDecimal totalSalarios = BigDecimal.ZERO;
+		String jpql = "select sum(me.mobilizacao.cargo.valorVenda) from MedicaoEquipe me"
+				+" Where me.excluido = :excluido and"
+				+" me.periodoMedicao.id = :periodoId";
+		totalSalarios = em.createQuery(jpql, BigDecimal.class)
+		.setParameter("excluido", false)
+		.setParameter("periodoId", periodo.getId())
+		.getSingleResult();
+		return totalSalarios;
+	}
 	@Override
 	public List<MedicaoEquipe> buscarTodosPorServicoCargo(Cargo cargo, PeriodoMedicao periodo) {
 		String strQuery = "Select distinct m From MedicaoEquipe m "
@@ -77,21 +101,20 @@ public class MedicaoEquipeDAOImpl extends DAOImpl<MedicaoEquipe, Integer> implem
 	}
 	@Override
 	public List<MedicaoEquipe>listarPorPeriodo(PeriodoMedicao periodoMedicao){
+		System.out.println("Buscando periodo "+periodoMedicao.getId());
 		List<MedicaoEquipe> medicoes = new ArrayList<MedicaoEquipe>();
-		String jpql = "select m from MedicaoEquipe m "
-				+ " left join fetch m.periodoMedicao as pm"
-				+ " left join fetch m.mobilizacao as mob"
-				+ " left join fetch mob.funcionario"
-				+ " left join fetch mob.cargo as c"
-				+ " left join fetch c.servico as s"
-				+ " left join fetch s.projeto as p"
-				+ " join fetch p.responsavelAdm"
+		String jpql = "select distinct m from MedicaoEquipe m"
+				+ " left join fetch m.periodoMedicao pm"
+				+ " left join fetch pm.detalhamentoPeriodoMedicao d"
 				+ " where m.excluido =:excluido"
 				+ " and pm.id=:periodoMedicao_id";
 		        medicoes = em.createQuery(jpql, MedicaoEquipe.class)
 		        .setParameter("excluido", false)
 		        .setParameter("periodoMedicao_id", periodoMedicao.getId())
+		       /* .setParameter("inicioPeriodo", periodoMedicao.getDataDe())
+		        .setParameter("fimPeriodo", periodoMedicao.getDataAte())*/
 		        .getResultList();
+		        System.out.println(medicoes.size());
 		return medicoes;
 	}
 	
@@ -130,6 +153,4 @@ public class MedicaoEquipeDAOImpl extends DAOImpl<MedicaoEquipe, Integer> implem
 			return BigDecimal.ZERO;
 		}
 	}
-
-
 }

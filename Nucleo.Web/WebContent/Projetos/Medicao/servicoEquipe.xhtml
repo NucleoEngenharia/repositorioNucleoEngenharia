@@ -49,6 +49,12 @@
 								locale="pt_BR" />
 						</h:outputText>
 					</p:column>
+					<p:column headerText="Salário">
+						<h:outputText value="#{medicao.mobilizacao.funcionario.salario}">
+							<f:convertNumber currencySymbol="R$" type="currency"
+								locale="pt_BR" />
+						</h:outputText>
+					</p:column>
 					<p:column headerText="Valor disponível (MD)" style="width:120px;">
 						<p:outputLabel
 							value="#{medicaoProjetoBean.saldoCargo(medicao.mobilizacao.cargo)}"

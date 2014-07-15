@@ -17,6 +17,10 @@ public interface MedicaoEquipeDAO extends DAO<MedicaoEquipe, Integer>{
 
 	List<MedicaoEquipe> buscarTodosPorServicoPeriodo(Servico equipe,
 			PeriodoMedicao periodo);
+	
+	BigDecimal buscarValorVendaMedicoesPorPeriodo(PeriodoMedicao periodo);
+	
+	BigDecimal buscarSalariosMedicoesPorPeriodo(PeriodoMedicao periodo);
 
 	List<MedicaoEquipe> buscarTodosPorServicoCargo(Cargo cargo,
 			PeriodoMedicao periodo);

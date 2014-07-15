@@ -28,11 +28,12 @@ import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
 public class CargoDAOImpl extends DAOImpl<Cargo, Integer> implements CargoDAO {
 
 	@EJB
-	MedicaoEquipeDAO medicaoEquipeDAO;
+	private MedicaoEquipeDAO medicaoEquipeDAO;
 
 	@Override
 	public List<PrevisaoUso> gerarPrevisoesUso(Cargo cargo) {
-		String queryStr = " Select p From PeriodoMedicao p" + " where p.projeto.id = :projeto AND"
+		String queryStr = " Select p From PeriodoMedicao p"
+				+ " where p.projeto.id = :projeto AND"
 				+ " p.dataAte > :dataInicial AND" + " p.dataDe < :dataFim"
 				+ " and p.excluido = :excluido";
 		TypedQuery<PeriodoMedicao> query = em.createQuery(queryStr, PeriodoMedicao.class);
