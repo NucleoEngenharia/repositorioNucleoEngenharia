@@ -101,7 +101,6 @@ implements MedicaoEquipeDAO{
 	}
 	@Override
 	public List<MedicaoEquipe>listarPorPeriodo(PeriodoMedicao periodoMedicao){
-		System.out.println("Buscando periodo "+periodoMedicao.getId());
 		List<MedicaoEquipe> medicoes = new ArrayList<MedicaoEquipe>();
 		String jpql = "select distinct m from MedicaoEquipe m"
 				+ " left join fetch m.periodoMedicao pm"
@@ -111,8 +110,6 @@ implements MedicaoEquipeDAO{
 		        medicoes = em.createQuery(jpql, MedicaoEquipe.class)
 		        .setParameter("excluido", false)
 		        .setParameter("periodoMedicao_id", periodoMedicao.getId())
-		       /* .setParameter("inicioPeriodo", periodoMedicao.getDataDe())
-		        .setParameter("fimPeriodo", periodoMedicao.getDataAte())*/
 		        .getResultList();
 		        System.out.println(medicoes.size());
 		return medicoes;
@@ -152,5 +149,19 @@ implements MedicaoEquipeDAO{
 		} catch (NoResultException e) {
 			return BigDecimal.ZERO;
 		}
+	}
+	@Override
+	public MedicaoEquipe buscarMedicao(MedicaoEquipe medicaoEquipe){
+		MedicaoEquipe me = new MedicaoEquipe();
+		try{
+		String jpql="select m from MedicaoEquipe m"
+				+ " where m.id=:medicaoId";
+		me = em.createQuery(jpql, MedicaoEquipe.class)
+		.setParameter("medicaoId", medicaoEquipe.getId())
+		.getSingleResult();
+		}catch(NoResultException e){
+			me.setId(0);
+		}
+		return me;
 	}
 }

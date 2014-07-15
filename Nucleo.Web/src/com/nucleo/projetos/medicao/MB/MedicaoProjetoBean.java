@@ -927,7 +927,12 @@ public class MedicaoProjetoBean implements Serializable {
 			}
 			for (Servico equipe : servicoEquipes) {
 				for (MedicaoEquipe medicao : medicoesEquipe.get(equipe.getId())) {
+					MedicaoEquipe medicaoNew = medicaoEquipeDAO.buscarMedicao(medicao);
+					if(medicaoNew.getId()==0){
+						medicaoEquipeDAO.inserir(medicao, usuarioLogado.getPessoa_id());
+					}else{
 					medicaoEquipeDAO.alterar(medicao, usuarioLogado.getPessoa_id());
+					}
 				}
 			}
 			context.addMessage(null, new FacesMessage("Sucesso!",
