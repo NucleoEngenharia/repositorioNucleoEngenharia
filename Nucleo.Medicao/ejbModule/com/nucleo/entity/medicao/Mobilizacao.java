@@ -21,6 +21,9 @@ import com.nucleo.entity.cadastro.Cargo;
 @Entity
 @SequenceGenerator(allocationSize=1, sequenceName="SEQ_MOBILIZACAO", name="seqMobilizacao")
 public class Mobilizacao extends CommomEntity {
+	public Mobilizacao() {
+		funcionario = new FuncionarioContrato();
+	}
 	
 	private static final long serialVersionUID = 1L;
 

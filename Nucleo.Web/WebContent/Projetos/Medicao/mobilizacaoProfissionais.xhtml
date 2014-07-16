@@ -80,7 +80,7 @@
 		<br />
 		<p:panel rendered="#{mobilizacaoBean.exibirDetalhes}"
 			header="Painel de Mobilizações">
-			<h:form id="formulario">
+			<h:form id="form1">
 				<p:growl life="10000" showDetail="true" />
 				<br />
 				<p:panelGrid styleClass="panelForm" rendered="#{!mobilizacaoBean.apenasLeitura}">
@@ -111,7 +111,7 @@
 								requiredMessage="Funcionário é um campo obrigatório"
 								value="#{mobilizacaoBean.mobilizacao.funcionario}" id="funcionarios" 
 								converter="FuncionarioContratoConverter">
-								<f:selectItem itemLabel="Selecione o funcionário..."/>
+								<f:selectItem itemLabel="Selecione o funcionário..." noSelectionOption="true"/>
 								<f:selectItems value="#{mobilizacaoBean.funcionarios}"
 									var="func" itemLabel="#{func.nomeCompleto}"
 									itemValue="#{func}" />
@@ -124,10 +124,10 @@
 							<p:outputLabel value="Admissão:"></p:outputLabel>
 						</p:column>
 						<p:column>
-							<h:outputText value="#{mobilizacaoBean.mobilizacao.funcionario.dataAdmissao.time}"
+							<p:outputLabel value="#{mobilizacaoBean.mobilizacao.funcionario.dataAdmissao.time}"
 								id="dataAdmissao">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</h:outputText>
+							</p:outputLabel>
 						</p:column>
 					</p:row>
 					<p:row>
@@ -135,10 +135,10 @@
 							<p:outputLabel value="Rescisão:"></p:outputLabel>
 						</p:column>
 						<p:column>
-							<h:outputText value="#{mobilizacaoBean.mobilizacao.funcionario.dataRescisao.time}"
+							<p:outputLabel value="#{mobilizacaoBean.mobilizacao.funcionario.dataRescisao.time}"
 								 id="dataRescisao">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</h:outputText>
+							</p:outputLabel>
 						</p:column>
 					</p:row>
 					
@@ -213,14 +213,14 @@
 							</p:commandButton>
 								&nbsp;&nbsp;
 								<p:commandButton value="Salvar mobilização"
-								action="#{mobilizacaoBean.salvarMobilizacao()}" update="@all" />
+								action="#{mobilizacaoBean.salvarMobilizacao}" update=":form1,:form2" />
 						</p:column>
 					</p:row>
 
 				</p:panelGrid>
 				<br />
 			</h:form>
-			<h:form>
+			<h:form id="form2">
 				<p:dataTable value="#{mobilizacaoBean.mobilizacoes}" paginator="true" rows="10"
 					id="mobilizacoes" var="mobilizacao" >
 					<p:column headerText="Função (MD)" filterBy="cargo.funcaoMD" sortBy="cargo.funcaoMD">
@@ -244,12 +244,12 @@
 					<p:column style="width:6%; text-align:center;" headerText="Editar" rendered="#{!mobilizacaoBean.apenasLeitura}">
 						<p:commandButton icon="	ui-icon-gear"
 							action="#{mobilizacaoBean.editarMobilizacao(mobilizacao)}"
-							update="@all" />
+							update="mobilizacoes" />
 					</p:column>
 					 <p:column style="width:6%; text-align:center;" headerText="Excluir" rendered="#{!mobilizacaoBean.apenasLeitura}">
 						<p:commandButton icon="ui-icon-trash"
 							action="#{mobilizacaoBean.excluirMobilizacao(mobilizacao)}"
-							update="@all">
+							update="mobilizacoes">
 							<p:confirm header="Excluir mobilização"
 								message="Deseja realmente excluir a mobilização selecionada?"
 								icon="ui-icon-alert"></p:confirm>

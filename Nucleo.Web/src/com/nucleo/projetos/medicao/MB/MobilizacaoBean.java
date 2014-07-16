@@ -1,6 +1,7 @@
 package com.nucleo.projetos.medicao.MB;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -93,6 +94,7 @@ public class MobilizacaoBean implements Serializable {
 	@PostConstruct
 	public void init(){
 		acessoDoUsuarioLogado = Commom.getAcessoUsuarioLogado();
+		mobilizacao = new Mobilizacao();
 	}
 	
 	public void selecionarProjeto() {
@@ -149,12 +151,12 @@ public class MobilizacaoBean implements Serializable {
 			} else {
 				mobilizacaoDAO.alterar(mobilizacao, usuarioLogado.getPessoa_id());
 			}
-			mobilizacao = null;
+			mobilizacao = new Mobilizacao();
 			equipeSelecionada = 0;
 			this.carregaCargos();
 			idCargo = 0;
 			cargos = null;
-
+			mobilizacoes = null;
 			context.addMessage(null, new FacesMessage("Sucesso!",
 					"Mobilização salva com sucesso."));
 		} catch (Exception e) {
@@ -168,6 +170,7 @@ public class MobilizacaoBean implements Serializable {
 			
 			mobilizacaoDAO.deletarPorId(mobilizacaoSelecionada.getId(), usuarioLogado.getPessoa_id());
 			context.addMessage(null, new FacesMessage("Sucesso!", "Mobilização excluída com sucesso."));
+			mobilizacoes = null;
 		} catch (Exception e) {
 			context.addMessage(null, new FacesMessage("Erro!",
 					"Por favor, contate o administrador do sistema."));
@@ -186,6 +189,7 @@ public class MobilizacaoBean implements Serializable {
 		equipeSelecionada = mobilizacao.getCargo().getServico().getId();
 		this.carregaCargos();
 		idCargo = mobilizacao.getCargo().getId();
+		mobilizacoes = null;
 	}
 	
 	public List<Projeto> getProjetos() {
