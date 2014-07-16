@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import com.nucleo.dao.MedicaoDespesaDAO;
@@ -56,10 +57,16 @@ public class MedicaoDespesaDAOImpl extends DAOImpl<MedicaoDespesa, Integer> impl
 
 	@Override
 	public BigDecimal somaValorTotalDespesasProjeto(Projeto projeto) {
-		return em.createQuery("select sum(md.valor) from MedicaoDespesa md where projeto =:projeto and md.excluido =:excluido", BigDecimal.class)
+		BigDecimal total = BigDecimal.ZERO;
+		try{
+		total = em.createQuery("select sum(md.valor) from MedicaoDespesa md where projeto =:projeto and md.excluido =:excluido", BigDecimal.class)
 				.setParameter("projeto", projeto)
 				.setParameter("excluido", false)
 				.getSingleResult();
+		return total;
+		}catch(NoResultException e){
+			return total;
+		}
 	}
 
 	@Override

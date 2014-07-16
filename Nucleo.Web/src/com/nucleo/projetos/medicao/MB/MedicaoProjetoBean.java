@@ -73,6 +73,7 @@ public class MedicaoProjetoBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		gerarPeriodos();
+		valorTotalDespesas = BigDecimal.ZERO;
 		acessoDoUsuarioLogado = Commom.getAcessoUsuarioLogado();
 		permissoesMenuBean = new PermissoesMenuBean();
 		relatorioBean = new RelatorioBean();
@@ -486,6 +487,7 @@ public class MedicaoProjetoBean implements Serializable {
 	}
 	public BigDecimal getValorTotalDespesas() {
 		valorTotalDespesas = BigDecimal.ZERO;
+		detalhamentoPeriodoMedicao.setTotalDespesa(BigDecimal.ZERO);
 		valorTotalDespesas = medicaoDespesaDAO.somaValorDespesasPeriodo(periodoSelecionado);
 		detalhamentoPeriodoMedicao.setTotalDespesa(valorTotalDespesas);
 		return valorTotalDespesas;
@@ -508,16 +510,25 @@ public class MedicaoProjetoBean implements Serializable {
 	}
 	private boolean salvarDetalhamentoMedicao(){
 		boolean salvo = false;
-		try{
+				try{
+					try{
+					if(detalhamentoPeriodoMedicao.getTotalDespesa().compareTo(BigDecimal.ZERO)>0){
+					}
+				}catch(NullPointerException e){
+					detalhamentoPeriodoMedicao.setTotalDespesa(BigDecimal.ZERO);
+				}
 				detalhamentoPeriodoMedicao.getTotalMedicaoI0().add(detalhamentoPeriodoMedicao.getTotalDespesa());
 				detalhamentoPeriodoMedicao.setTotalReajuste(detalhamentoPeriodoMedicao.getTotalMedicaoI0().divide(ultimoReajuste.getIndice(),5).subtract(detalhamentoPeriodoMedicao.getTotalMedicaoI0()));
 				detalhamentoPeriodoMedicao.setMedicaoComReajuste(detalhamentoPeriodoMedicao.getTotalMedicaoI0().add(detalhamentoPeriodoMedicao.getTotalDespesa()).add(detalhamentoPeriodoMedicao.getTotalReajuste()));
 				detalhamentoPeriodoMedicao.setTotalSalarios(medicaoEquipeDAO.buscarSalariosMedicoesPorPeriodo(periodoSelecionado));
 				detalhamentoPeriodoMedicao.setTotalValorVenda(medicaoEquipeDAO.buscarValorVendaMedicoesPorPeriodo(periodoSelecionado));
-			 if(!detalhamentoPeriodoMedicao.getPeriodoMedicao().equals(periodoSelecionado)){
-				 detalhamentoPeriodoMedicao.setPeriodoMedicao(periodoSelecionado);
-				 detalhamentoPeriodoMedicaoDAO.inserir(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
-				 salvo = true;
+				if(!detalhamentoPeriodoMedicao.getPeriodoMedicao().equals(periodoSelecionado)){
+					System.out.println("6");
+					detalhamentoPeriodoMedicao.setPeriodoMedicao(periodoSelecionado);
+					System.out.println("7");
+					detalhamentoPeriodoMedicaoDAO.inserir(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
+					System.out.println("8");
+					salvo = true;
 			 }else{
 				 detalhamentoPeriodoMedicaoDAO.alterar(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
 				 salvo = true;
@@ -557,19 +568,28 @@ public class MedicaoProjetoBean implements Serializable {
 			return null;
 		}
 	}
-	public void salvarEnviarAvaliacao() {
+	public String salvarEnviarAvaliacao() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			if (!salvarInfraMateriais())
-				return;
-			if (!salvarMedicoesProduto())
-				return;
-			if (!salvarMedicoesEquipe())
-				return;
-
+			if (!salvarInfraMateriais()){
+				System.out.println("!salvarInfraMateriais()");
+				return null;
+			}
+			if (!salvarMedicoesProduto()){
+				System.out.println("!salvarMedicoesProduto()");
+				return null;
+			}
+			if (!salvarMedicoesEquipe()){
+				System.out.println("!salvarMedicoesEquipe()");
+				return null;
+				
+			}
+			if(!salvarDetalhamentoMedicao()){
+				System.out.println("!salvarDetalhamentoMedicao()");
+				return null;
+			}
 			periodoSelecionado.setStatus(StatusPeriodoEnum.PENDENTEVALIDACAO);
 			periodoDAO.alterar(periodoSelecionado, usuarioLogado.getPessoa_id());
-
 			exibirDetalhes = false;
 			tabLista = 10;
 
@@ -579,26 +599,29 @@ public class MedicaoProjetoBean implements Serializable {
 					new FacesMessage(
 							"Sucesso!",
 							"Todas as medições foram salvas e o período de medição foi enviado para avaliação da Medição e Controle."));
+			return "/faces/Projetos/Medicao/medicaoProjeto.xhtml?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
 			context.addMessage(null, new FacesMessage("Erro!",
 					"Por favor, contate o administrador do sistema."));
+			return null;
 		}
 	}
-	public void salvarGerarRelatoriaAprovacao() {
+	public String salvarGerarRelatoriaAprovacao() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			if (!salvarInfraMateriais())
-				return;
+				return "";
 			if (!salvarMedicoesProduto())
-				return;
+				return"";
 			if (!salvarMedicoesEquipe())
-				return;
-
+				return "";
+			if(!salvarDetalhamentoMedicao())
+				return "";
 			if (!relatorioBean.gerarRelatorio(periodoSelecionado, medicoesEquipe)) {
 				context.addMessage(null, new FacesMessage("Erro ao gerar relatório!",
 						"Por favor, contate o administrador do sistema. Relatório não foi gerado."));
-				return;
+				return"";
 			}
 
 			periodoSelecionado.setStatus(StatusPeriodoEnum.PENDENTEAPROVACAO);
@@ -612,10 +635,12 @@ public class MedicaoProjetoBean implements Serializable {
 					null,
 					new FacesMessage("Sucesso!",
 							"Todas as medições foram salvas e o período de medição agora está aguardando aprovação do cliente."));
+			return "/faces/Projetos/Medicao/medicaoProjeto.xhtml?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
 			context.addMessage(null, new FacesMessage("Erro!",
 					"Por favor, contate o administrador do sistema."));
+			return null;
 		}
 	}
 	public void aprovarPeriodo() {
@@ -637,20 +662,21 @@ public class MedicaoProjetoBean implements Serializable {
 					"Por favor, contate o administrador do sistema."));
 		}
 	}
-	public void salvarAlteracaoPeriodoAprovacao() {
+	public String salvarAlteracaoPeriodoAprovacao() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			if (!salvarInfraMateriais())
-				return;
+				return"";
 			if (!salvarMedicoesProduto())
-				return;
+				return"";
 			if (!salvarMedicoesEquipe())
-				return;
-
+				return"";
+			if(!salvarDetalhamentoMedicao())
+				return "";
 			if (!relatorioBean.gerarRelatorio(periodoSelecionado, medicoesEquipe)) {
 				context.addMessage(null, new FacesMessage("Erro!",
 						"Por favor, contate o administrador do sistema. Relatório não foi gerado."));
-				return;
+				return"";
 			}
 
 			if (alteracaoPeriodo.getMotivo().equals(MotivoAlteracaoPeriodoEnum.DOISMOTIVOS)) {
@@ -679,10 +705,12 @@ public class MedicaoProjetoBean implements Serializable {
 			Commom.removeMessagesContext();
 			context.addMessage(null,
 					new FacesMessage("Sucesso!", "Todas as medições foram salvas."));
+			return "/faces/Projetos/Medicao/medicaoProjeto.xhtml?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
 			context.addMessage(null, new FacesMessage("Erro!",
 					"Por favor, contate o administrador do sistema."));
+			return "";
 		}
 
 	}

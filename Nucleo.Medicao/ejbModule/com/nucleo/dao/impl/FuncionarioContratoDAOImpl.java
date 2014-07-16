@@ -16,8 +16,11 @@ public class FuncionarioContratoDAOImpl extends DAOImpl<FuncionarioContrato, Int
 			FuncionarioContratoDAO {
 	@Override
 	public List<FuncionarioContrato>listarTodos(){
-		return em.createQuery("select distinct f from FuncionarioContrato f", FuncionarioContrato.class)
-		.getResultList();
+		String jpql="select distinct f from FuncionarioContrato f"
+				+ " where f.excluido=:excluido";
+		return em.createQuery(jpql, FuncionarioContrato.class)
+				.setParameter("excluido", false)
+				.getResultList();
 	}
 	@Override
 	public List<Integer> buscarTodasCN() {
@@ -31,8 +34,11 @@ public class FuncionarioContratoDAOImpl extends DAOImpl<FuncionarioContrato, Int
 	@Override
 	public List<FuncionarioContrato> buscarTodosPorCN(int cn) {
 		TypedQuery<FuncionarioContrato> query = em.createQuery(
-				"Select f from FuncionarioContrato f join fetch f.mobilizacoes as m left join fetch m.cargo as c left join fetch c.servico"
-						+" Where f.cn = :cn and f.excluido = :excluido", FuncionarioContrato.class);
+				"Select f from FuncionarioContrato f"
+				+ " left join fetch f.mobilizacoes m"
+				+ " left join fetch m.cargo c"
+				+ " left join fetch c.servico s"
+				+" Where f.cn =:cn and f.excluido =:excluido", FuncionarioContrato.class);
 		query.setParameter("cn", cn);
 		query.setParameter("excluido", false);
 		return query.getResultList();

@@ -12,6 +12,7 @@ import java.util.Map;
 import net.sf.jxls.transformer.XLSTransformer;
 
 import com.nucleo.commom.Commom;
+import com.nucleo.dao.DetalhamentoPeriodoMedicaoDAO;
 import com.nucleo.dao.MedicaoEquipeDAO;
 import com.nucleo.dao.PeriodoMedicaoDAO;
 import com.nucleo.dao.ProjetoDAO;
@@ -22,6 +23,7 @@ import com.nucleo.entity.cadastro.Reajuste;
 import com.nucleo.entity.cadastro.Servico;
 import com.nucleo.entity.cadastro.Enum.SetorEnum;
 import com.nucleo.entity.cadastro.Enum.TipoCalculoEnum;
+import com.nucleo.entity.medicao.DetalhamentoPeriodoMedicao;
 import com.nucleo.entity.medicao.MedicaoEquipe;
 import com.nucleo.entity.medicao.PeriodoMedicao;
 import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
@@ -40,11 +42,13 @@ public class ProcessosResumoModelSistema{
 	private ResumoModeloSistema modeloSistema;
 	private String nomeDoArquivo;
 	private CalculosMedicao calculosMedicao;
+	private DetalhamentoPeriodoMedicaoDAO detalhamentoPeriodoMedicaoDAO;
+	
 	private static final int ESCOLHIDA = 1;
 	private static final int ANTERIOR = 2;
 	private static final int ANTERIORM1 = 3;
 	
-	Calendar dataEscolhida = Calendar.getInstance(), 
+	private Calendar dataEscolhida = Calendar.getInstance(), 
 			 mesAnterior = Calendar.getInstance(),
 			 mesAnteriorM1 = Calendar.getInstance();
 	
@@ -61,6 +65,7 @@ public class ProcessosResumoModelSistema{
 		medicaoEquipeDAO = (MedicaoEquipeDAO) Commom.lookup("MedicaoEquipeDAOImpl");
 		periodoMedicaoDAO = (PeriodoMedicaoDAO) Commom.lookup("PeriodoMedicaoDAOImpl");
 		calculosMedicao = (CalculosMedicao) Commom.lookup("CalculosMedicaoImpl");
+		detalhamentoPeriodoMedicaoDAO = (DetalhamentoPeriodoMedicaoDAO) Commom.lookup("DetalhamentoPeriodoMedicaoDAOImpl");
 		projetos = projetoDAO.listarTodosComReajuste();
 	}
 	public List<PeriodoMedicao> getPeriodos() {
@@ -147,21 +152,28 @@ public class ProcessosResumoModelSistema{
 	}
 	private void inserePeriodoCalculadoNoDTO(Reajuste ultimoReajuste,Calendar data, ContratosModel contratoModel, Projeto projeto, int escolhida){
 		PeriodoMedicao periodo = periodoMedicaoDAO.buscarPeriodoPorDataEProjeto(data, projeto);
+		if(periodo.getId()>0){
+		DetalhamentoPeriodoMedicao detalheDoPeriodo = detalhamentoPeriodoMedicaoDAO.buscarPorPeriodo(periodo);
+		
 		if(escolhida==ESCOLHIDA){
 			contratoModel.getPeriodoComDataEscolhida().setPeriodoMedicao(periodo);
-			contratoModel.getPeriodoComDataEscolhida().setMedicaoI0(somaMedicoes(periodo, projeto));
-			contratoModel.getPeriodoComDataEscolhida().setMedicaoComReajuste(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0().divide(ultimoReajuste.getIndice(),5));
-			contratoModel.getPeriodoComDataEscolhida().setMedicao(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+			contratoModel.getPeriodoComDataEscolhida().setMedicaoI0(detalheDoPeriodo.getTotalMedicaoI0());
+			contratoModel.getPeriodoComDataEscolhida().setMedicaoComReajuste(detalheDoPeriodo.getTotalReajuste());
+			contratoModel.getPeriodoComDataEscolhida().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
+			contratoModel.getPeriodoComDataEscolhida().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
 		}else if(escolhida==ANTERIOR){
 			contratoModel.getPeriodoComMesAnterior().setPeriodoMedicao(periodo);
-			contratoModel.getPeriodoComMesAnterior().setMedicaoI0(somaMedicoes(periodo, projeto));
-			contratoModel.getPeriodoComMesAnterior().setMedicaoComReajuste(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0().divide(ultimoReajuste.getIndice(),5));
-			contratoModel.getPeriodoComMesAnterior().setMedicao(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+			contratoModel.getPeriodoComMesAnterior().setMedicaoI0(detalheDoPeriodo.getTotalMedicaoI0());
+			contratoModel.getPeriodoComMesAnterior().setMedicaoComReajuste(detalheDoPeriodo.getTotalReajuste());
+			contratoModel.getPeriodoComMesAnterior().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
+			contratoModel.getPeriodoComMesAnterior().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
 		}else if(escolhida==ANTERIORM1){		
 			contratoModel.getPeriodoComM1().setPeriodoMedicao(periodo);
-			contratoModel.getPeriodoComM1().setMedicaoI0(somaMedicoes(periodo, projeto));
-			contratoModel.getPeriodoComM1().setMedicaoComReajuste(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0().divide(ultimoReajuste.getIndice(),5));
-			contratoModel.getPeriodoComM1().setMedicao(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+			contratoModel.getPeriodoComM1().setMedicaoI0(detalheDoPeriodo.getTotalMedicaoI0());
+			contratoModel.getPeriodoComM1().setMedicaoComReajuste(detalheDoPeriodo.getTotalReajuste());
+			contratoModel.getPeriodoComM1().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
+			contratoModel.getPeriodoComM1().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
+		}
 		}
 	}
 	private void validaProjeto(Projeto projeto){

@@ -23,7 +23,8 @@ import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
 import com.nucleo.model.VO.DatasPeriodoMedicaoVO;
 
 @Stateless
-public class PeriodoMedicaoDAOImpl extends DAOImpl<PeriodoMedicao, Integer> implements PeriodoMedicaoDAO{
+public class PeriodoMedicaoDAOImpl extends DAOImpl<PeriodoMedicao, Integer>
+implements PeriodoMedicaoDAO{
 	@EJB
 	private ProjetoDAO projetoDAO;
 	@Override
@@ -214,10 +215,16 @@ public class PeriodoMedicaoDAOImpl extends DAOImpl<PeriodoMedicao, Integer> impl
 					+ " and p.id='"+projeto.getId()+"';";
 			periodoMedicao= (PeriodoMedicao) em.createNativeQuery(nativeQuery, PeriodoMedicao.class)
 					.getSingleResult();
-		return periodoMedicao;
+			PeriodoMedicao novo = em.merge(periodoMedicao);
+		return novo;
 		}catch(NoResultException e){
 			System.out.println("Projeto "+projeto.getId()+" não tem periodo com a data de "+dataDe.getTime());
 			return periodoMedicao;
 		}
+	}
+	@Override
+	public void alterar(PeriodoMedicao periodoVelho, int idUsuario){
+		PeriodoMedicao periodoNovo = em.merge(periodoVelho);
+		super.alterar(periodoNovo, idUsuario);
 	}
 }
