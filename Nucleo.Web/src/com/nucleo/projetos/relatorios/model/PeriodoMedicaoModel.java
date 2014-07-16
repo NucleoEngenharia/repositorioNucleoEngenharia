@@ -12,6 +12,7 @@ public class PeriodoMedicaoModel {
 	private BigDecimal medicaoI0 = BigDecimal.ZERO;
 	private BigDecimal medicaoComReajuste = BigDecimal.ZERO;
 	private BigDecimal medicao = BigDecimal.ZERO;
+	private BigDecimal totalSalarios= BigDecimal.ZERO;
 
 	public BigDecimal getMedicaoI0() {
 		return medicaoI0;
@@ -26,7 +27,6 @@ public class PeriodoMedicaoModel {
 	public void setMedicaoComReajuste(BigDecimal medicaoComReajuste) {
 		this.medicaoComReajuste = medicaoComReajuste;
 	}
-	
 	public BigDecimal getMedicao() {
 		return medicao;
 	}
@@ -39,6 +39,10 @@ public class PeriodoMedicaoModel {
 	public void setPeriodoMedicao(PeriodoMedicao periodoMedicao) {
 		this.periodoMedicao = periodoMedicao;
 	}
-	
-
+	public BigDecimal getTotalSalarios() {
+		return totalSalarios;
+	}
+	public void setTotalSalarios(BigDecimal totalSalarios) {
+		this.totalSalarios = totalSalarios;
+	}
 }

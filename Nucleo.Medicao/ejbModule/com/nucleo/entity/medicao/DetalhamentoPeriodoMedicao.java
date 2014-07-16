@@ -20,7 +20,7 @@ public class DetalhamentoPeriodoMedicao extends CommomEntity {
 		totalReajuste = BigDecimal.ZERO;
 		medicaoComReajuste = BigDecimal.ZERO;
 		totalValorVenda = BigDecimal.ZERO;
-		totalDespesa = BigDecimal.ZERO;
+		totalDespesa = new BigDecimal(0);
 		totalSalarios = BigDecimal.ZERO;
 	}
 	private static final long serialVersionUID = 1L;

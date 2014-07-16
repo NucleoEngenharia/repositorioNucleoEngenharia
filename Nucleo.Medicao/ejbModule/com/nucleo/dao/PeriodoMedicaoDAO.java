@@ -27,6 +27,8 @@ public interface PeriodoMedicaoDAO extends DAO<PeriodoMedicao, Integer>{
 	
 	List<DatasPeriodoMedicaoVO>buscarDatasDe();
 	
+	void alterar(PeriodoMedicao periodoVelho, int idUsuario);
+	
 	/*Map<Integer, BigDecimal> valorMedidoCargos();*/
 	
 	List<AlteracaoPeriodoMedicao> buscarAlteracoesPeriodo(PeriodoMedicao periodo);

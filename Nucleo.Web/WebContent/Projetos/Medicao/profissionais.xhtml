@@ -140,7 +140,7 @@
 			</h:form>
 			<p:spacer height="50px" />
 			<h:form>
-				<p:dataTable value="#{profissionaisBean.profissionais}"
+				<p:dataTable id="funcionarios" value="#{profissionaisBean.profissionais}"
 					var="profissional" paginator="true" rows="10">
 
 					<p:column headerText="Profissional" filterBy="nomeCompleto"
