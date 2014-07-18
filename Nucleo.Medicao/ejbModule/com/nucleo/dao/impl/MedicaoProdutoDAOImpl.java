@@ -16,10 +16,12 @@ public class MedicaoProdutoDAOImpl extends DAOImpl<MedicaoProduto, Integer> impl
 	@Override
 	public MedicaoProduto buscarMedicaoPorProdutoPeriodo(PeriodoMedicao periodo, Produto produto){
 		try {
-			String strQuery = "Select m From MedicaoProduto m "
-					+ "Where m.produto.id = :produto and "
-					+ "m.excluido = :excluido and "
-					+ "m.periodoMedicao.id = :periodo ";
+			String strQuery = "Select distinct m From MedicaoProduto m"
+					+ " left join fetch m.produto p"
+					+ " left join fetch m.periodoMedicao pm"
+					+ " Where p.id = :produto and"
+					+ " m.excluido = :excluido and"
+					+ " pm.id = :periodo";
 
 			TypedQuery<MedicaoProduto> query = em.createQuery(strQuery,
 					MedicaoProduto.class);

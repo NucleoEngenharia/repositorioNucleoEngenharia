@@ -62,6 +62,7 @@ import com.nucleo.entity.medicao.Enum.MotivoAlteracaoPeriodoEnum;
 import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
 import com.nucleo.model.VO.DatasPeriodoMedicaoVO;
 import com.nucleo.projetos.cadastro.MB.PermissoesMenuBean;
+import com.nucleo.projetos.relatorios.model.EquipeModel;
 import com.nucleo.seguranca.to.FuncionarioTO;
 import com.nucleo.util.CarregaMedicoesUtil;
 import com.nucleo.util.ObjetoSelecionado;
@@ -363,16 +364,16 @@ public class MedicaoProjetoBean implements Serializable {
 	private int idEquipe;
 	public void pegaJustificativa(){
 		justificativa = new Justificativa();
-		justificativa = justificativaDAO.buscarPorMobilizacao(mobilizacao);
+		justificativa = justificativaDAO.buscarPorMedicaoEquipe(equipeSelect);
 		if (reenderizaJustificativa) {
 			reenderizaJustificativa = false;
 		} else {
 			reenderizaJustificativa = true;
 		}
 	}
-	public boolean justificado(Mobilizacao mobilizacao) {
+	public boolean justificado(MedicaoEquipe medicaoEquipe) {
 		boolean justificado = false;
-		justificativa = justificativaDAO.buscarPorMobilizacao(mobilizacao);
+		justificativa = justificativaDAO.buscarPorMedicaoEquipe(medicaoEquipe);
 		if (justificativa.getId() != 0) {
 			justificado = true;
 		}
@@ -387,15 +388,15 @@ public class MedicaoProjetoBean implements Serializable {
 		int idMedicao = Integer.parseInt(map.get("medicao"));
 		double valorDigitado = Double.valueOf(map.get("valorDigitado"));
 		idEquipe = Integer.parseInt(map.get("equipe"));
-		equipeSelect = medicaoEquipeDAO.buscarPorID(idMedicao);
+		equipeSelect = medicaoEquipeDAO.buscarMedicao(idMedicao);
 		diasTrabalhados = valorDigitado;
 		double baseCalculo = periodoSelecionado.getBaseCalculo().doubleValue();
 		diasDevidos = baseCalculo - valorDigitado;
 		if (valorDigitado < baseCalculo) {
-			if (!justificado(equipeSelect.getMobilizacao())) {
+			if (!justificado(equipeSelect)) {
 				reenderizaJustificativa = true;
-			} else if (justificado(equipeSelect.getMobilizacao())) {
-				justificativa = justificativaDAO.buscarPorMobilizacao(equipeSelect.getMobilizacao());
+			} else if (justificado(equipeSelect)) {
+				justificativa = justificativaDAO.buscarPorMedicaoEquipe(equipeSelect);
 				if (justificativaDAO.somaJustificativas(justificativa).doubleValue() < diasDevidos) {
 					reenderizaJustificativa = true;
 				} else {
@@ -434,12 +435,10 @@ public class MedicaoProjetoBean implements Serializable {
 					justificativa.getDiasOutros().doubleValue();
 			if (diasJustificados >= diasDevidos) {
 				equipeSelect.setQuantidadeMedido(BigDecimal.valueOf(this.diasTrabalhados));
-				justificativa.setIdPeriodoMedicao(periodoSelecionado.getId());
 				justificativa.setFaltas(BigDecimal.valueOf(diasDevidos));
 				justificativa.setDiasTrabalhados(BigDecimal.valueOf(diasTrabalhados));
-				justificativa.setMobilizacao(equipeSelect.getMobilizacao());
+				justificativa.setMedicaoEquipe(equipeSelect);
 				justificativaDAO.inserir(justificativa, usuarioLogado.getPessoa_id());
-				alteraQtdMedidoCurrentObject(BigDecimal.valueOf(diasTrabalhados));
 				justificativa = new Justificativa();
 				diasAtestado = 0;
 				diasDevidos = 0;
@@ -839,7 +838,7 @@ public class MedicaoProjetoBean implements Serializable {
 	private List<MedicaoProduto> medicoesServicoProduto(Servico servico) {
 		servico.setProdutos(produtoDAO.buscarTodosPorServico(servico));
 		if (servico.getProdutos().isEmpty())
-			return null;
+			return new ArrayList<MedicaoProduto>();
 
 		ArrayList<MedicaoProduto> medicoes = new ArrayList<MedicaoProduto>();
 		for (Produto produto : servico.getProdutos()) {
@@ -955,7 +954,7 @@ public class MedicaoProjetoBean implements Serializable {
 			}
 			for (Servico equipe : servicoEquipes) {
 				for (MedicaoEquipe medicao : medicoesEquipe.get(equipe.getId())) {
-					MedicaoEquipe medicaoNew = medicaoEquipeDAO.buscarMedicao(medicao);
+					MedicaoEquipe medicaoNew = medicaoEquipeDAO.buscarMedicao(medicao.getId());
 					if(medicaoNew.getId()==0){
 						medicaoEquipeDAO.inserir(medicao, usuarioLogado.getPessoa_id());
 					}else{

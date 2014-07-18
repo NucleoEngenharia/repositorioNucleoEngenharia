@@ -3,13 +3,16 @@ package com.nucleo.entity.medicao;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import com.nucleo.entity.CommomEntity;
@@ -28,6 +31,8 @@ public class MedicaoEquipe extends CommomEntity {
 	@ManyToOne(optional=false)
 	private PeriodoMedicao periodoMedicao;
 	private BigDecimal quantidadeMedido;
+	@OneToMany(mappedBy="medicaoEquipe", targetEntity=Justificativa.class, fetch=FetchType.LAZY)
+	private List<Justificativa> justificativas;
 
 	@Column(precision=18, scale=2)
 	private BigDecimal valorMedido;
@@ -80,8 +85,12 @@ public class MedicaoEquipe extends CommomEntity {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	
+	public List<Justificativa> getJustificativas() {
+		return justificativas;
+	}
+	public void setJustificativas(List<Justificativa> justificativas) {
+		this.justificativas = justificativas;
+	}
 	@Override
 	public boolean equals(Object o){
 		if(o == null) return false;

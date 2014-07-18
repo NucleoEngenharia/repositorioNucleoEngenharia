@@ -32,6 +32,7 @@ public class ServicoDAOImpl extends DAOImpl<Servico, Integer> implements Servico
 	private ServicoDAO servicoDAO;
 	@EJB
 	private CargoDAO cargoDAO;
+	@EJB
 	private ProdutoDAO produtoDAO;
 	@EJB
 	private PeriodoMedicaoDAO periodoDAO;
@@ -79,11 +80,13 @@ public class ServicoDAOImpl extends DAOImpl<Servico, Integer> implements Servico
 				valorUsado = valorUsado.add(cargo.getValorTotal());
 			}
 		} else {
+			System.out.println("...buscando produtos");
 			List<Produto> produtos = produtoDAO.buscarTodosPorServico(servico);
 			for (Produto produto : produtos) {
 				if (produto.isGrupo())
 					continue;
 				valorUsado = valorUsado.add(produto.getValorTotal());
+				System.out.println("Valor usado do produto"+valorUsado);
 			}
 		}
 
@@ -101,6 +104,7 @@ public class ServicoDAOImpl extends DAOImpl<Servico, Integer> implements Servico
 	}
 	//Se não souber do problema do n+1, pesquise antes de mexer nas querys
 	private List<Servico> buscarPorProjetoTipo(Projeto projeto, TipoServicoEnum tipo) {
+		System.out.println("Procurando projeto "+projeto.getId());
 		TypedQuery<Servico> query = em.createQuery("Select distinct s From Servico s"
 				+ " left join fetch s.projeto p"
 				+ " join fetch p.responsavelAdm"
@@ -109,6 +113,7 @@ public class ServicoDAOImpl extends DAOImpl<Servico, Integer> implements Servico
 		query.setParameter("projeto", projeto);
 		query.setParameter("excluido", false);
 		query.setParameter("tipo", tipo);
+		System.out.println("achou "+query.getResultList().size());
 		return query.getResultList();
 	}
 

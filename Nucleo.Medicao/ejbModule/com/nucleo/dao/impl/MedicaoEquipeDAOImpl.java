@@ -79,7 +79,7 @@ implements MedicaoEquipeDAO{
 
 		return query.getResultList();
 	}
-
+	
 	@Override
 	public MedicaoEquipe buscarMedicaoPorMobilizacaoPeriodo(
 			PeriodoMedicao periodo, Mobilizacao mobilizacao) {
@@ -150,13 +150,13 @@ implements MedicaoEquipeDAO{
 		}
 	}
 	@Override
-	public MedicaoEquipe buscarMedicao(MedicaoEquipe medicaoEquipe){
+	public MedicaoEquipe buscarMedicao(int id){
 		MedicaoEquipe me = new MedicaoEquipe();
 		try{
 		String jpql="select m from MedicaoEquipe m"
 				+ " where m.id=:medicaoId";
 		me = em.createQuery(jpql, MedicaoEquipe.class)
-		.setParameter("medicaoId", medicaoEquipe.getId())
+		.setParameter("medicaoId", id)
 		.getSingleResult();
 		}catch(NoResultException e){
 			me.setId(0);

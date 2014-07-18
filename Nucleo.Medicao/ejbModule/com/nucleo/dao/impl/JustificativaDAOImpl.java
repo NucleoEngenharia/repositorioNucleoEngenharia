@@ -5,12 +5,11 @@ import java.math.BigDecimal;
 
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 
 import com.nucleo.dao.JustificativaDAO;
 import com.nucleo.dao.generic.DAOImpl;
 import com.nucleo.entity.medicao.Justificativa;
-import com.nucleo.entity.medicao.Mobilizacao;
+import com.nucleo.entity.medicao.MedicaoEquipe;
 @Stateless
 public class JustificativaDAOImpl extends DAOImpl<Justificativa, Integer> implements JustificativaDAO {
        private Justificativa justificativa;
@@ -25,24 +24,22 @@ public class JustificativaDAOImpl extends DAOImpl<Justificativa, Integer> implem
 		super.inserir(entity, usuario);
 	}
 	@Override
-	public Justificativa buscarPorMobilizacao(Mobilizacao mobilizacao) {
-		Justificativa justificativa = new Justificativa();
+	public Justificativa buscarPorMedicaoEquipe(MedicaoEquipe medicaoEquipe){
+		Justificativa j = new Justificativa();
+		String jpql="select j from Justificativa j"
+				+ " left join fetch j.medicaoEquipe m"
+				+ " where m.id=:medicaoEquipeId";
 		try{
-		TypedQuery<Justificativa>query = em.createQuery("select j from Justificativa j where j.excluido = :excluido " +
-				"and j.mobilizacao.id = :mobilizacaoId",Justificativa.class);
-		query.setParameter("excluido", false);
-		query.setParameter("mobilizacaoId", mobilizacao.getId());
-		if(query.getSingleResult().equals(null)){
-			justificativa.setId(0);
-		}else{
-		 justificativa = query.getSingleResult();
-		}
+		j= em.createQuery(jpql, Justificativa.class)
+				.setParameter("medicaoEquipeId", medicaoEquipe.getId())
+				.getSingleResult();
+		return j;
 		}catch(NoResultException e){
-			System.out.println("Nenhuma justificativa encontrada");
+			j.setId(0);
+			return j;
 		}
-		return justificativa;
-		
 	}
+	
 	@Override
 	public BigDecimal somaJustificativas(Justificativa justificativa) {
 		BigDecimal justificativasSomadas = new BigDecimal(0);

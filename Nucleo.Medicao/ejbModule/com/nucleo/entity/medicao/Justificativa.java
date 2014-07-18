@@ -2,6 +2,7 @@ package com.nucleo.entity.medicao;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,8 +21,6 @@ public class Justificativa extends CommomEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqJustificativa")
 	private long id;
-	
-	private int idPeriodoMedicao;
 	
 	private BigDecimal diasAtestado;
 	
@@ -43,15 +42,8 @@ public class Justificativa extends CommomEntity {
 	}
 	private String observacao;
 	
-    @ManyToOne
-	private Mobilizacao mobilizacao;
-    
-    public int getIdPeriodoMedicao() {
-		return idPeriodoMedicao;
-	}
-	public void setIdPeriodoMedicao(int idPeriodoMedicao) {
-		this.idPeriodoMedicao = idPeriodoMedicao;
-	}
+    @ManyToOne(cascade={CascadeType.MERGE,CascadeType.PERSIST})
+	private MedicaoEquipe medicaoEquipe;
 
 	public BigDecimal getFaltas() {
 		return faltas;
@@ -66,8 +58,8 @@ public class Justificativa extends CommomEntity {
 		return observacao;
 	}
 
-	public Mobilizacao getMobilizacao() {
-		return mobilizacao;
+	public MedicaoEquipe getMedicaoEquipe() {
+		return medicaoEquipe;
 	}
 
 	public void setId(long id) {
@@ -77,8 +69,8 @@ public class Justificativa extends CommomEntity {
 		this.observacao = observacao;
 	}
 
-	public void setMobilizacao(Mobilizacao mobilizacao) {
-		this.mobilizacao = mobilizacao;
+	public void setMedicaoEquipe(MedicaoEquipe medicaoEquipe) {
+		this.medicaoEquipe = medicaoEquipe;
 	}
 	public BigDecimal getDiasAtestado() {
 		return diasAtestado;

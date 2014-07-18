@@ -42,7 +42,7 @@ public class Produto extends CommomEntity {
 	@ManyToOne
 	private Produto produtoPai;
 
-	@OneToMany(mappedBy = "produtoPai", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "produtoPai", fetch=FetchType.LAZY)
 	private Set<Produto> produtosfilho;
 
 	@OneToMany(mappedBy = "produto", targetEntity = PrevisaoUso.class, cascade = CascadeType.ALL)

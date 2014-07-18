@@ -45,8 +45,16 @@ public class ProdutoDAOImpl extends DAOImpl<Produto, Integer>
 
 	@Override
 	public List<Produto> buscarTodosPorServico(Servico servico) {
-		TypedQuery<Produto> query = em.createQuery("Select p From Produto p "
-				+ " Where p.servico.id = :servico and p.excluido = :excluido",Produto.class);
+		System.out.println("Buscando produtos do serviço "+servico.getId());
+		TypedQuery<Produto> query = em.createQuery("Select distinct p From Produto p"
+				+ " left join fetch p.servico s"
+				+ " left join fetch p.produtoPai pp "
+				+ " join fetch p.produtosfilho pf"
+				+ " left join fetch s.projeto proj"
+				+ " join fetch proj.medicoes m"
+				+ "  join fetch m.detalhamentoPeriodoMedicao d"
+				+ " Where s.id = :servico"
+				+ " and p.excluido = :excluido",Produto.class);
 		query.setParameter("servico", servico.getId());
 		query.setParameter("excluido", false);
 		return query.getResultList();

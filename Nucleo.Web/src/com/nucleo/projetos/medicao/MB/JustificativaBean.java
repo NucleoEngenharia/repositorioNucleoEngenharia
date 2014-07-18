@@ -65,13 +65,12 @@ public class JustificativaBean implements Serializable {
 	public void salvaJustificativas(MedicaoEquipe equipeSelect, PeriodoMedicao periodoMedicao, BigDecimal diasDevidos,
 			FuncionarioTO usuarioLogado) {
 		System.out.println("teste" + diasAtestado + "/" + equipeSelect.getMobilizacao().getId());
-		justificativa.setIdPeriodoMedicao(periodoMedicao.getId());
 		justificativa.setDiasAtestado(BigDecimal.valueOf(diasAtestado));
 		justificativa.setDiasFerias(BigDecimal.valueOf(diasFerias));
 		justificativa.setDiasInjustificado(BigDecimal.valueOf(diasInjustificado));
 		justificativa.setDiasOutros(BigDecimal.valueOf(diasOutros));
 		justificativa.setFaltas(diasDevidos);
-		justificativa.setMobilizacao(equipeSelect.getMobilizacao());
+		justificativa.setMedicaoEquipe(equipeSelect);
 		justificativaDAO.inserir(justificativa, usuarioLogado.getPessoa_id());
 
 	}

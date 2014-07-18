@@ -51,16 +51,6 @@ public class Mobilizacao extends CommomEntity {
 	
 	@Transient
 	private BigDecimal totalJaMedido;
-	
-	@OneToMany(mappedBy="mobilizacao", targetEntity=Justificativa.class)
-	private List<Justificativa> justificativa;
-	
-	public List<Justificativa> getJustificativa() {
-		return justificativa;
-	}
-	public void setJustificativa(List<Justificativa> justificativa) {
-		this.justificativa = justificativa;
-	}
 	public BigDecimal getTotalJaMedido(){
 		try {
 			totalJaMedido = BigDecimal.ZERO;

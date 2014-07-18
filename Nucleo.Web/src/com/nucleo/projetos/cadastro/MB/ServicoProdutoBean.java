@@ -59,6 +59,7 @@ public class ServicoProdutoBean implements Serializable {
 		ExternalContext externalContext = instance.getExternalContext();
 		servicoSelecionado = (Servico) externalContext.getFlash().get(
 				"ServicoSelecionado");
+		valorDisponivel = BigDecimal.ZERO;
 	}
 	
 	// métodos do produto
@@ -231,7 +232,7 @@ public class ServicoProdutoBean implements Serializable {
 		this.tabSelect = tabSelect;
 	}
 	public BigDecimal getValorDisponivel(){
-		valorDisponivel = servicoDAO.getValorDisponivel(servicoSelecionado);
+		valorDisponivel = valorDisponivel.add(servicoDAO.getValorDisponivel(servicoSelecionado));
 		return valorDisponivel;
 	}
 	public void setValorDisponivel(BigDecimal valorDisponivel){
