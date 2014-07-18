@@ -111,7 +111,6 @@ implements MedicaoEquipeDAO{
 		        .setParameter("excluido", false)
 		        .setParameter("periodoMedicao_id", periodoMedicao.getId())
 		        .getResultList();
-		        System.out.println(medicoes.size());
 		return medicoes;
 	}
 	

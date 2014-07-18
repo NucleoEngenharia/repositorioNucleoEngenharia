@@ -12,4 +12,6 @@ import com.nucleo.entity.cadastro.controleDeAcessos.PermissoesMenu;
 public interface PermissoesMenuDAO extends DAO<PermissoesMenu, Integer>{
 	PermissoesMenu buscarPermissaoPorIdEDescricao(int id, String nome);
 	List<PermissoesMenu>buscarPermissoesPorGrupo(Grupo grupo);
+	PermissoesMenu buscarMenu(PermissoesMenu permissoesMenu);
+	void deletarPermissao(PermissoesMenu menuDatached,int pessoaId);
 }

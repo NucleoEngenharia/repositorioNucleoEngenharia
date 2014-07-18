@@ -261,7 +261,7 @@ public class DAOImpl<T, K> implements DAO<T, K>{
 	}
 
 	private void registraLog(LogAlteracao log){
-		logAlteracaoDAO.inserir(log, 0);
+		logAlteracaoDAO.inserir(log);
 	}
 
 	@Override

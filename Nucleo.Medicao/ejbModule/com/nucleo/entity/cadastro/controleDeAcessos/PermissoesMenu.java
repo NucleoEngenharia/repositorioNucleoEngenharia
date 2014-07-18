@@ -9,10 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.nucleo.entity.CommomEntity;
+
 
 @Entity
 @SequenceGenerator(allocationSize=1,name = "SEQ_MENU", sequenceName = "SEQ_menu")
-public class PermissoesMenu implements Serializable{
+public class PermissoesMenu extends CommomEntity implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 

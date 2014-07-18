@@ -5,8 +5,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="../../_template.xhtml">
 	<ui:define name="conteudo">
-		<form id="form">
-		<p:panel header="Cadastro de Grupos"
+		<h:form id="form">
+		<p:panel id="painelGrupos" header="Cadastro de Grupos"
 				rendered="#{cadastroGrupoBean.criarGrupo}">
 				<h:panelGrid styleClass="panelForm">
 					<p:panel header="Grupo">
@@ -45,8 +45,8 @@
 						</h:outputText>
 					</p:column>
 					<f:facet name="footer">
-						<p:commandButton value="Permissões" update="@all"
-							action="#{cadastroGrupoBean.associarMenus}" />
+						<p:commandButton value="Permissões" update="@form"
+							action="#{cadastroGrupoBean.associarMenu}" />
 					</f:facet>
 				</p:dataTable>
 			</p:panel>
@@ -89,9 +89,14 @@
 											   itemLabel="#{permissao}" itemValue="#{permissao}"/>
 							</p:selectOneRadio>
 						</p:column>
+						<p:column headerText="Desassociar">
+							<p:commandButton icon="ui-icon-trash" action="#{cadastroGrupoBean.dessassociarPermissoes(menu)}" update="menusDoGrupo"/>
+						</p:column>
+						<p:column headerText="Alterar">
+							<p:commandButton icon="ui-icon-pincel" action="#{cadastroGrupoBean.alterarPermissao(menu)}"/>
+						</p:column>
 					</p:dataTable>
 					<br />
-				<p:commandButton value="Salvar permissões" action="#{cadastroGrupoBean.salvarPermissoes}"/>
 				</p:fieldset>
 				<br />
 				<p:dataTable value="#{cadastroGrupoBean.menus}" var="menu"
@@ -105,13 +110,13 @@
 					<p:column headerText="URL">
 						<h:outputText value="#{menu.url}" />
 					</p:column>
-					<p:column headerText="Associar ao grupo">
-						<p:commandButton value="+" update="@all" action="#{cadastroGrupoBean.associaMenuAoGrupo}">
+					<p:column headerText="Associar">
+						<p:commandButton icon="ui-icon-plus" update="@all" action="#{cadastroGrupoBean.associaMenuAoGrupo}">
 							<f:setPropertyActionListener target="#{cadastroGrupoBean.menuSelecionado}" value="#{menu}"/>
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</p:panel>
-		</form>
+		</h:form>
 	</ui:define>
 </ui:composition>

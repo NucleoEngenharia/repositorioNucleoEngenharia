@@ -9,7 +9,9 @@ import com.nucleo.dao.generic.DAOImpl;
 import com.nucleo.entity.cadastro.controleDeAcessos.Grupo;
 import com.nucleo.entity.cadastro.controleDeAcessos.PermissoesMenu;
 @Stateless
-public class PermissoesMenuDAOImpl extends DAOImpl<PermissoesMenu, Integer> implements PermissoesMenuDAO{
+public class PermissoesMenuDAOImpl
+extends DAOImpl<PermissoesMenu, Integer>
+implements PermissoesMenuDAO{
 	@Override
 	public PermissoesMenu buscarPermissaoPorIdEDescricao(int id, String descr) {
 		String jpql = "select pm from PermissoesMenu pm"
@@ -26,6 +28,21 @@ public class PermissoesMenuDAOImpl extends DAOImpl<PermissoesMenu, Integer> impl
 		return em.createQuery(jpql, PermissoesMenu.class)
 				.setParameter("grupoId", grupo.getId())
 				.getResultList();
+	}
+	@Override
+	public PermissoesMenu buscarMenu(PermissoesMenu permissoesMenu){
+		PermissoesMenu m = new PermissoesMenu();
+		String jpql = "select m from PermissoesMenu m"
+				+ " where m.id=menuId";
+			m = em.createQuery(jpql, PermissoesMenu.class)
+			.setParameter("menuId", permissoesMenu.getId())
+			.getSingleResult();
+			return m;
+	}
+	@Override
+	public void deletarPermissao(PermissoesMenu m,int pessoaId){
+		PermissoesMenu newM = em.merge(m);
+		super.deletarPorId(newM.getId(), pessoaId);
 	}
 		
 }

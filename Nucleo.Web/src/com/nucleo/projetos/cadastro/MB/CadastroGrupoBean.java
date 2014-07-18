@@ -39,8 +39,6 @@ public class CadastroGrupoBean {
 	
 	private Grupo grupo;
 	private Grupo grupoSelecionado;
-	@EJB
-	private PermissoesMenuDAO permissoesMenuDAO;
 	
 	public List<PermissoesMenu> getMenusByGrupoSelecionado() {
 		if(menusByGrupoSelecionado==null){
@@ -55,6 +53,8 @@ public class CadastroGrupoBean {
 	private GrupoDAO grupoDAO;
 	@EJB
 	private MenuDAO menuDAO;
+	@EJB
+	private PermissoesMenuDAO permissoesMenuDAO;
 	
 	private boolean criarGrupo = true;
 	private boolean associarMenus = false;
@@ -140,7 +140,7 @@ public class CadastroGrupoBean {
 			e.printStackTrace();
 		}
 	}
-	public void associarMenus(){
+	public void associarMenu(){
 		criarGrupo = false;
 		associarMenus = true;
 	}
@@ -151,13 +151,21 @@ public class CadastroGrupoBean {
 		permissoesMenu.setGrupo(grupoSelecionado);
 		menusByGrupoSelecionado.add(permissoesMenu);
 		grupoSelecionado.setMenus(new HashSet<PermissoesMenu>(menusByGrupoSelecionado));
+		salvarPermissoes();
 	}
 	public void salvarPermissoes(){
 		try{
 		grupoDAO.alterar(grupoSelecionado, usuarioLogado.getPessoa_id());
+		menusByGrupoSelecionado = null;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		}
-	
+	public void alterarPermissao(PermissoesMenu menu){
+		permissoesMenuDAO.alterar(menu, usuarioLogado.getPessoa_id());
+	}
+	public void dessassociarPermissoes(PermissoesMenu menu){
+		permissoesMenuDAO.deletarPermissao(menu, usuarioLogado.getPessoa_id());
+		menusByGrupoSelecionado = null;
+	}
 }
