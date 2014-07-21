@@ -21,8 +21,10 @@
 						</p:row>
 						<br />
 						<br />
-						<p:commandButton value="Salvar Grupo" update="grupos"
+						<p:commandButton rendered="#{cadastroGrupoBean.salvar}" value="Salvar Grupo" update="grupos"
 							action="#{cadastroGrupoBean.salvarGrupo}" />
+						<p:commandButton rendered="#{cadastroGrupoBean.editar}" value="Alterar Grupo" update="grupos"
+							action="#{cadastroGrupoBean.alterarGrupo}" />
 					</p:panel>
 				</h:panelGrid>
 				<br />
@@ -33,9 +35,6 @@
 					selection="#{cadastroGrupoBean.grupoSelecionado}"
 					selectionMode="single">
 
-					<p:column headerText="ID">
-						<h:outputText value="#{grupo.id}" />
-					</p:column>
 					<p:column headerText="Nome">
 						<h:outputText value="#{grupo.nome}" />
 					</p:column>
@@ -44,8 +43,16 @@
 							<f:convertDateTime pattern="dd/MM/yyyy" />
 						</h:outputText>
 					</p:column>
+					<p:column headerText="Apagar">
+						<p:commandButton icon="ui-icon-trash" update="grupos"
+						 action="#{cadastroGrupoBean.deletarGrupo(grupo)}"/>
+					</p:column>
+					<p:column headerText="Editar">
+						<p:commandButton icon="ui-icon-pincel" update=":form:painelGrupos"
+						 action="#{cadastroGrupoBean.editarGrupo(grupo)}"/>
+					</p:column>
 					<f:facet name="footer">
-						<p:commandButton value="Permissões" update="@form"
+						<p:commandButton value="Definir permissões" update="@form"
 							action="#{cadastroGrupoBean.associarMenu}" />
 					</f:facet>
 				</p:dataTable>

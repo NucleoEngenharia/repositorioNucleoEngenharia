@@ -16,9 +16,11 @@ public class GrupoDAOImpl extends DAOImpl<Grupo, Integer> implements GrupoDAO{
 	public List<Grupo>listarGrupos(){
 		String jpql = "select distinct g from Grupo g"
 				+ " left join fetch g.menus"
+				+ " where g.excluido=:excluido"
 				+ " order by g.id";
 		return em.createQuery(jpql, Grupo.class)
-		.getResultList();
+				.setParameter("excluido", false)
+				.getResultList();
 	}
 	@Override
 	public List<PermissoesMenu>buscarMenusDoGrupo(Grupo grupo){

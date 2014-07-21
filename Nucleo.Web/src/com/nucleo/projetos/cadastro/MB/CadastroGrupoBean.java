@@ -27,8 +27,14 @@ public class CadastroGrupoBean {
 		grupo = new Grupo();
 		menuSelecionado = new MenuTO();
 		carregaPermissoes();
+		salvar = true;
+		editar=false;
 	}
+	private boolean salvar;
+	private boolean editar;
+	
 	FuncionarioTO usuarioLogado = Commom.getUsuarioLogado();
+	
 	
 	private List<String>permissoes;
 	private List<Grupo>grupos;
@@ -59,6 +65,19 @@ public class CadastroGrupoBean {
 	private boolean criarGrupo = true;
 	private boolean associarMenus = false;
 
+	
+	public boolean isSalvar() {
+		return salvar;
+	}
+	public boolean isEditar() {
+		return editar;
+	}
+	public void setSalvar(boolean salvar) {
+		this.salvar = salvar;
+	}
+	public void setEditar(boolean editar) {
+		this.editar = editar;
+	}
 	public MenuTO getMenuSelecionado() {
 		return menuSelecionado;
 	}
@@ -140,6 +159,33 @@ public class CadastroGrupoBean {
 			e.printStackTrace();
 		}
 	}
+	public String alterarGrupo(){
+		String retorno = "";
+		try{
+		grupoDAO.alterar(grupo, usuarioLogado.getPessoa_id());
+		grupo = new Grupo();
+		grupos = null;
+		retorno = "cadastra_grupos.xhtml?faces-redirect=true";
+		return retorno;
+		}catch(Exception e){
+			e.printStackTrace();
+			return retorno;
+		}
+	}
+	public void deletarGrupo(Grupo grupo){
+		try{
+		grupoDAO.deletar(grupo, usuarioLogado.getPessoa_id());
+		grupo = new Grupo();
+		grupos = null;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public void editarGrupo(Grupo grupo){
+		salvar = false;
+		editar = true;
+		this.grupo = grupo;
+	}
 	public void associarMenu(){
 		criarGrupo = false;
 		associarMenus = true;
@@ -152,6 +198,11 @@ public class CadastroGrupoBean {
 		menusByGrupoSelecionado.add(permissoesMenu);
 		grupoSelecionado.setMenus(new HashSet<PermissoesMenu>(menusByGrupoSelecionado));
 		salvarPermissoes();
+	}
+	public List<PermissoesMenu>buscarPorGrupo(Grupo grupo){
+		List<PermissoesMenu>menusPermitidos = new ArrayList<PermissoesMenu>();
+		menusPermitidos = permissoesMenuDAO.buscarPermissoesPorGrupo(grupo);
+		return menusPermitidos;
 	}
 	public void salvarPermissoes(){
 		try{
@@ -168,4 +219,5 @@ public class CadastroGrupoBean {
 		permissoesMenuDAO.deletarPermissao(menu, usuarioLogado.getPessoa_id());
 		menusByGrupoSelecionado = null;
 	}
+	
 }
