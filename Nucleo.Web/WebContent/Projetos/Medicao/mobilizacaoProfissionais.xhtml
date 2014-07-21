@@ -230,7 +230,9 @@
 					<p:column headerText="Funcionario mobilizado" filterBy="funcionario.nomeCompleto" sortBy="funcionario.nomeCompleto">
 						<p:outputLabel value="#{mobilizacao.funcionario.nomeCompleto}" />
 					</p:column>
-
+					<p:column headerText="Equipe" filterBy="cargo.servico.descricao">
+						<p:outputLabel value="#{mobilizacao.cargo.servico.descricao}"/>
+					</p:column>
 					<p:column headerText="Data">
 						<h:outputText value="#{mobilizacao.dataMobilizacao.time}">
 							<f:convertDateTime pattern="dd/MM/yyyy" />
@@ -244,7 +246,7 @@
 					<p:column style="width:6%; text-align:center;" headerText="Editar" rendered="#{!mobilizacaoBean.apenasLeitura}">
 						<p:commandButton icon="	ui-icon-gear"
 							action="#{mobilizacaoBean.editarMobilizacao(mobilizacao)}"
-							update="mobilizacoes" />
+							update=":form1" />
 					</p:column>
 					 <p:column style="width:6%; text-align:center;" headerText="Excluir" rendered="#{!mobilizacaoBean.apenasLeitura}">
 						<p:commandButton icon="ui-icon-trash"
