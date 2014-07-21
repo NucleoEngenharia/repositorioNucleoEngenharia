@@ -62,7 +62,6 @@ import com.nucleo.entity.medicao.Enum.MotivoAlteracaoPeriodoEnum;
 import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
 import com.nucleo.model.VO.DatasPeriodoMedicaoVO;
 import com.nucleo.projetos.cadastro.MB.PermissoesMenuBean;
-import com.nucleo.projetos.relatorios.model.EquipeModel;
 import com.nucleo.seguranca.to.FuncionarioTO;
 import com.nucleo.util.CarregaMedicoesUtil;
 import com.nucleo.util.ObjetoSelecionado;
@@ -123,7 +122,7 @@ public class MedicaoProjetoBean implements Serializable {
 	private ReajusteDAO reajusteDAO;
 	
 	private RelatoriosRMSGerados relatorioEscolhido;
-	private MedicaoEquipe equipeSelect;
+	private MedicaoEquipe medicaoEquipeSelect;
 	private AcessosUsuario acessoDoUsuarioLogado;
 	private PermissoesMenuBean permissoesMenuBean;
 	private StreamedContent relatorioPeriodo;
@@ -364,7 +363,7 @@ public class MedicaoProjetoBean implements Serializable {
 	private int idEquipe;
 	public void pegaJustificativa(){
 		justificativa = new Justificativa();
-		justificativa = justificativaDAO.buscarPorMedicaoEquipe(equipeSelect);
+		justificativa = justificativaDAO.buscarPorMedicaoEquipe(medicaoEquipeSelect);
 		if (reenderizaJustificativa) {
 			reenderizaJustificativa = false;
 		} else {
@@ -388,15 +387,15 @@ public class MedicaoProjetoBean implements Serializable {
 		int idMedicao = Integer.parseInt(map.get("medicao"));
 		double valorDigitado = Double.valueOf(map.get("valorDigitado"));
 		idEquipe = Integer.parseInt(map.get("equipe"));
-		equipeSelect = medicaoEquipeDAO.buscarMedicao(idMedicao);
+		medicaoEquipeSelect = medicaoEquipeDAO.buscarMedicao(idMedicao);
 		diasTrabalhados = valorDigitado;
 		double baseCalculo = periodoSelecionado.getBaseCalculo().doubleValue();
 		diasDevidos = baseCalculo - valorDigitado;
 		if (valorDigitado < baseCalculo) {
-			if (!justificado(equipeSelect)) {
+			if (!justificado(medicaoEquipeSelect)) {
 				reenderizaJustificativa = true;
-			} else if (justificado(equipeSelect)) {
-				justificativa = justificativaDAO.buscarPorMedicaoEquipe(equipeSelect);
+			} else if (justificado(medicaoEquipeSelect)) {
+				justificativa = justificativaDAO.buscarPorMedicaoEquipe(medicaoEquipeSelect);
 				if (justificativaDAO.somaJustificativas(justificativa).doubleValue() < diasDevidos) {
 					reenderizaJustificativa = true;
 				} else {
@@ -410,7 +409,7 @@ public class MedicaoProjetoBean implements Serializable {
 		try {
 			List<MedicaoEquipe> list = medicoesEquipe.get(idEquipe);
 			for (MedicaoEquipe x : list) {
-				if (x.getId() == equipeSelect.getId()) {
+				if (x.getId() == medicaoEquipeSelect.getId()) {
 					x.setQuantidadeMedido(quantidadeMedido);
 					medicoesEquipe.get(idEquipe).set(id, x);
 					medicaoEquipeDAO.alterar(x, usuarioLogado.getPessoa_id());
@@ -434,10 +433,10 @@ public class MedicaoProjetoBean implements Serializable {
 					justificativa.getDiasInjustificado().doubleValue()+
 					justificativa.getDiasOutros().doubleValue();
 			if (diasJustificados >= diasDevidos) {
-				equipeSelect.setQuantidadeMedido(BigDecimal.valueOf(this.diasTrabalhados));
+				medicaoEquipeSelect.setQuantidadeMedido(BigDecimal.valueOf(this.diasTrabalhados));
 				justificativa.setFaltas(BigDecimal.valueOf(diasDevidos));
 				justificativa.setDiasTrabalhados(BigDecimal.valueOf(diasTrabalhados));
-				justificativa.setMedicaoEquipe(equipeSelect);
+				justificativa.setMedicaoEquipe(medicaoEquipeSelect);
 				justificativaDAO.salvarJustificativa(justificativa, usuarioLogado.getPessoa_id());
 				justificativa = new Justificativa();
 				diasAtestado = 0;
@@ -465,11 +464,11 @@ public class MedicaoProjetoBean implements Serializable {
 			}
 	}
 	public MedicaoEquipe getEquipeSelect() {
-		return equipeSelect;
+		return medicaoEquipeSelect;
 	}
 
 	public void setEquipeSelect(MedicaoEquipe equipeSelect) {
-		this.equipeSelect = equipeSelect;
+		this.medicaoEquipeSelect = equipeSelect;
 	}
 	public void selecionarAberto() {
 		if(selecionado.verificaSeFoiSelecionado(periodoAberto))
