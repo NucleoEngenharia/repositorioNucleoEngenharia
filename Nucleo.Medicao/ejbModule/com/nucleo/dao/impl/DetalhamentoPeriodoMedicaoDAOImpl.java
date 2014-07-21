@@ -24,8 +24,14 @@ implements DetalhamentoPeriodoMedicaoDAO {
 			 .getSingleResult();
 	 return d;
 		}catch(NoResultException no){
+			d.setId(0);
 			d.setPeriodoMedicao(new PeriodoMedicao());
 			return d;
 		}
+	}
+	@Override
+	public void salvarDetalhamentoMedicao(DetalhamentoPeriodoMedicao detalhamentoPeriodoMedicao, int idUsuario){
+		DetalhamentoPeriodoMedicao d = em.merge(detalhamentoPeriodoMedicao);
+		super.inserir(d, idUsuario);
 	}
 }

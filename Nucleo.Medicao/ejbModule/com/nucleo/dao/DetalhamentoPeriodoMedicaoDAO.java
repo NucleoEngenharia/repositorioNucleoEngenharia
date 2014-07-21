@@ -9,4 +9,6 @@ import com.nucleo.entity.medicao.PeriodoMedicao;
 @Remote
 public interface DetalhamentoPeriodoMedicaoDAO extends DAO<DetalhamentoPeriodoMedicao, Integer> {
 	DetalhamentoPeriodoMedicao buscarPorPeriodo(PeriodoMedicao periodo);
+	
+	void salvarDetalhamentoMedicao(DetalhamentoPeriodoMedicao detalhamentoPeriodoMedicao, int idUsuario);
 }

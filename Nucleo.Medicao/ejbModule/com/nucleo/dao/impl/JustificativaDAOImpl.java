@@ -11,17 +11,15 @@ import com.nucleo.dao.generic.DAOImpl;
 import com.nucleo.entity.medicao.Justificativa;
 import com.nucleo.entity.medicao.MedicaoEquipe;
 @Stateless
-public class JustificativaDAOImpl extends DAOImpl<Justificativa, Integer> implements JustificativaDAO {
+public class JustificativaDAOImpl 
+extends DAOImpl<Justificativa, Integer>
+implements JustificativaDAO {
        private Justificativa justificativa;
 	public Justificativa getJustificativa() {
 		return justificativa;
 	}
 	public void setJustificativa(Justificativa justificativa) {
 		this.justificativa = justificativa;
-	}
-	@Override
-	public void inserir(Justificativa entity, int usuario) {
-		super.inserir(entity, usuario);
 	}
 	@Override
 	public Justificativa buscarPorMedicaoEquipe(MedicaoEquipe medicaoEquipe){
@@ -54,6 +52,11 @@ public class JustificativaDAOImpl extends DAOImpl<Justificativa, Integer> implem
 		}catch(NullPointerException e){
 			return BigDecimal.ZERO;
 		}
+	}
+	@Override
+	public void salvarJustificativa(Justificativa justificativa, int idUsuario){
+		Justificativa newJustificativa = em.merge(justificativa);
+		super.inserir(newJustificativa, idUsuario);
 	}
 	
 }

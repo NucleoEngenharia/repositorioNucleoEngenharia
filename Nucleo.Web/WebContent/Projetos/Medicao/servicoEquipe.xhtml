@@ -72,7 +72,7 @@
 								action="#{medicaoProjetoBean.pegaMedicao}"/>
 						</p:inputText>
 						<p:commandButton id="t" value="..." action="#{medicaoProjetoBean.pegaJustificativa}" update="@form">
-						   <f:setPropertyActionListener target="#{medicaoProjetoBean.mobilizacao}" value="#{medicao.mobilizacao}"/>
+						   <f:setPropertyActionListener target="#{medicaoProjetoBean.equipeSelect}" value="#{medicao}"/>
 						</p:commandButton>
 						<p:overlayPanel for="t" id="justificativas"
 							showEvent="focus"  dismissable="false" showEffect="blind"

@@ -438,7 +438,7 @@ public class MedicaoProjetoBean implements Serializable {
 				justificativa.setFaltas(BigDecimal.valueOf(diasDevidos));
 				justificativa.setDiasTrabalhados(BigDecimal.valueOf(diasTrabalhados));
 				justificativa.setMedicaoEquipe(equipeSelect);
-				justificativaDAO.inserir(justificativa, usuarioLogado.getPessoa_id());
+				justificativaDAO.salvarJustificativa(justificativa, usuarioLogado.getPessoa_id());
 				justificativa = new Justificativa();
 				diasAtestado = 0;
 				diasDevidos = 0;
@@ -508,6 +508,7 @@ public class MedicaoProjetoBean implements Serializable {
 		saldoProjeto = projetoDAO.getSaldo(periodoSelecionado.getProjeto());
 	}
 	private boolean salvarDetalhamentoMedicao(){
+		FacesContext context = FacesContext.getCurrentInstance();
 		boolean salvo = false;
 				try{
 					try{
@@ -521,12 +522,11 @@ public class MedicaoProjetoBean implements Serializable {
 				detalhamentoPeriodoMedicao.setMedicaoComReajuste(detalhamentoPeriodoMedicao.getTotalMedicaoI0().add(detalhamentoPeriodoMedicao.getTotalDespesa()).add(detalhamentoPeriodoMedicao.getTotalReajuste()));
 				detalhamentoPeriodoMedicao.setTotalSalarios(medicaoEquipeDAO.buscarSalariosMedicoesPorPeriodo(periodoSelecionado));
 				detalhamentoPeriodoMedicao.setTotalValorVenda(medicaoEquipeDAO.buscarValorVendaMedicoesPorPeriodo(periodoSelecionado));
-				if(!detalhamentoPeriodoMedicao.getPeriodoMedicao().equals(periodoSelecionado)){
-					System.out.println("6");
+				if(detalhamentoPeriodoMedicao.getId()==0){
 					detalhamentoPeriodoMedicao.setPeriodoMedicao(periodoSelecionado);
-					System.out.println("7");
-					detalhamentoPeriodoMedicaoDAO.inserir(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
-					System.out.println("8");
+					detalhamentoPeriodoMedicaoDAO.salvarDetalhamentoMedicao(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
+					context.addMessage(null, new FacesMessage("Sucesso!",
+							"Medições dos funcionários salvo com sucesso."));
 					salvo = true;
 			 }else{
 				 detalhamentoPeriodoMedicaoDAO.alterar(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());

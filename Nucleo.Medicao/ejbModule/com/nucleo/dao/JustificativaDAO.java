@@ -10,11 +10,11 @@ import com.nucleo.entity.medicao.Justificativa;
 import com.nucleo.entity.medicao.MedicaoEquipe;
 @Remote
 public interface JustificativaDAO extends DAO<Justificativa, Integer> {
-    @Override
-    void inserir(Justificativa entity, int usuario);
     
     Justificativa buscarPorMedicaoEquipe(MedicaoEquipe medicaoEquipe);
 	
+    void salvarJustificativa(Justificativa justificativa, int idUsuario);
+    
     BigDecimal somaJustificativas(Justificativa justificativa);
     	
 }
