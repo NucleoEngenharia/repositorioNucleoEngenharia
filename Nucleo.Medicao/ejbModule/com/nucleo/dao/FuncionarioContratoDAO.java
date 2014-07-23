@@ -13,6 +13,8 @@ public interface FuncionarioContratoDAO extends DAO<FuncionarioContrato, Integer
 
 	List<FuncionarioContrato>listarTodos();
 	
+	void salvar(FuncionarioContrato funcionarioContrato, int idUsuario);
+	
 	List<Integer> buscarTodasCN();
 
 	List<FuncionarioContrato> buscarTodosPorCN(int cn);

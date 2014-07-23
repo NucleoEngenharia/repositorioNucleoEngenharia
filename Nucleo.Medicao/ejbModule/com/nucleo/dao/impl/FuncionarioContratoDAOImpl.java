@@ -60,11 +60,12 @@ public class FuncionarioContratoDAOImpl extends DAOImpl<FuncionarioContrato, Int
 	@Override
 	public boolean funcionarioExiste(FuncionarioContrato funcionarioContrato) {
 		boolean existe = false;
-		String strQuery = "select f from FuncionarioContrato f where f.cpf = :func and f.excluido = :excluido";
+		String strQuery = "select f from FuncionarioContrato f"
+				+ " where f.cpf = :func and f.excluido = :excluido";
 		TypedQuery<FuncionarioContrato> query = em.createQuery(strQuery, FuncionarioContrato.class);
 		query.setParameter("func", funcionarioContrato.getCpf());
 		query.setParameter("excluido", false);
-		if(query.getResultList().size()==1){
+		if(query.getResultList().size()>0){
 			existe = true;
 		}
 		return existe;
@@ -77,5 +78,24 @@ public class FuncionarioContratoDAOImpl extends DAOImpl<FuncionarioContrato, Int
 		query.setParameter("cpf", cpf);
 		query.setParameter("excluido", false);
 		return query.getSingleResult();
+	}
+	private FuncionarioContrato buscarOUltimo(){
+		String jpql = "select f from FuncionarioContrato f"
+				+ " where f.excluido=:excluido order by f.id desc";
+		List<FuncionarioContrato>f;
+		f = em.createQuery(jpql, FuncionarioContrato.class)
+				.setParameter("excluido", false)
+				.getResultList();
+		return f.get(0);
+	}
+	@Override
+	public void salvar(FuncionarioContrato funcionarioContrato, int idUsuario){
+		//Próximo programador arrumar esse método
+		//ass.: alysson
+		//data: fev/2014
+		funcionarioContrato.setId(buscarOUltimo().getId()+1);
+		System.out.println("Salvando"+funcionarioContrato.getId());
+		super.inserir(funcionarioContrato, idUsuario);
+		
 	}
 }

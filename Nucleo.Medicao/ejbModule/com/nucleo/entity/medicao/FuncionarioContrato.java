@@ -5,18 +5,15 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.nucleo.entity.CommomEntity;
 
 @Entity
-@SequenceGenerator(allocationSize=1, sequenceName="SEQ_FUNCIONARIOCONTRATO", name="seqFuncionarioContrato")
+//@SequenceGenerator(allocationSize=1, sequenceName="SEQ_FUNCIONARIOCONTRATO", name="seqFuncionarioContrato")
 public class FuncionarioContrato extends CommomEntity {
 
 	public FuncionarioContrato() {
@@ -26,7 +23,7 @@ public class FuncionarioContrato extends CommomEntity {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqFuncionarioContrato")
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqFuncionarioContrato")
 	private int id;
 	
 	private boolean pj;

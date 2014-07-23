@@ -11,4 +11,5 @@ public interface AcessosUsuarioDAO extends DAO<AcessosUsuario, Integer> {
 	void alterar(AcessosUsuario acessosUsuario, int pessoa_id);
 	void inserir(AcessosUsuario acessosUsuario, int pessoa_id);
 	AcessosUsuario buscarAcessoDoUsuarioComMenu(int pessoa_id);
+	boolean verificaSeUsuarioTemAcesso(int id_usuario);
 }

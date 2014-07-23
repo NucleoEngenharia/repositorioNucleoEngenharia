@@ -3,15 +3,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" template="../../_template.xhtml">
 	<ui:define name="conteudo">
-		<p:panel>
-			<h:form id="form">
-				<p:fileUpload id="fileupload" label="Selecione o arquivo" disabled="#{cargaFolhaBean.apenasLeitura}"
+		<h:form id="form">
+			<p:panel>
+				<p:fileUpload id="fileupload" label="Selecione o arquivo"
+					 disabled="#{cargaFolhaBean.apenasLeitura}" update="@all"
 					fileUploadListener="#{cargaFolhaBean.handleFileUpload}"
 					allowTypes="/(\.|\/)(csv)$/"/>
-				<h:message for="fileupload" />
 				<h:message for="form"/>
-			</h:form>
-		</p:panel>
+			</p:panel>
+		</h:form>
 	</ui:define>
 </ui:composition>
 

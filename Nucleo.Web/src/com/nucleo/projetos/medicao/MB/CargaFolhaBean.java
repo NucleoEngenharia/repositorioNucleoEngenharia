@@ -46,6 +46,7 @@ public class CargaFolhaBean {
 	private boolean apenasLeitura = false;
 	private AcessosUsuario acessosDoUsuarioLogado;
 	private PermissoesMenuBean permissoesMenuBean;
+	private BufferedReader bufferedReader;
 	
 	public boolean isApenasLeitura() {
 		if(verificouAcesso==0){
@@ -86,12 +87,13 @@ public class CargaFolhaBean {
 	}
 	public void atualizarBase() {
 		try {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+			bufferedReader = new BufferedReader(new FileReader(file));
 			DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 			Calendar limiteRescisao = Calendar.getInstance();
 			limiteRescisao.set(2010, 1, 1);
 			while (bufferedReader.ready()) {
 				String linha = bufferedReader.readLine();
+				System.out.println(linha);
 				String[] coluna = linha.split(";");
 				funcionarioContrato = new FuncionarioContrato();
 				funcionarioContrato.setCpf(coluna[0]);
@@ -100,46 +102,40 @@ public class CargaFolhaBean {
 				funcionarioContrato.setSalario(new BigDecimal(salario));
 				funcionarioContrato.setDataAdmissao(Calendar.getInstance());
 				funcionarioContrato.getDataAdmissao().setTime(df.parse(coluna[3]));
-				
-				funcionarioContrato.setCn(Integer.parseInt(coluna[5].replace("CN", "").trim()));
+				System.out.println("Col 4"+coluna[4]);
 				if (coluna[4].equals("")) {
 					funcionarioContrato.setDataRescisao(Calendar.getInstance());
 					coluna[4]="00/00/0000";
 					
-				}
-				if (coluna[4]!="00/00/0000"||coluna[4]!=null) {
+				}else if (coluna[4]!="00/00/0000"||coluna[4]!=null) {
 					funcionarioContrato.setDataRescisao(Calendar.getInstance());
 					funcionarioContrato.getDataRescisao().setTime(df.parse(coluna[4]));
 					if (funcionarioContrato.getDataRescisao().before(limiteRescisao))
 						continue;
 				}
+				funcionarioContrato.setCn(Integer.parseInt(coluna[5].replace("CN", "").trim()));
+				System.out.println("Verificando se funcionario existe");
 				if (funcionarioContratoDAO.funcionarioExiste(funcionarioContrato)) {
+					System.out.println(funcionarioContrato.getNomeCompleto()+" já existe");
 					FuncionarioContrato funcOld = funcionarioContratoDAO
 							.buscarPorCPF(funcionarioContrato.getCpf());
 
 					if (funcOld.getCn() != funcionarioContrato.getCn()) {
 						if ((funcOld.getDataRescisao() != null && funcionarioContrato
 								.getDataRescisao() == null)) {
-							funcionarioContratoDAO.inserir(funcionarioContrato,
+							funcionarioContratoDAO.alterar(funcionarioContrato,
 									usuarioLogado.getPessoa_id());
 							continue;
 						} else {
 							if (funcOld.getDataRescisao() != null
 									&& funcionarioContrato.getDataRescisao() != null) {
 								if (funcOld.getDataRescisao().compareTo(
-										funcionarioContrato.getDataRescisao()) == 0) {
+										funcionarioContrato.getDataRescisao()) == -1) {
 									funcionarioContratoDAO.alterar(funcionarioContrato,
 											usuarioLogado.getPessoa_id());
 									continue;
-								} else {
-									funcionarioContratoDAO.inserir(funcionarioContrato,
-											usuarioLogado.getPessoa_id());
-									continue;
-								}
-							} else {
-								funcionarioContratoDAO.alterar(funcionarioContrato,usuarioLogado.getPessoa_id());
-								continue;
-							}
+								} 
+							} 
 						}
 					}
 					if (funcionarioContrato.getDataRescisao() == null) {
@@ -158,15 +154,15 @@ public class CargaFolhaBean {
 						}
 					}
 				} else {
-					funcionarioContratoDAO.inserir(funcionarioContrato,
+					System.out.println(linha+"não existe");
+					funcionarioContratoDAO.salvar(funcionarioContrato,
 							usuarioLogado.getPessoa_id());
 				}
 			}
 
 			bufferedReader.close();
-			FacesMessage message = new FacesMessage("Base de dados foi carregada com sucesso!");
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, message);
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso!", "Base carregada com sucesso"));
 		} catch (FileNotFoundException e) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage message = new FacesMessage(e + ": Arquivo não encontrado");

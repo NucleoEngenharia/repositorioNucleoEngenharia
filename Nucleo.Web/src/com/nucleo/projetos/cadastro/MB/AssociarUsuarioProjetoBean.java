@@ -56,7 +56,7 @@ public class AssociarUsuarioProjetoBean implements Serializable {
 
 	public List<Grupo> getGrupos() {
 		if (grupos == null) {
-			grupos = carregaGrupos();
+			carregaProjetosEGrupos();
 		}
 		return grupos;
 	}
@@ -99,11 +99,22 @@ public class AssociarUsuarioProjetoBean implements Serializable {
 
 	public List<Projeto> getProjetos() {
 		if (projetos == null){
-			projetos = carregaProjetosNaoAssociados();
+			carregaProjetosEGrupos();
 		}
 		return projetos;
 	}
-
+	private void carregaProjetosEGrupos(){
+		if(!acessosUsuario.isAdministrador()){
+			projetos = projetoDAO.listarTodos();
+			projetosSelecionados=acessosUsuario.getProjetosAcessiveis();
+			grupos = grupoDAO.listarGrupos();
+			try{
+			gruposSelecionados = new ArrayList<Grupo>(acessosUsuario.getGrupos());
+			}catch(NullPointerException e){
+			}
+		}
+		
+	}
 	public void setProjetos(List<Projeto> projetos) {
 		this.projetos = projetos;
 	}
@@ -120,68 +131,20 @@ public class AssociarUsuarioProjetoBean implements Serializable {
 		conversation.end();
 	}
 
-	public List<Projeto> carregaProjetosNaoAssociados() {
-		projetosSelecionados = acessosUsuario.getProjetosAcessiveis();
-		if (acessosUsuario.getId() == 0 || !acessosUsuario.isAdministrador()
-				&& projetosSelecionados.isEmpty()) {
-			List<Projeto> listProj = projetoDAO.listarTodos();
-			return listProj;
-		} else {
-			List<Projeto> todos = projetoDAO.listarTodos();
-			List<Projeto> naoPermitidos = new ArrayList<Projeto>();
-			for (Projeto projeto : todos) {
-				for (Projeto list : projetosSelecionados) {
-					if (projeto.equals(list)) {
-					} else {
-						naoPermitidos.add(projeto);
-						break;
-					}
-				}
-			}
-			return naoPermitidos;
-
-		}
-	}
-
-	public List<Grupo>carregaGrupos(){
-		List<Grupo> naoPermitidos;
-		try{
-		gruposSelecionados = new ArrayList<Grupo>(acessosUsuario.getGrupos());
-		}catch(NullPointerException e){
-			gruposSelecionados = new ArrayList<Grupo>();
-		}
-		if (acessosUsuario.getId() == 0 || !acessosUsuario.isAdministrador()
-				&& acessosUsuario.getGrupos().isEmpty()) {
-			List<Grupo> listGrup = grupoDAO.listarGrupos();
-			return listGrup;
-		} else {
-			List<Grupo> todos = grupoDAO.listarGrupos();
-			naoPermitidos = new ArrayList<Grupo>();
-			for (Grupo grupo : todos) {
-				for (Grupo list : gruposSelecionados) {
-					if (grupo.equals(list)) {
-					} else {
-						naoPermitidos.add(grupo);
-						break;
-					}
-				}
-			}
-		}
-		return naoPermitidos;
-	}
 	public void associarProjeto() {
 		if (acessosUsuario.getId() == 0) {
 			acessosUsuario = new AcessosUsuario();
 			acessosUsuario.setId_usuario(usuarioSelecionado.getPessoa_id());
 			acessosUsuario.setProjetosAcessiveis(projetosSelecionados);
-			acessosUsuarioDAO.inserir(acessosUsuario,
-					usuarioLogado.getPessoa_id());
+			acessosUsuarioDAO.inserir(acessosUsuario,usuarioLogado.getPessoa_id());
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso!", "projetos associados com sucesso!"));
 		} else if (acessosUsuario.isAdministrador()) {
 			acessosUsuario.setProjetosAcessiveis(null);
 			acessosUsuarioDAO.alterar(acessosUsuario,
 					usuarioLogado.getPessoa_id());
+			acessosUsuario = new AcessosUsuario();
+			acessosUsuario=acessosUsuarioDAO.buscarAcessoDoUsuario(usuarioSelecionado.getPessoa_id());
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso!", "alterações realizadas com sucesso com sucesso!"));
 		} else {
@@ -191,6 +154,9 @@ public class AssociarUsuarioProjetoBean implements Serializable {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso!", "alterações realizadas com sucesso!"));
 		}
+		acessosUsuario = new AcessosUsuario();
+		acessosUsuario=acessosUsuarioDAO.buscarAcessoDoUsuario(usuarioSelecionado.getPessoa_id());
+		projetos=null;
 	}
 
 	public void associarGrupo() {
@@ -200,11 +166,18 @@ public class AssociarUsuarioProjetoBean implements Serializable {
 			acessosUsuario.setGrupos(new HashSet<Grupo>(gruposSelecionados));
 			acessosUsuarioDAO.inserir(acessosUsuario,
 					usuarioLogado.getPessoa_id());
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso!", "Grupos associados com sucesso!"));
 		} else if (!acessosUsuario.isAdministrador()) {
 			acessosUsuario.setGrupos(new HashSet<Grupo>(gruposSelecionados));
 			acessosUsuarioDAO.alterar(acessosUsuario,
 					usuarioLogado.getPessoa_id());
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso!", "Grupos alterados com sucesso!"));
 		}
+		acessosUsuario = new AcessosUsuario();
+		acessosUsuario=acessosUsuarioDAO.buscarAcessoDoUsuario(usuarioSelecionado.getPessoa_id());
+		grupos=null;
 	}
 
 }

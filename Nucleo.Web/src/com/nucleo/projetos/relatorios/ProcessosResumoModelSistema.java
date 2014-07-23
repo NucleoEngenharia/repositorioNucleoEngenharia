@@ -22,12 +22,10 @@ import com.nucleo.entity.cadastro.Projeto;
 import com.nucleo.entity.cadastro.Reajuste;
 import com.nucleo.entity.cadastro.Servico;
 import com.nucleo.entity.cadastro.Enum.SetorEnum;
-import com.nucleo.entity.cadastro.Enum.TipoCalculoEnum;
 import com.nucleo.entity.medicao.DetalhamentoPeriodoMedicao;
 import com.nucleo.entity.medicao.MedicaoEquipe;
 import com.nucleo.entity.medicao.PeriodoMedicao;
 import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
-import com.nucleo.model.calculos.client.CalculosMedicao;
 import com.nucleo.projetos.relatorios.model.ContratosModel;
 import com.nucleo.projetos.relatorios.model.ResumoModeloSistema;
 public class ProcessosResumoModelSistema{
@@ -41,7 +39,6 @@ public class ProcessosResumoModelSistema{
 	private PeriodoMedicaoDAO periodoMedicaoDAO;
 	private ResumoModeloSistema modeloSistema;
 	private String nomeDoArquivo;
-	private CalculosMedicao calculosMedicao;
 	private DetalhamentoPeriodoMedicaoDAO detalhamentoPeriodoMedicaoDAO;
 	
 	private static final int ESCOLHIDA = 1;
@@ -64,7 +61,6 @@ public class ProcessosResumoModelSistema{
 		reajusteDAO = (ReajusteDAO) Commom.lookup("ReajusteDAOImpl");
 		medicaoEquipeDAO = (MedicaoEquipeDAO) Commom.lookup("MedicaoEquipeDAOImpl");
 		periodoMedicaoDAO = (PeriodoMedicaoDAO) Commom.lookup("PeriodoMedicaoDAOImpl");
-		calculosMedicao = (CalculosMedicao) Commom.lookup("CalculosMedicaoImpl");
 		detalhamentoPeriodoMedicaoDAO = (DetalhamentoPeriodoMedicaoDAO) Commom.lookup("DetalhamentoPeriodoMedicaoDAOImpl");
 		projetos = projetoDAO.listarTodosComReajuste();
 	}
@@ -201,21 +197,7 @@ public class ProcessosResumoModelSistema{
 				projeto.setObjeto("Objeto não informado");
 			}
 	}
-	private BigDecimal somaMedicoes(PeriodoMedicao periodo, Projeto projeto){
-		BigDecimal soma = BigDecimal.ZERO;
-		List<MedicaoEquipe> medicoes = medicaoEquipeDAO.listarPorPeriodo(periodo);
-		if(projeto.getCalculo().equals(TipoCalculoEnum.SIMPLES)&&medicoes.size()>0){
-				soma = calculosMedicao.calculoSimples(medicoes);
-				
-		}else if(projeto.getCalculo().equals(TipoCalculoEnum.POREQUIPE)&&medicoes.size()>0){
-				soma=new BigDecimal(0);
-				soma = calculosMedicao.calculoPorEquipe(periodo, medicoes);
-
-		}else if(projeto.getCalculo().equals(TipoCalculoEnum.PORCOMPLEXIDADE)&&medicoes.size()>0){
-				soma = calculosMedicao.calculoPorComplexidade(periodo, medicoes);
-		}
-		return soma;
-	}
+	
 	private BigDecimal somaPeriodos(Projeto projeto){
 		BigDecimal soma = BigDecimal.ZERO;
 		List<Servico>equipes = servicoDAO.buscarEquipesPorProjeto(projeto);

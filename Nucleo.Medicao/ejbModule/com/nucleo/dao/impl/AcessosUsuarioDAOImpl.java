@@ -54,4 +54,13 @@ public class AcessosUsuarioDAOImpl extends DAOImpl<AcessosUsuario, Integer> impl
 		AcessosUsuario merge = em.merge(acessosUsuario);
 		super.inserir(merge, pessoa_id);
 	}
+	@Override
+	public boolean verificaSeUsuarioTemAcesso(int id_usuario){
+		boolean existe = false;
+		AcessosUsuario a = buscarAcessoDoUsuario(id_usuario);
+		if(a.getId()!=0){
+			existe = true;
+		}
+		return existe;
+	}
 }
