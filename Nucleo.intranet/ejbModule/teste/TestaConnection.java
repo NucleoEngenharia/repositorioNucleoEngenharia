@@ -3,6 +3,7 @@ package teste;
 import java.sql.Connection;
 
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
 
 import com.nucleo.intranet.FactoringConnection.Factor;
 

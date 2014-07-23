@@ -38,7 +38,7 @@ public class LoginBean implements Serializable{
 	private String usuario;
 	private String senha;
 	private MenuModel model;
-	DefaultSubMenu subMenu;
+	private DefaultSubMenu subMenu;
 	@EJB
 	private AutenticacaoDAO autentic;
 	@EJB
