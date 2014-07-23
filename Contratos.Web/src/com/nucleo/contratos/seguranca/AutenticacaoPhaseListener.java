@@ -18,6 +18,7 @@ public class AutenticacaoPhaseListener implements PhaseListener{
 		if(isPageLogin(paginaOrigem)){
 			return;
 		}
+		try{
 		NavigationHandler handler = context.getApplication().getNavigationHandler();
 		HttpSession sessao = (HttpSession) context.getExternalContext().getSession(true);
 		LoginBean loginBean = (LoginBean) sessao.getAttribute("loginBean");
@@ -26,6 +27,9 @@ public class AutenticacaoPhaseListener implements PhaseListener{
     		ExternalContext externalContext = instance.getExternalContext();
     		externalContext.getSessionMap().put("paginaOrigem", paginaOrigem);
     		handler.handleNavigation(context, null, "/faces/login?faces-redirect=true");
+		}
+		}catch(Exception e){
+			System.out.println("Erro ao logar"+e);
 		}
 	}
 	@Override

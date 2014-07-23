@@ -1,5 +1,6 @@
 package com.nucleo.contratos.seguranca;
 
+
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -12,7 +13,8 @@ import com.nucleo.seguranca.to.FuncionarioTO;
 
 @ManagedBean
 @SessionScoped
-public class LoginBean {
+public class LoginBean{
+
 	public LoginBean() {
 		usuarioLogado = new FuncionarioTO();
 	}
