@@ -18,19 +18,20 @@
 			<center>
 				<div id="content">
 					<h:form>
+					<p:messages/>
 						<p:panelGrid columns="2">
 							<f:facet name="header">
 			   Login
 			   </f:facet>
 							<p:outputLabel for="user" value="Usuário: " />
-							<p:inputText id="user"
+							<p:inputText id="user" value="#{loginBean.usuario}"
 								requiredMessage="Usuário é um campo obrigatório" />
 							<p:outputLabel for="senha" value="Senha: " />
-							<p:password id="senha"
+							<p:password id="senha" value="#{loginBean.senha}"
 								requiredMessage="Senha é um campo obrigatório" />
 						</p:panelGrid>
 						<br>
-						<p:commandButton action="_template.xhtml" value="Entrar" />
+						<p:commandButton action="#{loginBean.autenticar}" update="@all" value="Entrar" />
 						</br>
 						<p:commandLink value="Primeiro acesso"/>
 						<br>

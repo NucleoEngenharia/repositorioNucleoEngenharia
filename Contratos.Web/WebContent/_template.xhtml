@@ -13,10 +13,19 @@
 
 	<h:body>
 	<h:form>
-		<div class="header">
-			<p:commandLink action="/login.xhtml">
+	<div class="header">
+		<ui:insert name="header">
+			<p:commandLink action="/index.xhtml">
 				<p:graphicImage library="img" name="Logotipo_login.png" />
 			</p:commandLink>
+			<div class="inf_usuario" align="right">
+					<h:outputText value="Bem vindo #{loginBean.usuarioLogado.nome} | "></h:outputText>
+					<h:link value="Minha Conta"></h:link>
+					<h:outputText value=" | "></h:outputText>
+					<p:commandLink action="#{loginBean.logout}" value="Logout"
+						styleClass="logout"></p:commandLink>
+			</div>
+		</ui:insert>
 		</div>
 		<div class="corpo">
 				<p:menubar id="menu">
