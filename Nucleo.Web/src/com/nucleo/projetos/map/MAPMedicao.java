@@ -1,5 +1,6 @@
 package com.nucleo.projetos.map;
 
+
 import com.nucleo.entity.cadastro.Projeto;
 import com.nucleo.entity.cadastro.Enum.AtividadeEnum;
 import com.nucleo.entity.cadastro.Enum.SetorEnum;
@@ -14,12 +15,12 @@ public class MAPMedicao {
 		projJPA.setAtividade(AtividadeEnum.getPorValor((projTO.getAtividade())));
 		projJPA.setValorOriginal(projTO.getVlOriginal());
 		
-		if(projTO.getDtInicio() != null) 
+		if(projTO.getDtInicio() != null) {
 			projJPA.setDataInicio(projTO.getDtInicio());
-		
-		if(projTO.getDtFim() != null)
+		}
+		if(projTO.getDtFim() != null){
 			projJPA.setDataFim(projTO.getDtFim());
-		
+		}
 	}
 	
 }

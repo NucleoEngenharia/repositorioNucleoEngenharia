@@ -18,7 +18,7 @@
 						<f:selectItem itemLabel="Selecione unidade" itemValue="" />
 						<f:selectItems value="#{cadastroProjetoBean.unidades}" var="unid" required="true" requiredMessage="Unidade responsável é um campo obrigatório"
 							itemLabel="#{unid.descricao}" itemValue="#{unid.id}" />
-						<p:ajax update="proposto,supervisor"
+						<p:ajax update="supervisor"
 							listener="#{cadastroProjetoBean.carregaFuncionarios}"
 							event="change" />
 					</p:selectOneMenu>
@@ -41,17 +41,10 @@
 			</p:row>
 			<p:row>
 				<p:column styleClass="colLabel">
-					<p:outputLabel value="Proposto:" />
+					<p:outputLabel value="Preposto:" />
 				</p:column>
 				<p:column colspan="2">
-					
-					<p:selectOneMenu effect="fade" required="true" requiredMessage="Proposto é um campo obrigatório"
-						value="#{cadastroProjetoBean.projetoSelecionado.responsavelAdm.nomeProposto}"
-						filter="true" id="proposto">
-						<f:selectItem itemLabel="Selecione o Funcionario" itemValue="" />
-						<f:selectItems value="#{cadastroProjetoBean.funcionarios}" var="func"
-							itemLabel="#{func.nome}" itemValue="#{func.nome}"  />
-					</p:selectOneMenu>
+					<p:inputText value="#{cadastroProjetoBean.projetoSelecionado.responsavelAdm.nomeProposto}"/>
 				</p:column>
 			</p:row>
 			<p:row>

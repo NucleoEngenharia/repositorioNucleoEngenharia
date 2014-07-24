@@ -223,7 +223,7 @@ public class CadastroProjetoBean implements Serializable {
 			projetoSelecionado = projetoDAO.buscarPorID(projetoSelecionado.getId());
 			ordenaPeriodosMedicao();
 			context.addMessage(null, new FacesMessage("Sucesso!",
-					"Informaï¿½ï¿½es atualizadas com sucesso."));
+					"Informações atualizadas com sucesso."));
 		} catch (Exception e) {
 			context.addMessage(null, new FacesMessage("Error!",
 					"Contate o administrador do sistema."));
