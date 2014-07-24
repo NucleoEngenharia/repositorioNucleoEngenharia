@@ -59,8 +59,8 @@ public class ProjetoDAOImpl extends DAOImpl<Projeto, Integer>implements	ProjetoD
 	@Override
 	public List<Projeto>listarTodos(){
 		String jpql = "select distinct(p) from Projeto p" +
-				" join fetch p.responsavelAdm" +
-				" left join fetch p.impostos" +
+				" left join fetch p.responsavelAdm r" +
+				" left join fetch p.impostos i" +
 				" where p.excluido=:excluido";
 		return em.createQuery(jpql, Projeto.class)
 				.setParameter("excluido", false)
@@ -197,7 +197,9 @@ public class ProjetoDAOImpl extends DAOImpl<Projeto, Integer>implements	ProjetoD
 	@Override
 	public BigDecimal getValorAtual(Projeto projeto) {
 		BigDecimal valorAtual = new BigDecimal(0);
+		try{
 		valorAtual = valorAtual.add(projeto.getValorOriginal());
+		}catch(NullPointerException e){}
 
 		List<Aditivo> aditivos = aditivoDAO.buscarTodosPorProjeto(projeto);
 		for (Aditivo aditivo : aditivos) {

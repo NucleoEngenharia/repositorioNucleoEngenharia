@@ -1,19 +1,27 @@
 package com.nucleo.entity.cadastro;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 
+import javax.persistence.SequenceGenerator;
+
 import com.nucleo.entity.CommomEntity;
 
 @Entity
-public class ResponsavelAdministracao extends CommomEntity {
+@SequenceGenerator(allocationSize = 1, name = "seqResponsavelADM", sequenceName = "SEQ_RESP")
+public class ResponsavelAdministracao extends CommomEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(generator = "seqResponsavelADM",strategy=GenerationType.IDENTITY)
 	private int id;
 
 	private int idResponsavel;
