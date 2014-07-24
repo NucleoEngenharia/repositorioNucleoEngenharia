@@ -6,4 +6,7 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
     version="2.1">
 
+	<lifecycle>
+		<phase-listener>com.nucleo.contratos.seguranca.AutenticacaoPhaseListener</phase-listener>
+	</lifecycle>
 </faces-config>
