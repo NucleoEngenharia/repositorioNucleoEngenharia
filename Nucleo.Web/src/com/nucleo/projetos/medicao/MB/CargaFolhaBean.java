@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -23,6 +24,7 @@ import org.primefaces.model.UploadedFile;
 import com.nucleo.commom.Commom;
 import com.nucleo.dao.AcessosUsuarioDAO;
 import com.nucleo.dao.FuncionarioContratoDAO;
+import com.nucleo.dao.MobilizacaoDAO;
 import com.nucleo.entity.cadastro.controleDeAcessos.AcessosUsuario;
 import com.nucleo.entity.medicao.FuncionarioContrato;
 import com.nucleo.projetos.cadastro.MB.PermissoesMenuBean;
@@ -39,17 +41,19 @@ public class CargaFolhaBean {
 	private FuncionarioContratoDAO funcionarioContratoDAO;
 	@EJB
 	private AcessosUsuarioDAO acessosUsuarioDAO;
+	@EJB
+	private MobilizacaoDAO mobilizacaoDAO;
 	private FuncionarioContrato funcionarioContrato;
 	private File file;
 	private FuncionarioTO usuarioLogado;
-	private int verificouAcesso =0;
+	private boolean verificouAcesso =false;
 	private boolean apenasLeitura = false;
 	private AcessosUsuario acessosDoUsuarioLogado;
 	private PermissoesMenuBean permissoesMenuBean;
 	private BufferedReader bufferedReader;
 	
 	public boolean isApenasLeitura() {
-		if(verificouAcesso==0){
+		if(!verificouAcesso){
 		if(acessosDoUsuarioLogado.isAdministrador()){
 			apenasLeitura = false;
 		}else{
@@ -59,7 +63,7 @@ public class CargaFolhaBean {
 			}
 		}
 		}
-		verificouAcesso = 1;
+		verificouAcesso = true;
 		return apenasLeitura;
 	}
 	public void setApenasLeitura(boolean apenasLeitura) {
@@ -85,6 +89,7 @@ public class CargaFolhaBean {
 			System.out.println(e);
 		}
 	}
+	
 	public void atualizarBase() {
 		try {
 			bufferedReader = new BufferedReader(new FileReader(file));
@@ -102,9 +107,8 @@ public class CargaFolhaBean {
 				funcionarioContrato.setSalario(new BigDecimal(salario));
 				funcionarioContrato.setDataAdmissao(Calendar.getInstance());
 				funcionarioContrato.getDataAdmissao().setTime(df.parse(coluna[3]));
-				System.out.println("Col 4"+coluna[4]);
 				if (coluna[4].equals("")) {
-					funcionarioContrato.setDataRescisao(Calendar.getInstance());
+					funcionarioContrato.setDataRescisao(null);
 					coluna[4]="00/00/0000";
 					
 				}else if (coluna[4]!="00/00/0000"||coluna[4]!=null) {
@@ -113,16 +117,27 @@ public class CargaFolhaBean {
 					if (funcionarioContrato.getDataRescisao().before(limiteRescisao))
 						continue;
 				}
+				
 				funcionarioContrato.setCn(Integer.parseInt(coluna[5].replace("CN", "").trim()));
-				System.out.println("Verificando se funcionario existe");
 				if (funcionarioContratoDAO.funcionarioExiste(funcionarioContrato)) {
-					System.out.println(funcionarioContrato.getNomeCompleto()+" já existe");
 					FuncionarioContrato funcOld = funcionarioContratoDAO
-							.buscarPorCPF(funcionarioContrato.getCpf());
+							.buscaPorCPF(funcionarioContrato, usuarioLogado.getPessoa_id());
+					if(funcOld.getId()==0){
+						List<FuncionarioContrato>list = funcionarioContratoDAO.listarTodosPorCPF(funcionarioContrato.getCpf());
+						for(FuncionarioContrato f:list){
+							if(!mobilizacaoDAO.funcionarioMobilizado(f)){
+								funcionarioContratoDAO.deletarPorId(f.getId(), usuarioLogado.getPessoa_id());
+							}else{
+								funcOld = f;
+							}
+						}
+					}
+					
 
 					if (funcOld.getCn() != funcionarioContrato.getCn()) {
 						if ((funcOld.getDataRescisao() != null && funcionarioContrato
 								.getDataRescisao() == null)) {
+							funcionarioContrato.setId(funcOld.getId());
 							funcionarioContratoDAO.alterar(funcionarioContrato,
 									usuarioLogado.getPessoa_id());
 							continue;
@@ -139,16 +154,19 @@ public class CargaFolhaBean {
 						}
 					}
 					if (funcionarioContrato.getDataRescisao() == null) {
-						funcionarioContratoDAO.alterar(funcionarioContrato,
-								usuarioLogado.getPessoa_id());
+						FuncionarioContrato f = funcionarioContratoDAO.buscaPorCPF(funcionarioContrato, usuarioLogado.getPessoa_id());
+						if(f.getId()==0){
+							funcionarioContratoDAO.salvar(funcionarioContrato, usuarioLogado.getPessoa_id());
+						}else{
+						funcionarioContratoDAO.alterar(f,usuarioLogado.getPessoa_id());
+						}
 						continue;
 					}
 					if (funcionarioContrato.getDataRescisao() != null
 							&& funcOld.getDataRescisao() != null) {
 						if (funcionarioContrato.getDataRescisao().getTimeInMillis() > funcOld
 								.getDataRescisao().getTimeInMillis()) {
-							funcionarioContratoDAO.alterar(funcionarioContrato,
-									usuarioLogado.getPessoa_id());
+							funcionarioContratoDAO.alterar(funcionarioContrato,usuarioLogado.getPessoa_id());
 							System.out.println(funcionarioContrato.getNomeCompleto()+" alterado com sucesso");
 							continue;
 						}

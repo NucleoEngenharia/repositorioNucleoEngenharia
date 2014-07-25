@@ -11,6 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.nucleo.entity.CommomEntity;
+import com.sun.istack.internal.Nullable;
 
 @Entity
 //@SequenceGenerator(allocationSize=1, sequenceName="SEQ_FUNCIONARIOCONTRATO", name="seqFuncionarioContrato")
@@ -37,6 +38,7 @@ public class FuncionarioContrato extends CommomEntity {
 	@Temporal(TemporalType.DATE)
 	private Calendar dataAdmissao;
 	@Temporal(TemporalType.DATE)
+	@Nullable
 	private Calendar dataRescisao;
 	private int cn;
 	
