@@ -48,6 +48,7 @@ public class Projeto extends CommomEntity {
 		infraMateriais = new ArrayList<InfraMateriais>();
 		periodosMedicao = new ArrayList<PeriodoMedicao>();
 		medicaoDespesas = new ArrayList<MedicaoDespesa>();
+		responsavelAdm = new ResponsavelAdministracao();
 
 		limiteDespesa = true;
 		despesaIntegraValor = true;
@@ -57,7 +58,7 @@ public class Projeto extends CommomEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator = "seqProjeto", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "seqProjeto", strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@OneToMany(mappedBy = "projeto", targetEntity = Reajuste.class)
@@ -116,7 +117,9 @@ public class Projeto extends CommomEntity {
 	@Temporal(TemporalType.DATE)
 	private Calendar dataInicialMedicao;
 
-	@OneToOne(fetch=FetchType.LAZY, mappedBy = "projeto", targetEntity = ResponsavelAdministracao.class)
+	@OneToOne(fetch=FetchType.LAZY, 
+			mappedBy = "projeto", targetEntity = ResponsavelAdministracao.class,
+			cascade={CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
 	@Fetch(FetchMode.JOIN)
 	private ResponsavelAdministracao responsavelAdm;
 

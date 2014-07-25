@@ -10,12 +10,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 
+import com.nucleo.FactoringConnection.FactorIntranetImpl;
 import com.nucleo.intranet.DAO.MenuDAO;
-import com.nucleo.intranet.FactoringConnection.FactorImpl;
 import com.nucleo.seguranca.to.MenuTO;
 
 @Stateless
-public class MenuDAOImpl extends FactorImpl implements MenuDAO {
+public class MenuDAOImpl extends FactorIntranetImpl implements MenuDAO {
 
 	private static Connection conexao =null;
 	private PreparedStatement pstmt = null;

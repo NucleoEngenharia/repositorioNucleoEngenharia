@@ -24,7 +24,6 @@ public class AutenticacaoPhaseListener implements PhaseListener {
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		NavigationHandler handler = context.getApplication().getNavigationHandler();
 		
-		
     	LoginBean loginBean = (LoginBean) session.getAttribute("loginBean");
     	if(loginBean == null || loginBean.getUsuarioLogado().getNome() == null){
     		FacesContext instance = FacesContext.getCurrentInstance();

@@ -1,11 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/com/nucleo/endereco/bo/EnderecoBO.java=UTF-8
-encoding//src/com/nucleo/endereco/bo/EnderecoBOService.java=UTF-8
-encoding//src/com/nucleo/endereco/bo/EnderecoBOServiceLocator.java=UTF-8
-encoding//src/com/nucleo/endereco/bo/EnderecoBOSoapBindingStub.java=UTF-8
-encoding//src/com/nucleo/endereco/to/BairroTO.java=UTF-8
-encoding//src/com/nucleo/endereco/to/CidadeTO.java=UTF-8
-encoding//src/com/nucleo/endereco/to/EnderecoTO.java=UTF-8
 encoding//src/com/nucleo/sap/bo/SapBO.java=UTF-8
 encoding//src/com/nucleo/sap/bo/SapBOService.java=UTF-8
 encoding//src/com/nucleo/sap/bo/SapBOServiceLocator.java=UTF-8

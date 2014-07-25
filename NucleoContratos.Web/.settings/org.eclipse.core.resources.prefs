@@ -1,7 +1,0 @@
-eclipse.preferences.version=1
-encoding//src/com/nucleo/sap/bo/SapBO.java=UTF-8
-encoding//src/com/nucleo/sap/bo/SapBOService.java=UTF-8
-encoding//src/com/nucleo/sap/bo/SapBOServiceLocator.java=UTF-8
-encoding//src/com/nucleo/sap/bo/SapBOSoapBindingStub.java=UTF-8
-encoding//src/com/nucleo/sap/to/ImpostoTO.java=UTF-8
-encoding//src/com/nucleo/sap/to/ProjetoTO.java=UTF-8

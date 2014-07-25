@@ -1,0 +1,54 @@
+body {
+	margin: 0 auto;
+	padding: 0px;
+	font: 10px verdana, arial, helvetica;
+}
+#header {
+	display: block;
+	position: relative;
+	padding-left: 5px;
+	padding-top: 5px;
+	top: 0;
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-bottom: 10px;
+	width: 80%;
+}
+#header .inf_usuario{
+	display: inline;
+	
+	position:absolute;
+	top:60px;
+	right: 50px;
+	
+}
+.corpo menu{
+}
+.rowForm{
+	width: 100%;
+}
+.corpo {
+	display: block;
+	position:absolute;
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: #FFFFFF;
+	font-size: small;
+}
+
+.footer {
+	background: #09C;
+	width: 100%;
+	height: 20px;
+	margin: auto;
+	padding-bottom: 10px;
+	position: fixed;
+	bottom: 0;
+	text-align: center;
+}
+
+.footer p {
+	font-weight: bold;
+	color: white;
+}

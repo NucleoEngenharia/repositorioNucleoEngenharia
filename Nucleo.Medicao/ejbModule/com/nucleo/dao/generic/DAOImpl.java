@@ -74,6 +74,7 @@ public class DAOImpl<T, K> implements DAO<T, K>{
 							obj.getClass().getMethod("setUsuarioCriacao", Integer.TYPE)
 									.invoke(obj, usuario);
 						} catch (NoSuchMethodException e) {}
+						 catch (NullPointerException e) {}
 					}
 				}
 
