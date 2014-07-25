@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
+
 @Stateless
 public class FactorImpl implements Factor{
-
 	private Connection conn = null;
 	
 	@Resource(mappedName="java:jboss/datasources/intranet")
