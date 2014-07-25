@@ -8,17 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import com.nucleo.FactoringConnection.FactorIntranetImpl;
 import com.nucleo.intranet.DAO.AutenticacaoDAO;
-import com.nucleo.intranet.FactoringConnection.Factor;
-import com.nucleo.intranet.FactoringConnection.FactorImpl;
 import com.nucleo.seguranca.to.FuncionarioTO;
 import com.nucleo.seguranca.to.MenuTO;
 import com.nucleo.seguranca.to.PerfilTO;
 @Stateless
-public class AutenticacaoDAOImpl extends FactorImpl implements AutenticacaoDAO{
+public class AutenticacaoDAOImpl extends FactorIntranetImpl implements AutenticacaoDAO{
 	
 	protected static Connection conexao =null;
 	

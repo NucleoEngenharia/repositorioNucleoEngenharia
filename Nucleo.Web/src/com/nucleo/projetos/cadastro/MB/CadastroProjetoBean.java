@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -45,9 +44,7 @@ import com.nucleo.dao.ProjetoDAO;
 import com.nucleo.dao.ReajusteDAO;
 import com.nucleo.dao.RenovacaoDAO;
 import com.nucleo.dao.ServicoDAO;
-import com.nucleo.endereco.bo.EnderecoBO;
-import com.nucleo.endereco.bo.EnderecoBOProxy;
-import com.nucleo.endereco.to.CidadeTO;
+import com.nucleo.endereco.DAO.EnderecoDAO;
 import com.nucleo.entity.cadastro.Aditivo;
 import com.nucleo.entity.cadastro.Cargo;
 import com.nucleo.entity.cadastro.Despesa;
@@ -92,6 +89,8 @@ public class CadastroProjetoBean implements Serializable {
 	private ObjetoSelecionado selecionado = new ObjetoSelecionado();
 	
 	private Projeto projetoSelecionado;
+	@EJB
+	private EnderecoDAO enderecoDAO;
 	@EJB
 	private PeriodoMedicaoDAO pd;
 	@EJB
@@ -214,6 +213,7 @@ public class CadastroProjetoBean implements Serializable {
 		statusProjeto = Arrays.asList(StatusProjetoEnum.values());
 		tiposServico = Arrays.asList(TipoServicoEnum.values());
 		permissoesMenuBean = new PermissoesMenuBean();
+		cidades = new ArrayList<String>();
 	}
 
 	public void salvarInformacoesProjeto() {
@@ -581,17 +581,12 @@ public class CadastroProjetoBean implements Serializable {
 		localExecucaoDAO.deletarPorId(local.getId(), usuarioLogado.getPessoa_id());
 	}
 	public void carregaCidades() {
-		EnderecoBO endBO = new EnderecoBOProxy();
-
-		cidades = new ArrayList<String>();
-
-		try {
-			for (CidadeTO cidadeTO : endBO.getCidadesPorUF(estado.getValor())) {
-				cidades.add(cidadeTO.getNome());
+			cidades = new ArrayList<String>();
+			List<String>list = enderecoDAO.buscarCidadePorUF(estado.getValor());
+			for(String cidade:list){
+				cidades.add(cidade);
 			}
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+			
 	}
 
 	// métodos imposto

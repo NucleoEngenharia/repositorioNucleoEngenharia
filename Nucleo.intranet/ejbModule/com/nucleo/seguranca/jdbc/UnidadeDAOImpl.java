@@ -9,11 +9,11 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
+import com.nucleo.FactoringConnection.FactorIntranetImpl;
 import com.nucleo.intranet.DAO.UnidadeDAO;
-import com.nucleo.intranet.FactoringConnection.FactorImpl;
 import com.nucleo.seguranca.to.UnidadeTO;
 @Stateless
-public class UnidadeDAOImpl extends FactorImpl implements UnidadeDAO {
+public class UnidadeDAOImpl extends FactorIntranetImpl implements UnidadeDAO {
 
 	private Connection conexao;
 	@Override
@@ -40,14 +40,6 @@ public class UnidadeDAOImpl extends FactorImpl implements UnidadeDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				pstmt.close();
-				rs.close();
-				conexao.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}	
 
 		return unidades;

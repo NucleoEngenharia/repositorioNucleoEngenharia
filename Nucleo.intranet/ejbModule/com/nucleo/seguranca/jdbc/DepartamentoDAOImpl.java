@@ -9,11 +9,11 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
+import com.nucleo.FactoringConnection.FactorIntranetImpl;
 import com.nucleo.intranet.DAO.DepartamentoDAO;
-import com.nucleo.intranet.FactoringConnection.FactorImpl;
 import com.nucleo.seguranca.to.DepartamentoTO;
 @Stateless
-public class DepartamentoDAOImpl extends FactorImpl implements DepartamentoDAO {
+public class DepartamentoDAOImpl extends FactorIntranetImpl implements DepartamentoDAO {
 	
 	private Connection conexao;
 	@Override

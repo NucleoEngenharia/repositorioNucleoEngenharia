@@ -58,7 +58,7 @@ public class Projeto extends CommomEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator = "seqProjeto", strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "seqProjeto", strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@OneToMany(mappedBy = "projeto", targetEntity = Reajuste.class)

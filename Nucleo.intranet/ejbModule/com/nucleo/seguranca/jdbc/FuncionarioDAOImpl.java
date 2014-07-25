@@ -10,11 +10,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 
+import com.nucleo.FactoringConnection.FactorIntranetImpl;
 import com.nucleo.intranet.DAO.FuncionarioDAO;
-import com.nucleo.intranet.FactoringConnection.FactorImpl;
 import com.nucleo.seguranca.to.FuncionarioTO;
 @Stateless
-public class FuncionarioDAOImpl extends FactorImpl implements FuncionarioDAO {
+public class FuncionarioDAOImpl extends FactorIntranetImpl implements FuncionarioDAO {
 	
 	private static Connection conexao =null;
 	private PreparedStatement pstmt = null;
