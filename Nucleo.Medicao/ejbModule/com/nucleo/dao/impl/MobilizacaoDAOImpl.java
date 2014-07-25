@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import com.nucleo.dao.MedicaoEquipeDAO;
@@ -12,6 +13,7 @@ import com.nucleo.dao.MobilizacaoDAO;
 import com.nucleo.dao.generic.DAOImpl;
 import com.nucleo.entity.cadastro.Projeto;
 import com.nucleo.entity.cadastro.Servico;
+import com.nucleo.entity.medicao.FuncionarioContrato;
 import com.nucleo.entity.medicao.MedicaoEquipe;
 import com.nucleo.entity.medicao.Mobilizacao;
 import com.nucleo.entity.medicao.PeriodoMedicao;
@@ -129,7 +131,23 @@ public class MobilizacaoDAOImpl extends DAOImpl<Mobilizacao, Integer> implements
 		query.setParameter("excluido", false);
 		return query.getResultList();
 	}
-
+	@Override
+	public boolean funcionarioMobilizado(FuncionarioContrato funcionarioContrato){
+		boolean mobilizado = false;
+		String jpql = "select m from Mobilizacao m"
+				+ " where m.funcionario.id=:funcId and m.excluido=:excluido";
+		try{
+		em.createQuery(jpql, Mobilizacao.class)
+		.setParameter("excluido", false)
+		.setParameter("funcId", funcionarioContrato.getId())
+		.getSingleResult();
+		mobilizado = true;
+		}catch(NoResultException e){
+			mobilizado = false;
+		}
+		return mobilizado;
+		
+	}
 	
 	
 }

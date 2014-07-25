@@ -13,14 +13,16 @@ public interface FuncionarioContratoDAO extends DAO<FuncionarioContrato, Integer
 
 	List<FuncionarioContrato>listarTodos();
 	
+	List<FuncionarioContrato>listarTodosPorCPF(String cpf);
+	
 	void salvar(FuncionarioContrato funcionarioContrato, int idUsuario);
 	
 	List<Integer> buscarTodasCN();
 
 	List<FuncionarioContrato> buscarTodosPorCN(int cn);
 	
-	FuncionarioContrato buscarPorCPF(String cpf);
-
+	FuncionarioContrato buscaPorCPF(FuncionarioContrato funcionarioContrato, int idUsuario);
+	
 	List<Mobilizacao> buscarTodasMobilizacoes(FuncionarioContrato funcionario);
 	
 	boolean funcionarioExiste(FuncionarioContrato funcionarioContrato);

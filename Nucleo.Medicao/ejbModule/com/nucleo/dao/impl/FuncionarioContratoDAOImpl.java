@@ -3,6 +3,8 @@ package com.nucleo.dao.impl;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 
 import com.nucleo.dao.FuncionarioContratoDAO;
@@ -11,9 +13,9 @@ import com.nucleo.entity.medicao.FuncionarioContrato;
 import com.nucleo.entity.medicao.Mobilizacao;
 
 @Stateless
-public class FuncionarioContratoDAOImpl extends DAOImpl<FuncionarioContrato, Integer>
-		implements
-			FuncionarioContratoDAO {
+public class FuncionarioContratoDAOImpl
+extends DAOImpl<FuncionarioContrato, Integer>
+implements FuncionarioContratoDAO {
 	@Override
 	public List<FuncionarioContrato>listarTodos(){
 		String jpql="select distinct f from FuncionarioContrato f"
@@ -43,7 +45,16 @@ public class FuncionarioContratoDAOImpl extends DAOImpl<FuncionarioContrato, Int
 		query.setParameter("excluido", false);
 		return query.getResultList();
 	}
-
+	@Override
+	public List<FuncionarioContrato>listarTodosPorCPF(String cpf){
+		String jpql = "select f from FuncionarioContrato f"
+				+ " where f.cpf = :cpf"
+				+ " and f.excluido = :excluido";
+		return em.createQuery(jpql, FuncionarioContrato.class)
+				.setParameter("cpf", cpf)
+				.setParameter("excluido", false)
+				.getResultList();
+	}
 	@Override
 	public List<Mobilizacao> buscarTodasMobilizacoes(FuncionarioContrato funcionario) {
 
@@ -71,14 +82,7 @@ public class FuncionarioContratoDAOImpl extends DAOImpl<FuncionarioContrato, Int
 		return existe;
 	}
 
-	@Override
-	public FuncionarioContrato buscarPorCPF(String cpf) {
-		String strQuery = "select f from FuncionarioContrato f where f.cpf = :cpf and f.excluido = :excluido";
-		TypedQuery<FuncionarioContrato> query = em.createQuery(strQuery, FuncionarioContrato.class);
-		query.setParameter("cpf", cpf);
-		query.setParameter("excluido", false);
-		return query.getSingleResult();
-	}
+	
 	private FuncionarioContrato buscarOUltimo(){
 		String jpql = "select f from FuncionarioContrato f"
 				+ " where f.excluido=:excluido order by f.id desc";
@@ -94,8 +98,26 @@ public class FuncionarioContratoDAOImpl extends DAOImpl<FuncionarioContrato, Int
 		//ass.: alysson
 		//data: fev/2014
 		funcionarioContrato.setId(buscarOUltimo().getId()+1);
-		System.out.println("Salvando"+funcionarioContrato.getId());
 		super.inserir(funcionarioContrato, idUsuario);
 		
+	}
+	@Override
+	public FuncionarioContrato buscaPorCPF(FuncionarioContrato funcionarioContrato, int idUsuario) {
+		FuncionarioContrato f = new FuncionarioContrato();
+		try{
+		String strQuery = "select f from FuncionarioContrato f where f.cpf = :cpf and f.excluido = :excluido";
+		TypedQuery<FuncionarioContrato> query = em.createQuery(strQuery, FuncionarioContrato.class);
+		query.setParameter("cpf", funcionarioContrato.getCpf());
+		query.setParameter("excluido", false);
+		f = query.getSingleResult();
+		return f;
+		}catch (NonUniqueResultException e) {
+			f.setId(0);
+			return f;
+		}catch (NoResultException e) {
+			salvar(funcionarioContrato, idUsuario);
+			f = buscaPorCPF(funcionarioContrato, idUsuario);
+			return f;
+		}
 	}
 }
