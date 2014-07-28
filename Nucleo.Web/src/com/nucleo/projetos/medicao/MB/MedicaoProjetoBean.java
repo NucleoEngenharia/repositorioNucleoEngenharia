@@ -168,6 +168,8 @@ public class MedicaoProjetoBean implements Serializable {
 	private boolean exibirEquipes = false;
 	
 	private int tabLista = 0;
+	@SuppressWarnings("unused")
+	private int idEquipe;
 
 	private List<MedicaoDespesa> despesas;
 	private List<InfraMateriais> infraMateriais;
@@ -360,7 +362,6 @@ public class MedicaoProjetoBean implements Serializable {
 	public void setDiasDevidos(double diasDevidos) {
 		this.diasDevidos = diasDevidos;
 	}
-	private int idEquipe;
 	public void pegaJustificativa(){
 		justificativa = new Justificativa();
 		justificativa = justificativaDAO.buscarPorMedicaoEquipe(medicaoEquipeSelect);
@@ -376,7 +377,6 @@ public class MedicaoProjetoBean implements Serializable {
 		if (justificativa.getId() != 0) {
 			justificado = true;
 		}
-		System.out.println(justificado);
 		return justificado;
 	}
 	public void pegaMedicao() {
@@ -404,22 +404,6 @@ public class MedicaoProjetoBean implements Serializable {
 			}
 		}
 	}
-	public void alteraQtdMedidoCurrentObject(BigDecimal quantidadeMedido) {
-		int id = 0;
-		try {
-			List<MedicaoEquipe> list = medicoesEquipe.get(idEquipe);
-			for (MedicaoEquipe x : list) {
-				if (x.getId() == medicaoEquipeSelect.getId()) {
-					x.setQuantidadeMedido(quantidadeMedido);
-					medicoesEquipe.get(idEquipe).set(id, x);
-					medicaoEquipeDAO.alterar(x, usuarioLogado.getPessoa_id());
-				}
-				id++;
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
 	public String reprovaPeriodoMedicao() {
 		periodoSelecionado.setStatus(StatusPeriodoEnum.EMABERTO);
 		periodoDAO.alterar(periodoSelecionado, usuarioLogado.getPessoa_id());
@@ -437,6 +421,7 @@ public class MedicaoProjetoBean implements Serializable {
 				justificativa.setFaltas(BigDecimal.valueOf(diasDevidos));
 				justificativa.setDiasTrabalhados(BigDecimal.valueOf(diasTrabalhados));
 				justificativa.setMedicaoEquipe(medicaoEquipeSelect);
+				medicaoEquipeDAO.alterar(medicaoEquipeSelect, usuarioLogado.getPessoa_id());
 				justificativaDAO.salvarJustificativa(justificativa, usuarioLogado.getPessoa_id());
 				justificativa = new Justificativa();
 				diasAtestado = 0;
@@ -525,11 +510,13 @@ public class MedicaoProjetoBean implements Serializable {
 					detalhamentoPeriodoMedicao.setPeriodoMedicao(periodoSelecionado);
 					detalhamentoPeriodoMedicaoDAO.salvarDetalhamentoMedicao(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
 					context.addMessage(null, new FacesMessage("Sucesso!",
-							"Medições dos funcionários salvo com sucesso."));
+							"Detalhamento do periodo salvo com sucesso."));
 					salvo = true;
 			 }else{
 				 detalhamentoPeriodoMedicaoDAO.alterar(detalhamentoPeriodoMedicao, usuarioLogado.getPessoa_id());
 				 salvo = true;
+				 context.addMessage(null, new FacesMessage("Sucesso!",
+							"Detalhamento do periodo alterado com sucesso."));
 			 }
 			}catch(Exception e){
 				System.out.println(e);
@@ -570,20 +557,16 @@ public class MedicaoProjetoBean implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			if (!salvarInfraMateriais()){
-				System.out.println("!salvarInfraMateriais()");
 				return null;
 			}
 			if (!salvarMedicoesProduto()){
-				System.out.println("!salvarMedicoesProduto()");
 				return null;
 			}
 			if (!salvarMedicoesEquipe()){
-				System.out.println("!salvarMedicoesEquipe()");
 				return null;
 				
 			}
 			if(!salvarDetalhamentoMedicao()){
-				System.out.println("!salvarDetalhamentoMedicao()");
 				return null;
 			}
 			periodoSelecionado.setStatus(StatusPeriodoEnum.PENDENTEVALIDACAO);
@@ -931,7 +914,7 @@ public class MedicaoProjetoBean implements Serializable {
 				&& !periodoSelecionado.getBaseCalculo().toString().equals("0.00")) {
 			servicoEquipes = servicoDAO.buscarEquipesPorProjeto(periodoSelecionado.getProjeto());
 			medicoesEquipe = new HashMap<Integer, List<MedicaoEquipe>>();
-			medicoesEquipe = medicoesUtil.carregaMedicaoEquipes(periodoSelecionado, servicoEquipes);
+			medicoesEquipe = medicoesUtil.carregaMedicaoEquipes(periodoSelecionado, servicoEquipes, usuarioLogado.getPessoa_id());
 			exibirEquipes = true;
 		}
 	}
@@ -957,6 +940,7 @@ public class MedicaoProjetoBean implements Serializable {
 					if(medicaoNew.getId()==0){
 						medicaoEquipeDAO.inserir(medicao, usuarioLogado.getPessoa_id());
 					}else{
+						System.out.println("Esta indo a medição de: "+medicao.getMobilizacao().getFuncionario().getNomeCompleto());
 					medicaoEquipeDAO.alterar(medicao, usuarioLogado.getPessoa_id());
 					}
 				}

@@ -24,7 +24,8 @@ public class CarregaMedicoesUtil {
 	@EJB
 	private MobilizacaoDAO mobilizacaoDAO;
 	
-	public Map<Integer, List<MedicaoEquipe>>carregaMedicaoEquipes(PeriodoMedicao periodoSelecionado, List<Servico>servicoEquipes){
+	
+	public Map<Integer, List<MedicaoEquipe>>carregaMedicaoEquipes(PeriodoMedicao periodoSelecionado, List<Servico>servicoEquipes, int idUsuario){
 		medicoesEquipe = new HashMap<Integer,List<MedicaoEquipe>>();
 		List<MedicaoEquipe> todasMedicoes = medicaoEquipeDAO.listarPorPeriodo(periodoSelecionado);
 		List<Mobilizacao>mobilizacoesDoPeriodo = mobilizacaoDAO.buscarTodosPorPeriodo(periodoSelecionado);
@@ -43,6 +44,7 @@ public class CarregaMedicoesUtil {
 							medicaoEquipe.setMobilizacao(mobilizacao);
 							medicaoEquipe.setQuantidadeMedido(BigDecimal.ZERO);
 							medicaoEquipe.setValorMedido(BigDecimal.ZERO);
+							medicaoEquipeDAO.inserir(medicaoEquipe, idUsuario);
 							list.add(medicaoEquipe);
 						}
 					}
