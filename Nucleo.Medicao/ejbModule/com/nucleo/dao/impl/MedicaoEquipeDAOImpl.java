@@ -103,6 +103,7 @@ implements MedicaoEquipeDAO{
 	public List<MedicaoEquipe>listarPorPeriodo(PeriodoMedicao periodoMedicao){
 		List<MedicaoEquipe> medicoes = new ArrayList<MedicaoEquipe>();
 		String jpql = "select distinct m from MedicaoEquipe m"
+				+ " left join fetch m.mobilizacao mob"
 				+ " left join fetch m.periodoMedicao pm"
 				+ " left join fetch pm.detalhamentoPeriodoMedicao d"
 				+ " where m.excluido =:excluido"
@@ -154,6 +155,7 @@ implements MedicaoEquipeDAO{
 		MedicaoEquipe me = new MedicaoEquipe();
 		try{
 		String jpql="select m from MedicaoEquipe m"
+				+ " join fetch m.mobilizacao mob "
 				+ " where m.id=:medicaoId";
 		me = em.createQuery(jpql, MedicaoEquipe.class)
 		.setParameter("medicaoId", id)

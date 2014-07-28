@@ -2,12 +2,11 @@ package com.nucleo.entity.medicao;
 
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import com.nucleo.entity.CommomEntity;
@@ -42,7 +41,7 @@ public class Justificativa extends CommomEntity {
 	}
 	private String observacao;
 	
-    @ManyToOne(cascade={CascadeType.MERGE,CascadeType.PERSIST})
+    @OneToOne
 	private MedicaoEquipe medicaoEquipe;
 
 	public BigDecimal getFaltas() {

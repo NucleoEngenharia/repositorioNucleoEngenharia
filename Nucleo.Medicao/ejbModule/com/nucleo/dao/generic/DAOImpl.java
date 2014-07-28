@@ -221,23 +221,25 @@ public class DAOImpl<T, K> implements DAO<T, K>{
 					}
 
 					if (field.isAnnotationPresent(OneToOne.class)) {
-						retOld = (String) retOld.getClass().getMethod("identificationToLog")
+						/*retOld = (String) retOld.getClass().getMethod("identificationToLog")
 								.invoke(retOld);
 						retNew = (String) retNew.getClass().getMethod("identificationToLog")
 								.invoke(retNew);
-
-						if (retOld.equals(0)) {
+							*/
+						try{
+						if (retOld.equals(0)||retOld.equals(null)) {
 							retNew.getClass().getMethod("setDataCriacao", Calendar.class)
 									.invoke(retNew, Calendar.getInstance());
 							retNew.getClass().getMethod("setUsuarioCriacao", Integer.class)
 									.invoke(retNew, usuario);
 						}
-						if (retNew.equals(0)) {
+						if (retNew.equals(0)||retNew.equals(null)) {
 							retOld.getClass().getMethod("setDataExclusao", Calendar.class)
 									.invoke(retOld, Calendar.getInstance());
 							retOld.getClass().getMethod("setUsuarioExclusao", Integer.TYPE)
 									.invoke(retOld, usuario);
 						}
+						}catch (NullPointerException e) {}
 					}
 
 					LogAlteracao log = new LogAlteracao();
