@@ -5,8 +5,33 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="conteudo">
+		<br/>
 		<p:panel header="Projetos">
-			
+			<p:dataTable value="#{projetosBean.projetos}" var="projeto"
+			 			 paginator="true" rows="10" scrollRows="5">
+			 			 <p:column headerText="CN" filterBy="cn">
+			 			 	<p:outputLabel value="#{projeto.cn}"/>
+			 			 </p:column>
+			 			 <p:column headerText="Nome" filterBy="descricao">
+			 			 	<p:outputLabel value="#{projeto.descricao}"/>
+			 			 </p:column>
+			 			 <p:column headerText="Setor" filterBy="setor.nome">
+							<p:outputLabel value="#{projeto.setor.nome}"/>
+						</p:column>
+						<p:column headerText="Atividade" filterBy="atividade.nome">
+							<p:outputLabel value="#{projeto.atividade.nome}"/>
+						</p:column>
+						<p:column headerText="Data Inicio">
+							<h:outputText value="#{projeto.dtInicio.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Data Fim">
+							<h:outputText value="#{projeto.dtFim.time}">
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+			</p:dataTable>
 		</p:panel>
 	</ui:define>
 </ui:composition>
