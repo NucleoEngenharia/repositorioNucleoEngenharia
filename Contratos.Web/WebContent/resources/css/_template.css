@@ -18,18 +18,18 @@ font {
 	position: relative;
 	border: 2px;
 	background-color: white;
-	width: 100%;
+	margin-top: 2 auto;
+	width: 90%;
 	height: 90%;
 	margin: 0 auto;
 }
 #header .img_logo{
-	margin-left: 10px;
-	margin-top: 10px;
+	padding-top: 1%;
+	padding-left: 2%;
 	display: inline;
 }
 #header .inf_usuario{
 	display: inline;
-	
 	position:absolute;
 	top:60px;
 	right: 50px;
@@ -38,6 +38,10 @@ font {
 #header .logout{
 	font-family: calibri,helvetica,serif;
 	font-size: 13px; 
+	padding-right: 5%;
+}
+#header .logout a:link,a:visited,a:hover,a:active{
+	text-decoration: none;
 }
 
 
@@ -53,9 +57,7 @@ font {
 	position: relative;
 	margin: 10px auto;
 	/* background-color: yellow; */
-	height: 90%;
-	margin-left: 20%;
-	margin-right: 20%;
+	width: 90%;
 	/* height: 100%; */
 	padding-bottom: 30px;
 }
@@ -76,6 +78,7 @@ font {
 	margin:0;
 	font-weight:bold;
 	color:white;
+	padding-right: 5%;
 }
 #footer a:link,a:visited,a:hover,a:active  {
 	text-decoration: none;
