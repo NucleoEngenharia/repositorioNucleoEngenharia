@@ -18,7 +18,7 @@ import com.nucleo.entity.medicao.MedicaoEquipe;
 import com.nucleo.entity.medicao.PeriodoMedicao;
 import com.nucleo.entity.medicao.RelatoriosRMSGerados;
 import com.nucleo.projetos.relatorios.ProcessosRelatorioMensal;
-import com.nucleo.projetos.relatorios.ProcessosResumoModelSistema;
+import com.nucleo.projetos.relatorios.ProcessosResumoContratos;
 import com.nucleo.projetos.relatorios.model.RelatorioMensal;
 import com.nucleo.projetos.relatorios.model.ResumoModeloSistema;
 import com.nucleo.seguranca.to.FuncionarioTO;
@@ -77,7 +77,7 @@ public class RelatorioBean {
 		boolean gerado = false;
 		RelatoriosRMSGerados relatorioGerado = new RelatoriosRMSGerados();
 		String pastaDestino="";
-		ProcessosResumoModelSistema resumoModelSistema = new ProcessosResumoModelSistema();
+		ProcessosResumoContratos resumoModelSistema = new ProcessosResumoContratos();
 		try{
 		ResumoModeloSistema modeloSistema = resumoModelSistema.geraResumoModeloSistema(apartirDe);
 		pastaDestino = resumoModelSistema.geraUrlRelatorio(CAMINHO_RELATORIOS, apartirDe);

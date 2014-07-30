@@ -28,7 +28,7 @@ import com.nucleo.entity.medicao.PeriodoMedicao;
 import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
 import com.nucleo.projetos.relatorios.model.ContratosModel;
 import com.nucleo.projetos.relatorios.model.ResumoModeloSistema;
-public class ProcessosResumoModelSistema{
+public class ProcessosResumoContratos{
 	
 	private List<Projeto>projetos;
 	private List<PeriodoMedicao>periodos;
@@ -55,7 +55,7 @@ public class ProcessosResumoModelSistema{
 	public void setNomeDoArquivo(String nomeDoArquivo) {
 		this.nomeDoArquivo = nomeDoArquivo;
 	}
-	public ProcessosResumoModelSistema() {
+	public ProcessosResumoContratos() {
 		projetoDAO = (ProjetoDAO) Commom.lookup("ProjetoDAOImpl");
 		servicoDAO = (ServicoDAO) Commom.lookup("ServicoDAOImpl");
 		reajusteDAO = (ReajusteDAO) Commom.lookup("ReajusteDAOImpl");
@@ -84,12 +84,12 @@ public class ProcessosResumoModelSistema{
 		Calendar dataGeracao = Calendar.getInstance();
 		StringBuilder data = new StringBuilder();
 		data.append(dataGeracao.get(Calendar.DAY_OF_MONTH)+"-");
-		data.append(dataGeracao.get(Calendar.MONTH)+"-");
+		data.append(dataGeracao.get(Calendar.MONTH)+1+"-");
 		data.append(dataGeracao.get(Calendar.YEAR)+"-");
 		data.append(apartirDe.get(Calendar.DAY_OF_MONTH)+"-");
 		data.append(apartirDe.get(Calendar.MONTH)+1+"-");
 		data.append(apartirDe.get(Calendar.YEAR)+"-");
-		this.nomeDoArquivo = "resumoModeloRelatorio_"+data+".xlsx";
+		this.nomeDoArquivo = "resumoContratos_"+data+".xlsx";
 		urlArquivo.append(nomeDoArquivo);
 
 		return urlArquivo.toString();
