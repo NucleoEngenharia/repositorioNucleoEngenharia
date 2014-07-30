@@ -9,7 +9,7 @@
 	<ui:composition>
 		<h:form id="listaPeriodos">
 			<p:accordionPanel activeIndex="#{medicaoProjetoBean.tabLista}">
-				<p:tab title="Períodos em aberto">
+				<p:tab title="Medições em aberto">
 
 					<p:dataTable id="periodosAberto" var="periodo" paginator="true"
 						rows="10" value="#{medicaoProjetoBean.periodosAberto}"
@@ -42,7 +42,7 @@
 					</p:dataTable>
 				</p:tab>
 
-				<p:tab title="Medições aguardando validação">
+				<p:tab title="Medições Validação MC">
 					<p:dataTable var="periodo" paginator="true" rows="10"
 						value="#{medicaoProjetoBean.periodosValidacao}"
 						emptyMessage="Nenhum período encontrado" rowKey="#{periodo.id}"
@@ -74,7 +74,7 @@
 					</p:dataTable>
 				</p:tab>
 
-				<p:tab title="Medições aguardando aprovação do cliente">
+				<p:tab title="Medições Validação Cliente">
 					<p:dataTable var="periodo" paginator="true" rows="10"
 						value="#{medicaoProjetoBean.periodosAprovacao}"
 						emptyMessage="Nenhum período encontrado" rowKey="#{periodo.id}"
@@ -134,7 +134,7 @@
 					</p:dialog>
 				</p:tab>
 
-				<p:tab title="Medições aprovadas">
+				<p:tab title="Medições Aprovadas">
 					<p:dataTable var="periodo" paginator="true" rows="10"
 						value="#{medicaoProjetoBean.periodosAprovado}"
 						emptyMessage="Nenhum período encontrado">
