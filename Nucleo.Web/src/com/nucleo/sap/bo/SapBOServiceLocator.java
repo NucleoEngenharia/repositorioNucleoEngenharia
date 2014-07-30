@@ -22,7 +22,7 @@ public class SapBOServiceLocator extends org.apache.axis.client.Service implemen
     }
 
     // Use to get a proxy class for SapBO
-    private java.lang.String SapBO_address = "http://200.160.118.244:8181/Nucleo.SAP.ws/services/SapBO";
+    private java.lang.String SapBO_address = "http://179.184.226.66:8181/Nucleo.SAP.ws/services/SapBO";
   //  private java.lang.String SapBO_address = "http://nucleosede.no-ip.org:8181/Nucleo.SAP.ws/services/SapBO";
     
     public java.lang.String getSapBOAddress() {

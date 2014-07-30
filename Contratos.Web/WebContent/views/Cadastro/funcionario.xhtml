@@ -5,5 +5,140 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="conteudo">
+		<br/>
+		<p:tabView>
+			<p:tab title="Cadastro de Funcionários">
+					<p:fileUpload id="fileupload" label="Selecione o arquivo"
+						 allowTypes="/(\.|\/)(csv)$/"/>
+				 	<h:message for="form"/>
+				 	<br/>
+				 	<p:panelGrid styleClass="panelForm">
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Tipo do contrato:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:selectBooleanButton
+								 offLabel="CLT"
+								onLabel="Pessoa jurídica">
+							</p:selectBooleanButton>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="CNPJ:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this, cnpj)" required="true"
+								requiredMessage="CNPJ é um campo obrigatório"
+								/>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Nome da empresa:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText size="50" required="true"
+								requiredMessage="Nome da empresa é um campo obrigatório"
+								/>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="CPF:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,cpf)"
+								/>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Nome do profissional:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText size="50" required="true"
+								requiredMessage="Nome do profissional é um campo obrigatório"
+								/>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="CN:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText
+								size="5" required="true"
+								requiredMessage="CN é um campo obrigatório" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Verba (R$):"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText/>
+						</p:column>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Salário (R$):"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:inputText onkeypress="mascara(this,moeda)" required="true"
+								requiredMessage="Selecione o salário do profissional">
+								<f:convertNumber pattern="#,##0.00" type="currency"
+									locale="pt_BR" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Data de OIS:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:calendar size="10"/>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Data de admissão:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:calendar
+								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy" size="10"
+								requiredMessage="Data de admissão é obrigatório" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Data final:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:calendar
+								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy" size="10"/>
+						</p:column>
+						<p:column styleClass="colLabel">
+							<p:outputLabel value="Data de rescisão:"></p:outputLabel>
+						</p:column>
+						<p:column>
+							<p:calendar
+								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy" size="10"/>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column style="text-align:right; heigth:100px;" colspan="2">
+							<p:commandButton value="Limpar formulário" >
+							</p:commandButton>
+							<p:commandButton value="Salvar">
+							</p:commandButton>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:tab>
+			<p:tab title="Funcionários Cadastrados">
+			</p:tab>
+		</p:tabView>
 	</ui:define>
 </ui:composition>

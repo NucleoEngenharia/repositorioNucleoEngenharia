@@ -23,7 +23,7 @@ a:active {
 }
 
 #main-wrapper {
-	background-color: #fcfcf;
+	background-color: #fcfcfc;
 	border: thin solid #CCC;
 	width: 400px;
 	margin: 50px auto;
@@ -34,6 +34,7 @@ a:active {
 	padding-left: 5px;
 	padding-right: 5px;
 }
+
 #logo{
 	width: 237px;
 	height: 71px;
@@ -41,7 +42,6 @@ a:active {
 	margin: 50px auto 0px;
 	}
 #content{
-	background-image: url(img/fundocont.jpg);
 	margin: 10px auto;
 	width: 247px;
 	}

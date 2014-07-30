@@ -9,16 +9,17 @@
 	<h:head>
 		<title>Núcleo Engenharia Consultiva - Intranet 2.0</title>
 		<h:outputStylesheet name="_template.css" library="css" />
+		<h:outputStylesheet name="form.css" library="css" />
 	</h:head>
 
 	<h:body>
 	<h:form>
-	<div class="header">
+	<div id="header">
 		<ui:insert name="header">
 			<p:commandLink action="/index.xhtml">
-				<p:graphicImage library="img" name="Logotipo_login.png" />
+				<p:graphicImage styleClass="img_logo" library="img" name="Logotipo_login.png" />
 			</p:commandLink>
-			<div class="inf_usuario" align="right">
+			<div id="inf_usuario" align="right">
 					<h:outputText value="Bem vindo #{loginBean.usuarioLogado.nome} | "></h:outputText>
 					<h:link value="Minha Conta"></h:link>
 					<h:outputText value=" | "></h:outputText>
@@ -27,7 +28,7 @@
 			</div>
 		</ui:insert>
 		</div>
-		<div class="corpo">
+		<div id="corpo">
 				<p:menubar id="menu">
 						<p:submenu label="Relatórios">
 						<p:submenu label="Indústria Óleo e gás" url="#">
@@ -62,15 +63,16 @@
 							<p:menuitem value="Liberação de ferente de serviços" url="#"/>
 					</p:submenu>
 					<p:submenu label="Cadastro">
-							<p:menuitem value="Contratos" url="#"/>
+							<p:menuitem value="Contratos" url="/faces/views/Cadastro/contrato.xhtml"/>
 							<p:menuitem value="Funcionários" url="/faces/views/Cadastro/funcionario.xhtml"/>
+							<p:menuitem value="Documentos"/>
 					</p:submenu>
 				</p:menubar>
 			<ui:insert name="conteudo">
 				<p:outputLabel value="Conteúdo padrão" />
 			</ui:insert>
 		</div>
-		<div class="footer">
+		<div id="footer">
 			<p>
 				Intranet 2.0 - Copyright © 2013 - Todos os direitos reservados - <a
 					href="http://www.nucleoengenharia.com.br">Núcleo Engenharia
