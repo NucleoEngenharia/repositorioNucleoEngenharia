@@ -14,4 +14,5 @@ public interface PermissoesMenuDAO extends DAO<PermissoesMenu, Integer>{
 	List<PermissoesMenu>buscarPermissoesPorGrupo(Grupo grupo);
 	PermissoesMenu buscarMenu(PermissoesMenu permissoesMenu);
 	void deletarPermissao(PermissoesMenu menuDatached,int pessoaId);
+	public int buscarUltimoId();
 }

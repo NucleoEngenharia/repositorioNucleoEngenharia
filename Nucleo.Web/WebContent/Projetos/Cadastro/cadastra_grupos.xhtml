@@ -85,8 +85,11 @@
 						</p:row>
 					</p:panelGrid>
 					<br />
-					<p:dataTable id="menusDoGrupo" value="#{cadastroGrupoBean.menusByGrupoSelecionado}" var="menu"
+					<p:dataTable id="menusDoGrupo" value="#{cadastroGrupoBean.permissoesMenusPai}" var="menu"
 								emptyMessage="Nenhum menu associado a este grupo">
+						<p:column style="width:16px">
+            				<p:rowToggler />
+            			</p:column>
 						<p:column headerText="Nome">
 							<h:outputText value="#{menu.descricao}"/>
 						</p:column>
@@ -102,6 +105,23 @@
 						<p:column headerText="Alterar">
 							<p:commandButton icon="ui-icon-pincel" action="#{cadastroGrupoBean.alterarPermissao(menu)}"/>
 						</p:column>
+						<p:rowExpansion>
+            				<p:dataTable id="menuFilho" value="#{cadastroGrupoBean.permissoesMenusFilho.get(menu.id)}" var="menuFilho"
+								emptyMessage="Nenhum sub menu encontrado">>
+								<p:column headerText="Nome">
+										<h:outputText value="#{menuFilho.descricao}"/>
+								</p:column>
+								<p:column headerText="Acesso">
+										<p:selectOneRadio value="#{menuFilho.acesso}">
+												<f:selectItems value="#{cadastroGrupoBean.permissoes}" var="permissao"
+													   itemLabel="#{permissao}" itemValue="#{permissao}"/>
+										</p:selectOneRadio>
+								</p:column>
+								<p:column headerText="Alterar">
+										<p:commandButton icon="ui-icon-pincel" action="#{cadastroGrupoBean.alterarPermissao(menuFilho)}"/>
+								</p:column>
+            				</p:dataTable>
+           				</p:rowExpansion>
 					</p:dataTable>
 					<br />
 				</p:fieldset>

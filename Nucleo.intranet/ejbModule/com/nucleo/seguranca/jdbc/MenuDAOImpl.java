@@ -40,9 +40,9 @@ public class MenuDAOImpl extends FactorIntranetImpl implements MenuDAO {
 	}
 
 	@Override
-	public List<MenuTO> listarMenusMedicao() {
+	public List<MenuTO> listarMenusMedicao(String menuPai) {
 		List<MenuTO>menus = new ArrayList<MenuTO>();
-		String plsql = "select * from menu where menu_medicao='1' and menu_pai='133'";
+		String plsql = "select * from menu where menu_medicao='1' and menu_pai='"+menuPai+"'";
 		try {
 			pstmt = conexao.prepareStatement(plsql);
 			rs = pstmt.executeQuery();

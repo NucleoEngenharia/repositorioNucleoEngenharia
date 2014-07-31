@@ -1,5 +1,6 @@
 package com.nucleo.dao.impl;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -41,8 +42,20 @@ implements PermissoesMenuDAO{
 	}
 	@Override
 	public void deletarPermissao(PermissoesMenu m,int pessoaId){
-		PermissoesMenu newM = em.merge(m);
-		super.deletarPorId(newM.getId(), pessoaId);
+		String jpql="update PermissoesMenu p"
+				+ " set p.excluido=true,"
+				+ " p.usuarioExclusao="+pessoaId+","
+				+ " p.dataExclusao='"+Calendar.getInstance().getTime()+"'"
+				+ " where p.id="+m.getId()+" or p.idPai="+m.getId()+"";
+		em.createQuery(jpql)
+		.executeUpdate();
+	}
+	@Override
+	public int buscarUltimoId(){
+		String jpql="select p from PermissoesMenu p"
+				+ " order by p.id desc";
+		return em.createQuery(jpql, PermissoesMenu.class)
+		.getResultList().get(0).getId();
 	}
 		
 }

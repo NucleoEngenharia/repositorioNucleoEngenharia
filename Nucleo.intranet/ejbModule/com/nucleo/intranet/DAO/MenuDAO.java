@@ -5,5 +5,5 @@ import java.util.List;
 import com.nucleo.seguranca.to.MenuTO;
 
 public interface MenuDAO {
-	List<MenuTO> listarMenusMedicao();
+	List<MenuTO> listarMenusMedicao(String bitMenuPai);
 }

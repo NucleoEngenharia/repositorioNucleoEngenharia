@@ -11,5 +11,5 @@ import com.nucleo.entity.cadastro.controleDeAcessos.PermissoesMenu;
 @Remote
 public interface GrupoDAO extends DAO<Grupo, Integer> {
 	List<Grupo>listarGrupos();
-	List<PermissoesMenu>buscarMenusDoGrupo(Grupo grupo);
+	List<PermissoesMenu>buscarMenusDoGrupo(Grupo grupo, int idPai);
 }

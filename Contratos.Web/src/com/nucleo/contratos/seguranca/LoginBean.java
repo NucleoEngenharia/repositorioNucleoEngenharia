@@ -1,8 +1,6 @@
 package com.nucleo.contratos.seguranca;
 
 
-import java.util.Map;
-
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;

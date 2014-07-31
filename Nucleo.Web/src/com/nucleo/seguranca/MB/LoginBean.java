@@ -106,7 +106,7 @@ public class LoginBean implements Serializable{
 		grupos = acesso.getGrupos();
 		List<PermissoesMenu> menus = new ArrayList<PermissoesMenu>();
 		for(Grupo grupo: grupos){
-			menus = grupoDAO.buscarMenusDoGrupo(grupo);
+			menus = grupoDAO.buscarMenusDoGrupo(grupo,0);
 			for(PermissoesMenu menu: menus){
 				DefaultMenuItem item = new DefaultMenuItem(menu.getDescricao());
 				item.setAjax(false);

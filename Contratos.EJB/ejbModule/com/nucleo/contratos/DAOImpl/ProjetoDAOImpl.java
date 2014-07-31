@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 
-import com.nucleo.contratos.DAO.ProjetoDAO;
 import com.nucleo.contratos.FactorBD.Factor;
+import com.nucleo.contratos.dao.ProjetoDAO;
 import com.nucleo.contratos.entity.Projeto;
 
 @Stateless
@@ -17,5 +17,5 @@ public class ProjetoDAOImpl extends Factor implements ProjetoDAO {
 		return em.createQuery(jpql, Projeto.class)
 		.getResultList();
 	}
-	
+
 }
