@@ -10,7 +10,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import com.nucleo.contratos.DAO.ProjetoDAO;
+import com.nucleo.contratos.dao.ProjetoDAO;
 import com.nucleo.contratos.entity.Projeto;
 import com.nucleo.entity.cadastro.Enum.AtividadeEnum;
 import com.nucleo.entity.cadastro.Enum.SetorEnum;
@@ -23,6 +23,7 @@ public class ProjetosBean {
 	private List<Projeto>projetos;
 	private ProjetoTO projetosSAP[];
 	private SapBOProxy sapBO;
+	
 	@EJB
 	private ProjetoDAO projetoDAO;
 	@PostConstruct

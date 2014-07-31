@@ -1,4 +1,4 @@
-package com.nucleo.contratos.DAO;
+package com.nucleo.contratos.dao;
 
 import java.util.List;
 

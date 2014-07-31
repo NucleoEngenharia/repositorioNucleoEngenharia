@@ -26,6 +26,8 @@ public class PermissoesMenu extends CommomEntity implements Serializable{
 	
 	private String url;
 	
+	private int idPai;
+	
 	private String acesso = "Liberado";
 	@ManyToOne
 	private Grupo grupo;
@@ -52,6 +54,14 @@ public class PermissoesMenu extends CommomEntity implements Serializable{
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getIdPai() {
+		return idPai;
+	}
+
+	public void setIdPai(int idPai) {
+		this.idPai = idPai;
 	}
 
 	public String getDescricao() {
