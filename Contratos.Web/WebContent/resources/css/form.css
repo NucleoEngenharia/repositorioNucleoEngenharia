@@ -10,6 +10,7 @@
 
 .panelForm tr, .panelForm td {
 	border-style: hidden !important;
+	width: 100%;
 }
 
 

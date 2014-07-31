@@ -3,39 +3,56 @@ package com.nucleo.contratos.cadastro.MB;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import com.nucleo.contratos.dao.ProjetoDAO;
 import com.nucleo.contratos.entity.Projeto;
-import com.nucleo.entity.cadastro.Enum.AtividadeEnum;
-import com.nucleo.entity.cadastro.Enum.SetorEnum;
+import com.nucleo.entity.cadastro.eNum.AtividadeEnum;
+import com.nucleo.entity.cadastro.eNum.SetorEnum;
 import com.nucleo.sap.bo.SapBOProxy;
 import com.nucleo.sap.to.ProjetoTO;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class ProjetosBean {
 	private List<Projeto>projetos;
 	private ProjetoTO projetosSAP[];
 	private SapBOProxy sapBO;
 	
+	private Projeto projetoSelecionado;
+	private List<AtividadeEnum>atividades;
+	private List<SetorEnum>setores;
 	@EJB
 	private ProjetoDAO projetoDAO;
 	@PostConstruct
 	public void init(){
 		sapBO = new SapBOProxy();
 		projetos=null;
+		setores = Arrays.asList(SetorEnum.values());
+		atividades = Arrays.asList(AtividadeEnum.values());
 		try {
 			projetosSAP = sapBO.getProjetos();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+	}
+	public List<AtividadeEnum> getAtividades() {
+		return atividades;
+	}
+	public void setAtividades(List<AtividadeEnum> atividades) {
+		this.atividades = atividades;
+	}
+	public List<SetorEnum> getSetores() {
+		return setores;
+	}
+	public void setSetores(List<SetorEnum> setores) {
+		this.setores = setores;
 	}
 	private List<Projeto>converteProjSAP(ProjetoTO projetos[]){
 		List<Projeto> projcts = new ArrayList<Projeto>();
@@ -85,6 +102,12 @@ public class ProjetosBean {
 
 	public void setProjetos(List<Projeto> projetos) {
 		this.projetos = projetos;
+	}
+	public Projeto getProjetoSelecionado() {
+		return projetoSelecionado;
+	}
+	public void setProjetoSelecionado(Projeto projetoSelecionado) {
+		this.projetoSelecionado = projetoSelecionado;
 	}
 	
 	

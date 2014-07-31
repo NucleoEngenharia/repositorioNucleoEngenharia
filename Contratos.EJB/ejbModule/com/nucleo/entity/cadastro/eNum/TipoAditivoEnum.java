@@ -1,4 +1,4 @@
-package com.nucleo.entity.cadastro.Enum;
+package com.nucleo.entity.cadastro.eNum;
 
 public enum TipoAditivoEnum {
 	PRAZO(0, "Prazo"), PRECO(1, "Preço"), OBSERVACAO(2, "Observação");

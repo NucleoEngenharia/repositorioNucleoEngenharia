@@ -1,17 +1,17 @@
-package com.nucleo.entity.cadastro.Enum;
+package com.nucleo.entity.cadastro.eNum;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum TipoServicoEnum {
-	PRODUTO(0, "Produto"), EQUIPE(1, "Equipe");
+public enum StatusProjetoEnum {
+
+	ATIVO(0, "Ativo"), ENCERRADO(1, "Encerrado"), PARALISADO(2, "Paralisado"), S_OIS(3,"S/OIS");
 	
 	private int valor;
 	private String nome;
+	private static Map<Integer, StatusProjetoEnum> relations;
 	
-	private static Map<Integer, TipoServicoEnum> relations;
-	
-	TipoServicoEnum(int valor, String nome) {
+	StatusProjetoEnum(int valor, String nome) {
 		this.valor = valor;
 		this.nome = nome;
 	}
@@ -24,21 +24,21 @@ public enum TipoServicoEnum {
 		return nome;
 	}
 
-	public static TipoServicoEnum getPorValor(int valor) {
+	public static StatusProjetoEnum getPorValor(int valor) {
 		return relations.get(valor);
 	}
 
 	public static Map<Integer, String> getMap(){
 		Map<Integer, String> map = new HashMap<Integer, String>();
-		for (TipoServicoEnum e : values())
+		for (StatusProjetoEnum e : values())
 			map.put(e.getValor(), e.getNome());
-
+		
 		return map;
 	}
 	
 	static {
-		relations = new HashMap<Integer, TipoServicoEnum>();
-		for (TipoServicoEnum e : values())
+		relations = new HashMap<Integer, StatusProjetoEnum>();
+		for (StatusProjetoEnum e : values())
 			relations.put(e.getValor(), e);
-	}
+	}	
 }

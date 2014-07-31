@@ -10,9 +10,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.nucleo.entity.cadastro.Enum.AtividadeEnum;
-import com.nucleo.entity.cadastro.Enum.SetorEnum;
-import com.nucleo.entity.cadastro.Enum.StatusProjetoEnum;
+import com.nucleo.entity.cadastro.eNum.AtividadeEnum;
+import com.nucleo.entity.cadastro.eNum.SetorEnum;
+import com.nucleo.entity.cadastro.eNum.StatusProjetoEnum;
+
 @Entity
 @SequenceGenerator(allocationSize=1, name="seqProjeto",sequenceName="SEQ_GENERATOR")
 public class Projeto {

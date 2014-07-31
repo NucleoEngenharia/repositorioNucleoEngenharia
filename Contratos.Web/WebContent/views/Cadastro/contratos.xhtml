@@ -1,0 +1,60 @@
+<ui:composition template="../../_template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="conteudo">
+		<br />
+		<p:panelGrid columns="4" styleClass="panel_inf_proj">
+			<p:column styleClass="colLabel">
+				<p:outputLabel value="CN"/>
+			</p:column>
+			<p:column>
+				<p:inputText value="#{projetosBean.projetoSelecionado.cn}"
+							 disabled="true" size="3"/>
+			</p:column>
+			<p:column styleClass="colLabel">
+				<p:outputLabel value="Nome"/>
+			</p:column>
+			<p:column>
+				<p:inputText value="#{projetosBean.projetoSelecionado.descricao}" 
+							 disabled="true" size="50"/>
+			</p:column>
+			<p:column>
+				<p:outputLabel value="Data Inicio"/>
+			</p:column>
+			<p:column>
+				<p:calendar pattern="dd/MM/yyyy"
+				            size="10" value="#{projetosBean.projetoSelecionado.dtInicio.time}"/>
+			</p:column>
+			<p:column>
+				<p:outputLabel value="Data Fim"/>
+			</p:column>
+			<p:column>
+				<p:calendar pattern="dd/MM/yyyy" 
+							size="10" value="#{projetosBean.projetoSelecionado.dtFim.time}"/>
+			</p:column>
+			<p:column>
+				<p:outputLabel value="Atividade"/>
+			</p:column>
+			<p:column>
+				<p:selectOneMenu value="#{projetosBean.projetoSelecionado.atividade}">
+					<f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+					<f:selectItems value="#{projetosBean.atividades}" var="atividade" 
+								   itemLabel="#{atividade}" itemValue="#{atividade}"/>
+				</p:selectOneMenu>
+			</p:column>
+			<p:column>
+				<p:outputLabel value="Setor"/>
+			</p:column>
+			<p:column>
+				<p:selectOneMenu value="#{projetosBean.projetoSelecionado.atividade}">
+					<f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+					<f:selectItems value="#{projetosBean.atividades}" var="atividade" 
+								   itemLabel="#{atividade}" itemValue="#{atividade}"/>
+				</p:selectOneMenu>
+			</p:column>
+		</p:panelGrid>
+	</ui:define>
+</ui:composition>

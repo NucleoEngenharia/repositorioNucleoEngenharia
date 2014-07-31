@@ -8,7 +8,9 @@
 		<br/>
 		<p:panel header="Projetos">
 			<p:dataTable value="#{projetosBean.projetos}" var="projeto"
-			 			 paginator="true" rows="10" scrollRows="5">
+			 			 paginator="true" rows="10" scrollRows="5"
+			 			 selection="#{projetosBean.projetoSelecionado}" selectionMode="single"
+			 		rowKey="#{projeto}">
 			 			 <p:column headerText="CN" filterBy="cn">
 			 			 	<p:outputLabel value="#{projeto.cn}"/>
 			 			 </p:column>
@@ -31,6 +33,9 @@
 								<f:convertDateTime pattern="dd/MM/yyyy"/>
 							</h:outputText>
 						</p:column>
+					<f:facet name="footer">
+						<p:commandButton value="Editar Projeto" action="contratos.xhtml"/>
+					</f:facet>
 			</p:dataTable>
 		</p:panel>
 	</ui:define>
