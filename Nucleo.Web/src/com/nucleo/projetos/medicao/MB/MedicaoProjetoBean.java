@@ -166,6 +166,10 @@ public class MedicaoProjetoBean implements Serializable {
 	private boolean apenasLeitura = false;
 	private boolean verificouAcesso = false;
 	private boolean exibirEquipes = false;
+	private boolean meaApenasLeitura = false;
+	private boolean mvmApenasLeitura = false;
+	private boolean mvcApenasLeitura = false;
+	private boolean maApenasLeitura = false;
 	
 	private int tabLista = 0;
 	@SuppressWarnings("unused")
@@ -330,7 +334,6 @@ public class MedicaoProjetoBean implements Serializable {
 		}
 		return apenasLeitura;
 	}
-
 	public void setApenasLeitura(boolean apenasLeitura) {
 		this.apenasLeitura = apenasLeitura;
 	}
@@ -455,17 +458,30 @@ public class MedicaoProjetoBean implements Serializable {
 	public void setEquipeSelect(MedicaoEquipe equipeSelect) {
 		this.medicaoEquipeSelect = equipeSelect;
 	}
+	private void carregaAutorizacao(String descricaoMenu){
+		if(acessoDoUsuarioLogado.isAdministrador()){
+			apenasLeitura = false;
+		}else{
+		AcessosUsuario acessosUsuario = acessosUsuarioDAO.buscarAcessoDoUsuarioComMenu(usuarioLogado.getPessoa_id());
+		if(permissoesMenuBean.apenasLeitura(acessosUsuario, descricaoMenu)){
+			apenasLeitura = true;
+			}
+		}
+	}
 	public void selecionarAberto() {
 		if(selecionado.verificaSeFoiSelecionado(periodoAberto))
 		processarPeriodo(periodoAberto);
+		carregaAutorizacao("Medições em Aberto");
 	}
 	public void selecionarValidacao() {
 		   if(selecionado.verificaSeFoiSelecionado(periodoValidacao))
 			processarPeriodo(periodoValidacao);
+		   carregaAutorizacao("Medições Validação MC");
 	}
 	public void selecionarAprovacao() {
 		if(selecionado.verificaSeFoiSelecionado(periodoAprovacao))
 			processarPeriodo(periodoAprovacao);
+			carregaAutorizacao("Medições Validação Cliente");
 		
 	}
 	public BigDecimal getValorTotalDespesas() {

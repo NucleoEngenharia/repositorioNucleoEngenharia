@@ -5,7 +5,7 @@ import java.util.Map;
 
 public enum StatusProjetoEnum {
 
-	ATIVO(0, "Ativo"), ENCERRADO(1, "Encerrado"), PARALISADO(2, "Paralisado"), S_OIS(3,"S/OIS");
+	ATIVO(0, "Ativo"), ENCERRADO(1, "Encerrado"), PARALISADO(2, "Paralisado");
 	
 	private int valor;
 	private String nome;

@@ -8,19 +8,22 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import com.nucleo.contratos.dao.ProjetoDAO;
 import com.nucleo.contratos.entity.Projeto;
 import com.nucleo.entity.cadastro.eNum.AtividadeEnum;
 import com.nucleo.entity.cadastro.eNum.SetorEnum;
+import com.nucleo.entity.cadastro.eNum.StatusProjetoEnum;
 import com.nucleo.sap.bo.SapBOProxy;
 import com.nucleo.sap.to.ProjetoTO;
 
 @ManagedBean
 @SessionScoped
-public class ProjetosBean {
+public class ListaProjetosBean {
 	private List<Projeto>projetos;
 	private ProjetoTO projetosSAP[];
 	private SapBOProxy sapBO;
@@ -28,6 +31,7 @@ public class ProjetosBean {
 	private Projeto projetoSelecionado;
 	private List<AtividadeEnum>atividades;
 	private List<SetorEnum>setores;
+	private List<StatusProjetoEnum>status;
 	@EJB
 	private ProjetoDAO projetoDAO;
 	@PostConstruct
@@ -35,11 +39,15 @@ public class ProjetosBean {
 		sapBO = new SapBOProxy();
 		projetos=null;
 		setores = Arrays.asList(SetorEnum.values());
+		status = Arrays.asList(StatusProjetoEnum.values());
 		atividades = Arrays.asList(AtividadeEnum.values());
 		try {
 			projetosSAP = sapBO.getProjetos();
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			System.out.println("Deu essa exception");
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage
+			(FacesMessage.SEVERITY_ERROR, "Erro", "Falha na comunicação com sistema SAP (http://179.184.226.66:8181), entre em contato com Administrador da rede"));
 		}
 	}
 	public List<AtividadeEnum> getAtividades() {
@@ -54,9 +62,16 @@ public class ProjetosBean {
 	public void setSetores(List<SetorEnum> setores) {
 		this.setores = setores;
 	}
+	public List<StatusProjetoEnum> getStatus() {
+		return status;
+	}
+	public void setStatus(List<StatusProjetoEnum> status) {
+		this.status = status;
+	}
 	private List<Projeto>converteProjSAP(ProjetoTO projetos[]){
 		List<Projeto> projcts = new ArrayList<Projeto>();
 		projcts = projetoDAO.listarTodos();
+		try{
 		for(int index=0;index<projetos.length;index++){
 			ProjetoTO to = new ProjetoTO();
 			Projeto projetoContr = new Projeto();
@@ -81,6 +96,7 @@ public class ProjetosBean {
 				projcts.add(projetoContr);
 			}
 		}
+		}catch(NullPointerException e){}
 		return projcts;
 	}
 	private boolean proucuraCNnosProjCadastrados(ProjetoTO projetoTO,List<Projeto>projs){

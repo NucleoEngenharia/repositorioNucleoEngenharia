@@ -7,10 +7,10 @@
 	<ui:define name="conteudo">
 		<br/>
 		<p:panel header="Projetos">
-			<p:dataTable value="#{projetosBean.projetos}" var="projeto"
+			<p:dataTable value="#{listaProjetosBean.projetos}" var="projeto"
 			 			 paginator="true" rows="10" scrollRows="5"
-			 			 selection="#{projetosBean.projetoSelecionado}" selectionMode="single"
-			 		rowKey="#{projeto}">
+			 			 selection="#{listaProjetosBean.projetoSelecionado}" selectionMode="single"
+			 		rowKey="#{projeto.id}">
 			 			 <p:column headerText="CN" filterBy="cn">
 			 			 	<p:outputLabel value="#{projeto.cn}"/>
 			 			 </p:column>
@@ -37,6 +37,7 @@
 						<p:commandButton value="Editar Projeto" action="contratos.xhtml"/>
 					</f:facet>
 			</p:dataTable>
+			<p:messages autoUpdate="true" showSummary="true" showDetail="true"/>
 		</p:panel>
 	</ui:define>
 </ui:composition>
