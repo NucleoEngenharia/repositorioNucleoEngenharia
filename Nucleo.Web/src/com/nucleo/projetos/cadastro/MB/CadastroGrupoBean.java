@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -32,8 +33,8 @@ public class CadastroGrupoBean {
 		salvar = true;
 		editar=false;
 		menus = menuDAO.listarMenusMedicao("133");
-		carregaMenusFilhos();
 		menuFilho = new HashMap<Integer, List<MenuTO>>();
+		carregaMenusFilhos();
 		usuarioLogado = Commom.getUsuarioLogado();
 	}
 	private boolean salvar;
@@ -247,18 +248,20 @@ public class CadastroGrupoBean {
 		grupoSelecionado.setMenus(new HashSet<PermissoesMenu>(menusByGrupoSelecionado));
 		salvarPermissoes();
 		menusByGrupoSelecionado = new ArrayList<PermissoesMenu>();
+		int idRegistrado = permissoesMenuDAO.buscarUltimoId();
 		try{
 			if(menuFilho.get(menuSelecionado.getId()).size()>0){
 				for(MenuTO menuTO:  menuFilho.get(menuSelecionado.getId())){
+					System.out.println(menuTO.getDescricao());
 					PermissoesMenu permissoesMenuFilho = new PermissoesMenu();
 					permissoesMenuFilho.setDescricao(menuTO.getDescricao());
 					permissoesMenuFilho.setUrl(menuTO.getUrl());
 					permissoesMenuFilho.setGrupo(grupoSelecionado);
-					permissoesMenuFilho.setIdPai(permissoesMenuDAO.buscarUltimoId());
+					permissoesMenuFilho.setIdPai(idRegistrado);
 					menusByGrupoSelecionado.add(permissoesMenuFilho);
 					grupoSelecionado.setMenus(new HashSet<PermissoesMenu>(menusByGrupoSelecionado));
-					salvarPermissoes();
 					}
+				salvarPermissoes();
 				}
 			}catch(NullPointerException e){
 			
@@ -273,9 +276,8 @@ public class CadastroGrupoBean {
 			e.printStackTrace();
 		}
 		}
-	public List<PermissoesMenu>buscarPorGrupo(Grupo grupo){
-		List<PermissoesMenu>menusPermitidos = new ArrayList<PermissoesMenu>();
-		menusPermitidos = permissoesMenuDAO.buscarPermissoesPorGrupo(grupo);
+	public Set<PermissoesMenu>buscarPorGrupo(Grupo grupo){
+		Set<PermissoesMenu>menusPermitidos = new HashSet<PermissoesMenu>(permissoesMenuDAO.buscarPermissoesPorGrupo(grupo));
 		return menusPermitidos;
 	}
 	public void alterarPermissao(PermissoesMenu menu){

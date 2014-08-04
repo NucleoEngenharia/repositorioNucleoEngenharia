@@ -80,7 +80,6 @@ public class ServicoDAOImpl extends DAOImpl<Servico, Integer> implements Servico
 				valorUsado = valorUsado.add(cargo.getValorTotal());
 			}
 		} else {
-			System.out.println("...buscando produtos");
 			List<Produto> produtos = produtoDAO.buscarTodosPorServico(servico);
 			for (Produto produto : produtos) {
 				if (produto.isGrupo())
