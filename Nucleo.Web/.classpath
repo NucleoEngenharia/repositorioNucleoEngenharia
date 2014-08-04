@@ -16,6 +16,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/Nucleo.Medicao"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Nucleo.integracoes"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Nucleo.Integracoes"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
