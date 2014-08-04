@@ -1,4 +1,4 @@
-package com.nucleo.entity.cadastro.Enum;
+package com.nucleo.entity.cadastro.eNum;
 
 import java.util.HashMap;
 import java.util.Map;

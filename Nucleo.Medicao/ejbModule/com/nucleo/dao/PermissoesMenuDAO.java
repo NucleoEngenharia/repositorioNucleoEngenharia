@@ -1,6 +1,7 @@
 package com.nucleo.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Remote;
 
@@ -11,7 +12,7 @@ import com.nucleo.entity.cadastro.controleDeAcessos.PermissoesMenu;
 @Remote
 public interface PermissoesMenuDAO extends DAO<PermissoesMenu, Integer>{
 	PermissoesMenu buscarPermissaoPorIdEDescricao(int id, String nome);
-	List<PermissoesMenu>buscarPermissoesPorGrupo(Grupo grupo);
+	Set<PermissoesMenu>buscarPermissoesPorGrupo(Grupo grupo);
 	PermissoesMenu buscarMenu(PermissoesMenu permissoesMenu);
 	void deletarPermissao(PermissoesMenu menuDatached,int pessoaId);
 	public int buscarUltimoId();

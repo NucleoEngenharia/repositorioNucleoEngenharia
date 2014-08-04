@@ -16,7 +16,9 @@ import com.nucleo.seguranca.to.FuncionarioTO;
 import com.nucleo.seguranca.to.MenuTO;
 import com.nucleo.seguranca.to.PerfilTO;
 @Stateless
-public class AutenticacaoDAOImpl extends FactorIntranetImpl implements AutenticacaoDAO{
+public class AutenticacaoDAOImpl
+extends FactorIntranetImpl
+implements AutenticacaoDAO{
 	
 	protected static Connection conexao =null;
 	

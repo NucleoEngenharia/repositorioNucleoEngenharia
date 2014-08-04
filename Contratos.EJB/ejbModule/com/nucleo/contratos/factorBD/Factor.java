@@ -1,4 +1,4 @@
-package com.nucleo.contratos.FactorBD;
+package com.nucleo.contratos.factorBD;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

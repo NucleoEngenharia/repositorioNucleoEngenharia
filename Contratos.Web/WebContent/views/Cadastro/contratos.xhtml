@@ -1,0 +1,96 @@
+<ui:composition template="../../_template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="conteudo">
+		<br />
+		<p:panel header="Cadastro de Projetos">
+			<p:panelGrid style="width: 100%;" styleClass="panel_inf_proj">
+				<p:row>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="CN" />
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listaProjetosBean.projetoSelecionado.cn}"
+							disabled="true" size="3" />
+					</p:column>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Nome" />
+					</p:column>
+					<p:column>
+						<p:inputText
+							value="#{listaProjetosBean.projetoSelecionado.descricao}"
+							disabled="true" size="50" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Data Inicio" />
+					</p:column>
+					<p:column>
+						<p:calendar pattern="dd/MM/yyyy" size="8" maxlength="10" 
+							value="#{listaProjetosBean.projetoSelecionado.dtInicio.time}" />
+					</p:column>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Data Fim" />
+					</p:column>
+					<p:column>
+						<p:calendar pattern="dd/MM/yyyy" size="8" maxlength="10"
+							value="#{listaProjetosBean.projetoSelecionado.dtFim.time}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Atividade" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu
+							value="#{listaProjetosBean.projetoSelecionado.atividade}">
+							<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
+							<f:selectItems value="#{listaProjetosBean.atividades}"
+								var="atividade" itemLabel="#{atividade}"
+								itemValue="#{atividade}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Setor" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu
+							value="#{listaProjetosBean.projetoSelecionado.atividade}">
+							<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
+							<f:selectItems value="#{listaProjetosBean.atividades}"
+								var="atividade" itemLabel="#{atividade}"
+								itemValue="#{atividade}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Status" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu
+							value="#{listaProjetosBean.projetoSelecionado.status}">
+							<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
+							<f:selectItems value="#{listaProjetosBean.status}"
+								var="status" itemLabel="#{status}"
+								itemValue="#{status}" />
+						</p:selectOneMenu>
+					</p:column >
+					<p:column styleClass="colLabel">
+						<p:outputLabel value="Fechamento 1ºPeríodo"/>
+					</p:column>
+					<p:column>
+						<p:calendar pattern="dd/MM" size="5" maxlength="8"
+							/>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="Salvar Projeto"/>
+		</p:panel>
+	</ui:define>
+</ui:composition>

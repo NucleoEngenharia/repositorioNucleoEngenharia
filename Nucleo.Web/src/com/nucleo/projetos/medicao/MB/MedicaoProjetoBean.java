@@ -164,7 +164,6 @@ public class MedicaoProjetoBean implements Serializable {
 	
 	private boolean exibirDetalhes = false;
 	private boolean apenasLeitura = false;
-	private boolean verificouAcesso = false;
 	private boolean exibirEquipes = false;
 	
 	private int tabLista = 0;
@@ -317,20 +316,8 @@ public class MedicaoProjetoBean implements Serializable {
 		this.detalhamentoPeriodoMedicao = detalhamentoPeriodoMedicao;
 	}
 	public boolean isApenasLeitura() {
-		if(!verificouAcesso){
-		if(acessoDoUsuarioLogado.isAdministrador()){
-			apenasLeitura = false;
-		}else{
-		AcessosUsuario acessosUsuario = acessosUsuarioDAO.buscarAcessoDoUsuarioComMenu(usuarioLogado.getPessoa_id());
-		if(permissoesMenuBean.apenasLeitura(acessosUsuario, "Lançar Medições")){
-			apenasLeitura = true;
-			}
-		}
-		verificouAcesso=true;
-		}
 		return apenasLeitura;
 	}
-
 	public void setApenasLeitura(boolean apenasLeitura) {
 		this.apenasLeitura = apenasLeitura;
 	}
@@ -455,17 +442,33 @@ public class MedicaoProjetoBean implements Serializable {
 	public void setEquipeSelect(MedicaoEquipe equipeSelect) {
 		this.medicaoEquipeSelect = equipeSelect;
 	}
+	private void carregaAutorizacao(String descricaoMenu){
+		apenasLeitura = false;
+		if(acessoDoUsuarioLogado.isAdministrador()){
+			apenasLeitura = false;
+		}else{
+		AcessosUsuario acessosUsuario = acessosUsuarioDAO.buscarAcessoDoUsuarioComMenu(usuarioLogado.getPessoa_id());
+		if(permissoesMenuBean.apenasLeitura(acessosUsuario, descricaoMenu)){
+			apenasLeitura = true;
+			}else{
+				apenasLeitura = false;
+			}
+		}
+	}
 	public void selecionarAberto() {
 		if(selecionado.verificaSeFoiSelecionado(periodoAberto))
 		processarPeriodo(periodoAberto);
+		carregaAutorizacao("Medições em Aberto");
 	}
 	public void selecionarValidacao() {
 		   if(selecionado.verificaSeFoiSelecionado(periodoValidacao))
 			processarPeriodo(periodoValidacao);
+		   carregaAutorizacao("Medições Validação MC");
 	}
 	public void selecionarAprovacao() {
 		if(selecionado.verificaSeFoiSelecionado(periodoAprovacao))
 			processarPeriodo(periodoAprovacao);
+			carregaAutorizacao("Medições Validação Cliente");
 		
 	}
 	public BigDecimal getValorTotalDespesas() {

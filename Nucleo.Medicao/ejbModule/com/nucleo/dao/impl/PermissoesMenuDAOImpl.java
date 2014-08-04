@@ -1,7 +1,8 @@
 package com.nucleo.dao.impl;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 
@@ -23,12 +24,13 @@ implements PermissoesMenuDAO{
 		.getSingleResult();
 	}
 	@Override
-	public List<PermissoesMenu>buscarPermissoesPorGrupo(Grupo grupo){
-		String jpql = "select pm PermissoesMenu pm"
-				+ " where pm.grupo =:grupoId ";
-		return em.createQuery(jpql, PermissoesMenu.class)
+	public Set<PermissoesMenu>buscarPermissoesPorGrupo(Grupo grupo){
+		String jpql = "select distinct pm from PermissoesMenu pm"
+				+ " where pm.grupo.id =:grupoId and pm.excluido=:excluido";
+		return new HashSet<>(em.createQuery(jpql, PermissoesMenu.class)
 				.setParameter("grupoId", grupo.getId())
-				.getResultList();
+				.setParameter("excluido", false)
+				.getResultList());
 	}
 	@Override
 	public PermissoesMenu buscarMenu(PermissoesMenu permissoesMenu){
