@@ -79,8 +79,7 @@
 						<p:column style="text-align:right; heigth:100px;" colspan="2">
 							<p:commandButton value="Limpar formulário" >
 							</p:commandButton>
-							<p:commandButton value="Salvar">
-							</p:commandButton>
+							<p:commandButton value="Salvar" action="#{funcionarioBean.salvarFuncionario}" update="@all"/>
 						</p:column>
 					</p:row>
 				</p:panelGrid>
