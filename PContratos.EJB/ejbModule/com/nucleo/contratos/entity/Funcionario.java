@@ -27,6 +27,8 @@ public class Funcionario extends CommomEntity {
 	
 	private String matricula;
 	
+	private String senha;
+	
 	private int cn;
 	
 	private String nome;
@@ -54,6 +56,14 @@ public class Funcionario extends CommomEntity {
 
 	public int getCn() {
 		return cn;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getNome() {

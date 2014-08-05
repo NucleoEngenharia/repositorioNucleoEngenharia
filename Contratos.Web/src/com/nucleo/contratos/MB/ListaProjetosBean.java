@@ -1,4 +1,4 @@
-package com.nucleo.contratos.cadastro.MB;
+package com.nucleo.contratos.MB;
 
 
 import java.rmi.RemoteException;

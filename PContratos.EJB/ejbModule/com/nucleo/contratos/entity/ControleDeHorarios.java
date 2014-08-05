@@ -38,7 +38,7 @@ public class ControleDeHorarios {
 	private Calendar hrSaida;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar hrSobra;
+	private Calendar tempoTrabalhado;
 
 	public int getId() {
 		return id;
@@ -96,12 +96,12 @@ public class ControleDeHorarios {
 		this.hrSaida = hrSaida;
 	}
 
-	public Calendar getHrSobra() {
-		return hrSobra;
+	public Calendar getTempoTrabalhado() {
+		return tempoTrabalhado;
 	}
 
-	public void setHrSobra(Calendar hrSobra) {
-		this.hrSobra = hrSobra;
+	public void setTempoTrabalhado(Calendar tempoTrabalhado) {
+		this.tempoTrabalhado = tempoTrabalhado;
 	}
 	
 	
