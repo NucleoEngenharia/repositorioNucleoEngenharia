@@ -11,4 +11,5 @@ public interface FuncionarioDAO {
 	List<Funcionario>listarTodos();
 	void inserir(Funcionario funcionario,int idUsuario);
 	void fazPrimeiroAcesso(Funcionario funcionario);
+	Funcionario buscaFuncionarioPorCpf(Funcionario funcionario);
 }

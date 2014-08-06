@@ -10,75 +10,88 @@
 		<title>Núcleo Engenharia Consultiva - Intranet 2.0</title>
 		<h:outputStylesheet name="_template.css" library="css" />
 		<h:outputStylesheet name="form.css" library="css" />
+		<h:outputScript name="mascara.js" library="scripts" />
 	</h:head>
 
 	<h:body>
-	<h:form>
-	<div id="header">
-		<ui:insert name="header">
-			<p:commandLink action="/index.xhtml">
-				<p:graphicImage styleClass="img_logo" library="img" name="Logotipo_login.png" />
-			</p:commandLink>
-			<div id="inf_usuario" align="right">
-					<h:outputText value="Bem vindo #{loginBean.usuarioLogado.nome} | "></h:outputText>
-					<h:link value="Minha Conta"></h:link>
-					<h:outputText value=" | "></h:outputText>
-					<p:commandLink action="#{loginBean.logout}" value="Logout"
-						styleClass="logout"></p:commandLink>
+		<h:form>
+			<div id="header">
+				<ui:insert name="header">
+					<p:commandLink action="/index.xhtml">
+						<p:graphicImage styleClass="img_logo" library="img"
+							name="Logotipo_login.png" />
+					</p:commandLink>
+					<div id="inf_usuario" align="right">
+						<h:outputText value="Bem vindo #{loginBean.usuarioLogado.nome} | "></h:outputText>
+						<h:link value="Minha Conta"></h:link>
+						<h:outputText value=" | "></h:outputText>
+						<p:commandLink action="#{loginBean.logout}" value="Logout"
+							styleClass="logout"></p:commandLink>
+					</div>
+				</ui:insert>
 			</div>
-		</ui:insert>
-		</div>
-		<div id="corpo">
-				<p:menubar id="menu" autoDisplay="false">
-						<p:submenu label="Relatórios">
-						<p:submenu label="Indústria Óleo e gás" url="#">
-							<p:menuitem value="123" url="/faces/views/relatorio/formularioRelatorio.xhtml"/>
-							<p:menuitem value="456" url="#"/>
-							<p:menuitem value="789" url="#"/>
-							<p:menuitem value="101" url="#"/>
-						</p:submenu>
-						<p:submenu label="Energia" url="#">
-							<p:menuitem value="123" url="#"/>
-							<p:menuitem value="456" url="#"/>
-							<p:menuitem value="789" url="#"/>
-							<p:menuitem value="101" url="#"/>
-						</p:submenu>
-						<p:submenu label="Infraestrutura" url="#">
-							<p:menuitem value="123" url="#"/>
-							<p:menuitem value="456" url="#"/>
-							<p:menuitem value="789" url="#"/>
-							<p:menuitem value="101" url="#"/>
-						</p:submenu>
-						<p:submenu label="Urbanismo" url="#">
-							<p:menuitem value="123" url="#"/>
-							<p:menuitem value="456" url="#"/>
-							<p:menuitem value="789" url="#"/>
-							<p:menuitem value="101" url="#"/>
-						</p:submenu>
-					</p:submenu>
-					<p:submenu label="Modelos de Documentos">
-							<p:menuitem value="Ata" url="#"/>
-							<p:menuitem value="RDO" url="#"/>
-							<p:menuitem value="Não conformidades" url="#"/>
-							<p:menuitem value="Liberação de ferente de serviços" url="#"/>
-					</p:submenu>
-					<p:submenu label="Cadastro">
-							<p:menuitem value="Contratos" url="/faces/views/Cadastro/listaContrato.xhtml"/>
-							<p:menuitem value="Funcionários" url="/faces/views/Cadastro/funcionario.xhtml"/>
-							<p:menuitem value="Documentos"/>
-					</p:submenu>
-				</p:menubar>
-			<ui:insert name="conteudo">
-				<p:outputLabel value="Conteúdo padrão" />
-			</ui:insert>
-		</div>
-		<div id="footer">
-			<p>
-				Intranet 2.0 - Copyright © 2013 - Todos os direitos reservados - <a
-					href="http://www.nucleoengenharia.com.br">Núcleo Engenharia
-					Consultiva S/A</a>
-			</p>
-		</div>
+			<div id="corpo">
+				<p:panelGrid id="panel_grid_principal">
+					<p:row>
+						<p:column styleClass="colLeft">
+							<p:panelMenu id="menu" autoDisplay="false">
+								<p:submenu label="Relatórios">
+									<p:submenu label="Indústria Óleo e gás" url="#">
+										<p:menuitem value="123"
+											url="/faces/views/relatorio/formularioRelatorio.xhtml" />
+										<p:menuitem value="456" url="#" />
+										<p:menuitem value="789" url="#" />
+										<p:menuitem value="101" url="#" />
+									</p:submenu>
+									<p:submenu label="Energia" url="#">
+										<p:menuitem value="123" url="#" />
+										<p:menuitem value="456" url="#" />
+										<p:menuitem value="789" url="#" />
+										<p:menuitem value="101" url="#" />
+									</p:submenu>
+									<p:submenu label="Infraestrutura" url="#">
+										<p:menuitem value="123" url="#" />
+										<p:menuitem value="456" url="#" />
+										<p:menuitem value="789" url="#" />
+										<p:menuitem value="101" url="#" />
+									</p:submenu>
+									<p:submenu label="Urbanismo" url="#">
+										<p:menuitem value="123" url="#" />
+										<p:menuitem value="456" url="#" />
+										<p:menuitem value="789" url="#" />
+										<p:menuitem value="101" url="#" />
+									</p:submenu>
+								</p:submenu>
+								<p:submenu label="Modelos de Documentos">
+									<p:menuitem value="Ata" url="#" />
+									<p:menuitem value="RDO" url="#" />
+									<p:menuitem value="Não conformidades" url="#" />
+									<p:menuitem value="Liberação de ferente de serviços" url="#" />
+								</p:submenu>
+								<p:submenu label="Cadastro">
+									<p:menuitem value="Contratos"
+										url="/faces/views/Cadastro/listaContrato.xhtml" />
+									<p:menuitem value="Funcionários"
+										url="/faces/views/Cadastro/funcionario.xhtml" />
+									<p:menuitem value="Documentos" />
+								</p:submenu>
+							</p:panelMenu>
+						</p:column>
+						<p:column styleClass="colRight">
+							<ui:insert name="conteudo">
+								<p:outputLabel value="Conteúdo padrão" />
+							</ui:insert>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</div>
+			<div id="footer">
+				<p>
+					Intranet 2.0 - Copyright © 2013 - Todos os direitos reservados - <a
+						href="http://www.nucleoengenharia.com.br">Núcleo Engenharia
+						Consultiva S/A</a>
+				</p>
+			</div>
 		</h:form>
 	</h:body>
 </f:view>

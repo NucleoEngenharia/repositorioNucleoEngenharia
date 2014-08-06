@@ -46,9 +46,6 @@ font {
 
 
 #corpo menu {
-	width:80%;
-	height:40px;
-	text-align:center;
 	margin: 0 auto;
 }
 
@@ -60,6 +57,15 @@ font {
 	width: 90%;
 	/* height: 100%; */
 	padding-bottom: 30px;
+}
+#corpo panel_grid_principal{
+	width:100%;
+}
+#corpo panel_grid_principal colLeft{
+	width:20%;
+}
+#corpo panel_grid_principal colRight{
+	width:80%;
 }
 .clear {clear:both;}
 

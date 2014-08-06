@@ -8,18 +8,18 @@ public class Messages {
 	
 	public static void geraMensagemDeErro(String msg){
 		context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", msg));
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro! "+msg,null));
 	}
 	public static void geraMensagemAviso(String msg){
 		context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação!", msg));
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informação! "+msg,null));
 	}
 	public static void geraMensagemFatal(String msg){
 		context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", msg));
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal! "+msg,null));
 	}
 	public static void geraMensagemWarn(String msg){
 		context = FacesContext.getCurrentInstance();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!", msg));
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção! "+msg,null));
 	}
 }

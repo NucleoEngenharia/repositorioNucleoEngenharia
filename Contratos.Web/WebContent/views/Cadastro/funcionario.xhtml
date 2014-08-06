@@ -1,4 +1,4 @@
-<ui:composition template="/_template.xhtml"
+<ui:composition template="../../_template.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -6,9 +6,9 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="conteudo">
 		<br/>
-		<p:tabView>
-			<p:tab title="Cadastro de Funcionários">
-					<p:fileUpload id="fileupload" label="Selecione o arquivo"
+		<h:form id="form">
+		<p:messages/>
+				<p:fileUpload id="fileupload" label="Selecione o arquivo"
 						 allowTypes="/(\.|\/)(csv)$/"/>
 				 	<h:message for="form"/>
 				 	<br/>
@@ -18,19 +18,20 @@
 				 			<p:outputLabel value="Matrícula"/>
 				 		</p:column>
 				 		<p:column>
-				 			<p:inputText size="5" value="#{funcionarioBean.funcionario.matricula}"
+				 			<p:inputText id="matricula" size="5" value="#{funcionarioBean.funcionario.matricula}"
 				 			required="true" requiredMessage="Matrícula é um campo obrigatório"/>
+				 			<p:growl for="matricula"/>
 				 		</p:column>
 				 	</p:row>
 					<p:row>
 						<p:column styleClass="colLabel">
-							<p:outputLabel value="CPF:"></p:outputLabel>
+							<p:outputLabel value="CPF"/>
 						</p:column>
 						<p:column>
-							<p:inputText onkeypress="mascara(this, cpf)" value="#{funcionarioBean.funcionario.cpf}"
+							<p:inputText id="cpf" onkeypress="mascara(this, cpf)" value="#{funcionarioBean.funcionario.cpf}"
 								required="true"
-								requiredMessage="CPF é um campo obrigatório"
-								/>
+								requiredMessage="CPF é um campo obrigatório"/>
+								<p:growl for="cpf"/>
 						</p:column>
 					</p:row>
 					<p:row>
@@ -38,9 +39,9 @@
 							<p:outputLabel value="Nome do profissional:"></p:outputLabel>
 						</p:column>
 						<p:column>
-							<p:inputText size="50" required="true" value="#{funcionarioBean.funcionario.nome}"
-								requiredMessage="Nome do profissional é um campo obrigatório"
-								/>
+							<p:inputText id="nome" size="50" required="true" value="#{funcionarioBean.funcionario.nome}"
+								requiredMessage="Nome do profissional é um campo obrigatório"/>
+								<p:growl for="nome"/>
 						</p:column>
 					</p:row>
 					<p:row>
@@ -48,9 +49,9 @@
 							<p:outputLabel value="CN:"></p:outputLabel>
 						</p:column>
 						<p:column>
-							<p:inputText
-								size="5" required="true" value="#{funcionarioBean.funcionario.cn}"
+							<p:inputText id="cn" size="5" required="true" value="#{funcionarioBean.funcionario.cn}"
 								requiredMessage="CN é um campo obrigatório" />
+								<p:growl for="cn"/>
 						</p:column>
 					</p:row>
 					<p:row>
@@ -58,10 +59,10 @@
 							<p:outputLabel value="Data de admissão:"></p:outputLabel>
 						</p:column>
 						<p:column>
-							<p:calendar
-								onkeypress="mascara(this,data)" value="#{funcionarioBean.funcionario.dtAdmissao}"
-								pattern="dd/MM/yyyy" size="10"
+							<p:calendar id="dtAdm" maxlength="10" onkeypress="mascara(this,data)"  value="#{funcionarioBean.funcionario.dtAdmissao}"
+								pattern="dd/MM/yyyy" size="10" required="true" converter="CalendarConverter"
 								requiredMessage="Data de admissão é obrigatório" />
+								<p:growl for="dtAdm"/>
 						</p:column>
 					</p:row>
 
@@ -71,21 +72,45 @@
 						</p:column>
 						<p:column>
 							<p:calendar value="#{funcionarioBean.funcionario.dtDemissao}"
-								onkeypress="mascara(this,data)" pattern="dd/MM/yyyy" size="10"/>
+								onkeypress="mascara(this,data)" converter="CalendarConverter"
+								pattern="dd/MM/yyyy" maxlength="10" size="10">
+							</p:calendar>	
 						</p:column>
 					</p:row>
 
 					<p:row>
 						<p:column style="text-align:right; heigth:100px;" colspan="2">
-							<p:commandButton value="Limpar formulário" >
-							</p:commandButton>
+							<p:commandButton value="Limpar formulário" action="#{funcionarioBean.limpaForm}" update="@all"/>
 							<p:commandButton value="Salvar" action="#{funcionarioBean.salvarFuncionario}" update="@all"/>
 						</p:column>
 					</p:row>
 				</p:panelGrid>
-			</p:tab>
-			<p:tab title="Funcionários Cadastrados">
-			</p:tab>
-		</p:tabView>
+				<br/>
+				<p:dataTable value="#{funcionarioBean.funcionarios}" var="funcionario"
+				 paginator="true" rows="10" emptyMessage="Nenhum funcionário cadastrado">
+					<p:column headerText="Matricula" filterBy="matricula">
+						<p:outputLabel value="#{funcionario.matricula}"/>
+					</p:column>
+					<p:column headerText="CPF" filterBy="cpf">
+						<p:outputLabel value="#{funcionario.cpf}"/>
+					</p:column>
+					<p:column headerText="Nome" filterBy="nome">
+						<p:outputLabel value="#{funcionario.nome}"/>
+					</p:column>
+					<p:column headerText="CN" filterBy="cn">
+						<p:outputLabel value="#{funcionario.cn}"/>
+					</p:column>
+					<p:column headerText="Dt. Adm.">
+						<h:outputText value="#{funcionario.dtAdmissao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Dt. Rec.">
+						<h:outputText value="#{funcionario.dtDemissao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+		</h:form>
 	</ui:define>
 </ui:composition>

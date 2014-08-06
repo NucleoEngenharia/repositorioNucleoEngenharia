@@ -27,6 +27,7 @@ public class CommomEntity implements Serializable {
 
 	public CommomEntity() {
 		excluido = false;
+		dataCriacao = Calendar.getInstance();
 	}
 	
 	public Calendar getDataCriacao() {

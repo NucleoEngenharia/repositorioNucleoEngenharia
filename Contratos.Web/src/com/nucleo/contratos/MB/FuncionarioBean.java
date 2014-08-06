@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import com.nucleo.commom.Commom;
 import com.nucleo.commom.Messages;
@@ -17,22 +16,26 @@ import com.nucleo.seguranca.to.FuncionarioTO;
 @ManagedBean
 @ViewScoped
 public class FuncionarioBean {
+	
 	@PostConstruct
 	public void init(){
 		funcionario = new Funcionario();
 		usuarioLogado = Commom.getUsuarioLogado();
+		funcionarios = null;
 	}
+	
 	private FuncionarioTO usuarioLogado;
 	private List<Funcionario>funcionarios;
 	
-	@SuppressWarnings("unused")
-	private FacesContext context;
 	@EJB
 	private FuncionarioDAO funcionarioDAO;
 	
 	private Funcionario funcionario;
 
 	public List<Funcionario> getFuncionarios() {
+		if(funcionarios==null){
+			funcionarios = funcionarioDAO.listarTodos();
+		}
 		return funcionarios;
 	}
 
@@ -47,13 +50,15 @@ public class FuncionarioBean {
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
-	
+	public void limpaForm(){
+		funcionario = new Funcionario();
+	}
 	public void salvarFuncionario(){
 		try{
-			System.out.println("Tentando salvar");
 		funcionarioDAO.inserir(funcionario, usuarioLogado.getPessoa_id());
 		Messages.geraMensagemAviso("Usuário gravado com sucesso");
 		funcionario = new Funcionario();
+		funcionarios=null;
 		}catch(Exception e){
 			Messages.geraMensagemFatal(""+e);
 		}
