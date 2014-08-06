@@ -13,8 +13,10 @@ import com.nucleo.entity.medicao.RelatoriosRMSGerados;
 public class RelatoriosRMSGeradosDAOImpl extends DAOImpl<RelatoriosRMSGerados, Integer> implements RelatoriosRMSGeradosDAO {
 	@Override
 	public List<RelatoriosRMSGerados>listarTodos(){
-		String jpql = "select rms from  RelatoriosRMSGerados rms";
+		String jpql = "select rms from  RelatoriosRMSGerados rms"
+				+ "  where rms.excluido=:excluido";
 		return em.createQuery(jpql, RelatoriosRMSGerados.class)
+				.setParameter("excluido", false)
 				.getResultList();
 	}
 	@Override

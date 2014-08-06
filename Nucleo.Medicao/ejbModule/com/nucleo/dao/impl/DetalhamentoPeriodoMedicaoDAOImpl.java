@@ -18,7 +18,7 @@ implements DetalhamentoPeriodoMedicaoDAO {
 				+ " where d.excluido=:excluido and d.periodoMedicao = :periodo";
 		DetalhamentoPeriodoMedicao d = new DetalhamentoPeriodoMedicao();
 		try{
-	 d =em.createQuery(jpql, DetalhamentoPeriodoMedicao.class)
+			d =em.createQuery(jpql, DetalhamentoPeriodoMedicao.class)
 			 .setParameter("periodo", periodo)
 			 .setParameter("excluido", false)
 			 .getSingleResult();
@@ -29,6 +29,7 @@ implements DetalhamentoPeriodoMedicaoDAO {
 			return d;
 		}
 	}
+	
 	@Override
 	public void salvarDetalhamentoMedicao(DetalhamentoPeriodoMedicao detalhamentoPeriodoMedicao, int idUsuario){
 		DetalhamentoPeriodoMedicao d = em.merge(detalhamentoPeriodoMedicao);

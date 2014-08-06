@@ -130,27 +130,32 @@ public class ProcessosResumoContratos{
 			inserePeriodoCalculadoNoDTO(ultimoReajuste,mesAnteriorM1, contratoModel, projeto, ANTERIORM1);
 			if (projeto.getSetor().equals(SetorEnum.OLEOEGAS)) {
 					modeloSistema.getContratosModelOleoEGas().add(contratoModel);
+					continue;
 			}
 			else if (projeto.getSetor().equals(SetorEnum.ENERGIA)) {
 					modeloSistema.getContratosModelEnergia().add(contratoModel);
+					continue;
 			}
 			else if (projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)) {
 						modeloSistema.getContratosModelInfraEstrutura().add(contratoModel);
+					continue;
 			}
 			else if (projeto.getSetor().equals(SetorEnum.URBANISMOEEDIFICACOES)) {
 					modeloSistema.getContratosModelEnergiaUrbanismoeEdificacoes().add(contratoModel);
+					continue;
 			}
 			else if (projeto.getSetor().equals(SetorEnum.MINERACAO)) {
 				modeloSistema.getContratosModelMineracao().add(contratoModel);
+				continue;
 			}
+			
 		}
 		return modeloSistema;
 	}
-	private void inserePeriodoCalculadoNoDTO(Reajuste ultimoReajuste,Calendar data, ContratosModel contratoModel, Projeto projeto, int escolhida){
-		PeriodoMedicao periodo = periodoMedicaoDAO.buscarPeriodoPorDataEProjeto(data, projeto);
+	private void inserePeriodoCalculadoNoDTO(Reajuste ultimoReajuste,Calendar comp, ContratosModel contratoModel, Projeto projeto, int escolhida){
+		PeriodoMedicao periodo = periodoMedicaoDAO.buscarPeriodoPorCompetenciaEProjeto(comp, projeto);
 		if(periodo.getId()>0){
 		DetalhamentoPeriodoMedicao detalheDoPeriodo = detalhamentoPeriodoMedicaoDAO.buscarPorPeriodo(periodo);
-		
 		if(escolhida==ESCOLHIDA){
 			contratoModel.getPeriodoComDataEscolhida().setPeriodoMedicao(periodo);
 			contratoModel.getPeriodoComDataEscolhida().setMedicaoI0(detalheDoPeriodo.getTotalMedicaoI0());

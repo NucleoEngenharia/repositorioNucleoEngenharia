@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -60,7 +61,6 @@ import com.nucleo.entity.medicao.PeriodoMedicao;
 import com.nucleo.entity.medicao.RelatoriosRMSGerados;
 import com.nucleo.entity.medicao.Enum.MotivoAlteracaoPeriodoEnum;
 import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
-import com.nucleo.model.VO.DatasPeriodoMedicaoVO;
 import com.nucleo.projetos.cadastro.MB.PermissoesMenuBean;
 import com.nucleo.seguranca.to.FuncionarioTO;
 import com.nucleo.util.CarregaMedicoesUtil;
@@ -78,7 +78,6 @@ public class MedicaoProjetoBean implements Serializable {
 		permissoesMenuBean = new PermissoesMenuBean();
 		relatorioBean = new RelatorioBean();
 		selecionado = new ObjetoSelecionado();
-		dataSelecionada = 0l;
 		despesas = new ArrayList<MedicaoDespesa>();
 		totalPeriodo = BigDecimal.ZERO;
 	}
@@ -134,7 +133,6 @@ public class MedicaoProjetoBean implements Serializable {
 	@EJB
 	private AcessosUsuarioDAO acessosUsuarioDAO;
 	private FuncionarioTO usuarioLogado = Commom.getUsuarioLogado();
-	private List<DatasPeriodoMedicaoVO>periodosParaDataDe;
 	private List<PeriodoMedicao> periodosAberto;
 	private List<PeriodoMedicao> periodosValidacao;
 	private List<PeriodoMedicao> periodosAprovacao;
@@ -153,7 +151,7 @@ public class MedicaoProjetoBean implements Serializable {
 	private BigDecimal valorTotalDespesas;
 	private BigDecimal totalPeriodo;
 	
-	private long dataSelecionada;
+	private Calendar dataSelecionada;
 	
 	private double diasAtestado;
 	private double diasInjustificado;
@@ -181,22 +179,39 @@ public class MedicaoProjetoBean implements Serializable {
 	private Map<Integer, List<MedicaoEquipe>> medicoesEquipe;
 	private Map<Integer, List<MedicaoProduto>> medicoesProduto;
 	
-	public List<DatasPeriodoMedicaoVO> getPeriodoParaDataDe() {
-		if(periodosParaDataDe==null){
-			periodosParaDataDe = periodoDAO.buscarDatasDe();
+	public List<String>competencias = null;
+	
+	public List<String> getCompetencias() {
+		if(competencias==null){
+			competencias = new ArrayList<String>();
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
+			List<PeriodoMedicao>periodos = periodoDAO.listarTodos();
+			List<String>l = new ArrayList<String>();
+			for(PeriodoMedicao p:periodos){
+				if(p.getDataDe().get(Calendar.DAY_OF_MONTH)>15){
+					l.add(sdf.format(p.getDataDe().getTime()));
+				}else{
+					l.add(sdf.format(p.getDataAte().getTime()));
+				}
+			}
+			for(String s:l){
+				if(!competencias.contains(s)){
+					competencias.add(s);
+				}
+			}
 		}
-		return periodosParaDataDe;
+		return competencias;
 	}
 
-	public void setPeriodoParaDataDe(List<DatasPeriodoMedicaoVO> periodoParaDataDe) {
-		this.periodosParaDataDe = periodoParaDataDe;
+	public void setCompetencias(List<String> competencias) {
+		this.competencias = competencias;
 	}
 
-	public long getDataSelecionada() {
+	public Calendar getDataSelecionada() {
 		return dataSelecionada;
 	}
 
-	public void setDataSelecionada(long dataSelecionada) {
+	public void setDataSelecionada(Calendar dataSelecionada) {
 		this.dataSelecionada = dataSelecionada;
 	}
 
@@ -713,8 +728,7 @@ public class MedicaoProjetoBean implements Serializable {
 	public String gerarRelatorioRMS(){
 		String destino="";
 		try{
-		Calendar data = Calendar.getInstance();
-		data.setTimeInMillis(dataSelecionada);
+		Calendar data = dataSelecionada;
 		relatorioBean.gerarRelatorioRMS(data);
 		destino="relatorios.xhtml?faces-redirect=true";
 		}catch (Exception e) {

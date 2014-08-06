@@ -15,9 +15,13 @@ public class CalendarConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String dataString) {
-		
-		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar dataCalendar = Calendar.getInstance();
+		SimpleDateFormat formatoData;
+		if(dataString.length()==7){
+			formatoData = new SimpleDateFormat("MM/yyyy");
+		}else{
+			formatoData = new SimpleDateFormat("dd/MM/yyyy");
+		}
 		try {
 			dataCalendar.setTime(formatoData.parse(dataString));
 		} catch (ParseException e) {

@@ -103,7 +103,6 @@ public class ServicoDAOImpl extends DAOImpl<Servico, Integer> implements Servico
 	}
 	//Se não souber do problema do n+1, pesquise antes de mexer nas querys
 	private List<Servico> buscarPorProjetoTipo(Projeto projeto, TipoServicoEnum tipo) {
-		System.out.println("Procurando projeto "+projeto.getId());
 		TypedQuery<Servico> query = em.createQuery("Select distinct s From Servico s"
 				+ " left join fetch s.projeto p"
 				+ " join fetch p.responsavelAdm"
@@ -112,7 +111,6 @@ public class ServicoDAOImpl extends DAOImpl<Servico, Integer> implements Servico
 		query.setParameter("projeto", projeto);
 		query.setParameter("excluido", false);
 		query.setParameter("tipo", tipo);
-		System.out.println("achou "+query.getResultList().size());
 		return query.getResultList();
 	}
 

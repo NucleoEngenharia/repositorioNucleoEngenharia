@@ -12,12 +12,13 @@ import com.nucleo.entity.cadastro.Servico;
 import com.nucleo.entity.medicao.AlteracaoPeriodoMedicao;
 import com.nucleo.entity.medicao.PeriodoMedicao;
 import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
-import com.nucleo.model.VO.DatasPeriodoMedicaoVO;
 
 @Remote
 public interface PeriodoMedicaoDAO extends DAO<PeriodoMedicao, Integer>{
 	
-	PeriodoMedicao buscarPeriodoPorDataEProjeto(Calendar dataDe, Projeto projeto);
+	PeriodoMedicao buscarPeriodoPorCompetenciaEProjeto(Calendar dataDe, Projeto projeto);
+	
+	List<PeriodoMedicao>listarTodos();
 	 
 	Calendar buscarDataFinalMedicao(Projeto projeto);
 	
@@ -25,11 +26,7 @@ public interface PeriodoMedicaoDAO extends DAO<PeriodoMedicao, Integer>{
 	
 	List<PeriodoMedicao>buscarPeriodosEmAberto();
 	
-	List<DatasPeriodoMedicaoVO>buscarDatasDe();
-	
 	void alterar(PeriodoMedicao periodoVelho, int idUsuario);
-	
-	/*Map<Integer, BigDecimal> valorMedidoCargos();*/
 	
 	List<AlteracaoPeriodoMedicao> buscarAlteracoesPeriodo(PeriodoMedicao periodo);
 	

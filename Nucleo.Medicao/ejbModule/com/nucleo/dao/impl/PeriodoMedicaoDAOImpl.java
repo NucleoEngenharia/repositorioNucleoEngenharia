@@ -20,13 +20,26 @@ import com.nucleo.entity.medicao.AlteracaoPeriodoMedicao;
 import com.nucleo.entity.medicao.PeriodoMedicao;
 import com.nucleo.entity.medicao.Enum.MotivoAlteracaoPeriodoEnum;
 import com.nucleo.entity.medicao.Enum.StatusPeriodoEnum;
-import com.nucleo.model.VO.DatasPeriodoMedicaoVO;
 
 @Stateless
 public class PeriodoMedicaoDAOImpl extends DAOImpl<PeriodoMedicao, Integer>
 implements PeriodoMedicaoDAO{
 	@EJB
 	private ProjetoDAO projetoDAO;
+	@Override
+	public List<PeriodoMedicao>listarTodos(){
+		String jpql = "select distinct(pm) from PeriodoMedicao pm"
+				+ " join fetch pm.projeto as p"
+				+ " left join fetch p.impostos"
+				+ " join fetch p.responsavelAdm"
+				+ " left join fetch pm.alteracoes as a"
+				+ " left join fetch pm.detalhamentoPeriodoMedicao"
+				+" Where pm.excluido =:excluido"
+				+" order by pm.id";
+		return em.createQuery(jpql, PeriodoMedicao.class)
+		.setParameter("excluido", false)
+		.getResultList();
+	}
 	@Override
 	public Calendar buscarDataFinalMedicao(Projeto projeto) {
 		String strQuery = "select max(p.dataAte) from PeriodoMedicao p " +
@@ -36,15 +49,8 @@ implements PeriodoMedicaoDAO{
 		query.setParameter("excluido", false);
 		return (Calendar) query.getSingleResult();
 	}
-	@Override
-	public List<DatasPeriodoMedicaoVO>buscarDatasDe(){
-		String jpql="select distinct new com.nucleo.model.VO.DatasPeriodoMedicaoVO(p.descricao, p.dataDe)"
-				+ " from PeriodoMedicao p"
-				+ " where p.excluido = :excluido order by p.dataDe asc";
-		return em.createQuery(jpql, DatasPeriodoMedicaoVO.class)
-				.setParameter("excluido", false)
-				.getResultList();
-	}
+	
+	
 	@Override
 	public List<PeriodoMedicao> buscarTodosPorStatus(List<StatusPeriodoEnum>status) {
 		String strQuery = "select distinct(pm) from PeriodoMedicao pm"
@@ -206,21 +212,27 @@ implements PeriodoMedicaoDAO{
 		.getResultList();
 	}
 	@Override
-	public PeriodoMedicao buscarPeriodoPorDataEProjeto(Calendar dataDe, Projeto projeto){
+	public PeriodoMedicao buscarPeriodoPorCompetenciaEProjeto(Calendar comp, Projeto projeto){
 		PeriodoMedicao periodoMedicao = new PeriodoMedicao();
 		try{
-			String nativeQuery = "select pm.* from periodomedicao pm"
-					+ " inner join projeto as p on(p.id=pm.projeto_id)"
-					+ " where pm.dataDe = '"+dataDe.getTime()+"'"
-					+ " and p.id='"+projeto.getId()+"';";
-			periodoMedicao= (PeriodoMedicao) em.createNativeQuery(nativeQuery, PeriodoMedicao.class)
-					.getSingleResult();
-			PeriodoMedicao novo = em.merge(periodoMedicao);
-		return novo;
-		}catch(NoResultException e){
-			System.out.println("Projeto "+projeto.getId()+" não tem periodo com a data de "+dataDe.getTime());
-			return periodoMedicao;
+		if(comp.get(Calendar.DAY_OF_MONTH)>15){
+			comp.set(Calendar.MONTH, comp.get(Calendar.MONTH)+1);
 		}
+		String jpql = "select pm from PeriodoMedicao pm"
+				+ " where pm.projeto=:projeto"
+				+ " and month(pm.dataDe)=:mes"
+				+ " and year(pm.dataDe)=:ano"
+				+ " and pm.excluido=:excluido";
+		periodoMedicao = em.createQuery(jpql, PeriodoMedicao.class)
+		.setParameter("projeto", projeto)
+		.setParameter("mes", comp.get(Calendar.MONTH))
+		.setParameter("ano", comp.get(Calendar.YEAR))
+		.setParameter("excluido", false)
+		.getSingleResult();
+		}catch(NoResultException e){
+			periodoMedicao.setId(0);
+		}
+		return periodoMedicao;
 	}
 	@Override
 	public void alterar(PeriodoMedicao periodoVelho, int idUsuario){

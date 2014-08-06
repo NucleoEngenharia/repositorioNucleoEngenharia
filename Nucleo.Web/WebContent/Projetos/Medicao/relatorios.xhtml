@@ -10,10 +10,10 @@
 				<p:tab title="Resumo Contratos">
 						<p:panel header="Gerar relatório">
 							<p:outputLabel value="Relatório a partir de: "/>
-							<p:selectOneMenu value="#{medicaoProjetoBean.dataSelecionada}">
-								<f:selectItem itemLabel="Selecione a competencia " noSelectionOption="true"/>
-								<f:selectItems value="#{medicaoProjetoBean.periodoParaDataDe}" var="data"
-									itemLabel="#{data.descricao}" itemValue="#{data.dataDe.timeInMillis}"/>
+							<p:selectOneMenu value="#{medicaoProjetoBean.dataSelecionada}" converter="CalendarConverter" filter="true">
+								<f:selectItem itemLabel="Selecione a competencia " itemDisabled="true" noSelectionOption="false"/>
+								<f:selectItems value="#{medicaoProjetoBean.competencias}" var="data"
+									itemLabel="#{data}" itemValue="#{data}"/>
 							</p:selectOneMenu>
 							<p:commandLink action="#{medicaoProjetoBean.gerarRelatorioRMS}">
 								<p:graphicImage library="imagens" name="iconeXls.jpg"/>
