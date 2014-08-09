@@ -12,4 +12,6 @@ public interface FuncionarioDAO {
 	void inserir(Funcionario funcionario,int idUsuario);
 	void fazPrimeiroAcesso(Funcionario funcionario);
 	Funcionario buscaFuncionarioPorCpf(Funcionario funcionario);
+	boolean autenticarFuncExterno(String matricula, String senha);
+	Funcionario buscaPorMatricula(String matricula);
 }

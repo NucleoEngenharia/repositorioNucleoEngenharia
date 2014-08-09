@@ -3,7 +3,7 @@ package com.nucleo.seguranca.to;
 import java.io.Serializable;
 import java.util.Date;
 
-public class FuncionarioTO implements Serializable {
+public class FuncionarioTO  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int pessoa_id;

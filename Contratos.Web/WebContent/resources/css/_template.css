@@ -19,7 +19,7 @@ font {
 	border: 2px;
 	background-color: white;
 	margin-top: 2 auto;
-	width: 90%;
+	width: 95%;
 	height: 90%;
 	margin: 0 auto;
 }
@@ -46,6 +46,8 @@ font {
 
 
 #corpo menu {
+	bottom: 0px;
+	position: absolute;
 	margin: 0 auto;
 }
 
@@ -54,17 +56,21 @@ font {
 	position: relative;
 	margin: 10px auto;
 	/* background-color: yellow; */
-	width: 90%;
-	/* height: 100%; */
+	width: 95%;
+	 height: 100%; 
 	padding-bottom: 30px;
 }
 #corpo panel_grid_principal{
+	position: relative;
+	background:olive;
 	width:100%;
 }
-#corpo panel_grid_principal colLeft{
+#panel_grid_principal td{
+	border-style: hidden !important;
 	width:20%;
 }
-#corpo panel_grid_principal colRight{
+#panel_grid_principal tr{
+	border-style: hidden !important;
 	width:80%;
 }
 .clear {clear:both;}

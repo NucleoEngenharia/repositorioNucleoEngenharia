@@ -219,6 +219,8 @@ implements PeriodoMedicaoDAO{
 			comp.set(Calendar.MONTH, comp.get(Calendar.MONTH)+1);
 		}
 		String jpql = "select pm from PeriodoMedicao pm"
+				+ " left join fetch pm.projeto p"
+				+ " join fetch pm.detalhamentoPeriodoMedicao d"
 				+ " where pm.projeto=:projeto"
 				+ " and month(pm.dataDe)=:mes"
 				+ " and year(pm.dataDe)=:ano"

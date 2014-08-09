@@ -7,6 +7,7 @@ import com.nucleo.entity.medicao.PeriodoMedicao;
 public class PeriodoMedicaoModel {
 	
 	public PeriodoMedicaoModel() {
+		periodoMedicao = new PeriodoMedicao();
 	}
 	private PeriodoMedicao periodoMedicao;
 	private BigDecimal medicaoI0 = BigDecimal.ZERO;

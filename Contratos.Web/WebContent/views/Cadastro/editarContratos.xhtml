@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="conteudo">
 		<br />
-		<p:panel header="Cadastro de Projetos">
+		<p:panel header="Cadastro de Projetos" style="height: 520px; border: hidden;">
 			<p:panelGrid style="width: 100%;" styleClass="panel_inf_proj">
 				<p:row>
 					<p:column styleClass="colLabel">
@@ -22,7 +22,7 @@
 					<p:column>
 						<p:inputText
 							value="#{listaProjetosBean.projetoSelecionado.descricao}"
-							disabled="true" size="50" />
+							disabled="true" size="30" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -30,14 +30,14 @@
 						<p:outputLabel value="Data Inicio" />
 					</p:column>
 					<p:column>
-						<p:calendar pattern="dd/MM/yyyy" size="8" maxlength="10" 
+						<p:calendar pattern="dd/MM/yyyy" size="10" maxlength="10" 
 							value="#{listaProjetosBean.projetoSelecionado.dtInicio.time}" />
 					</p:column>
 					<p:column styleClass="colLabel">
 						<p:outputLabel value="Data Fim" />
 					</p:column>
 					<p:column>
-						<p:calendar pattern="dd/MM/yyyy" size="8" maxlength="10"
+						<p:calendar pattern="dd/MM/yyyy" size="10" maxlength="10"
 							value="#{listaProjetosBean.projetoSelecionado.dtFim.time}" />
 					</p:column>
 				</p:row>

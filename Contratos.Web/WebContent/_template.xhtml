@@ -10,11 +10,13 @@
 		<title>Núcleo Engenharia Consultiva - Intranet 2.0</title>
 		<h:outputStylesheet name="_template.css" library="css" />
 		<h:outputStylesheet name="form.css" library="css" />
+		<h:outputStylesheet name="form.css" library="css" />
 		<h:outputScript name="mascara.js" library="scripts" />
 	</h:head>
 
 	<h:body>
 		<h:form>
+		<p:panel>
 			<div id="header">
 				<ui:insert name="header">
 					<p:commandLink action="/index.xhtml">
@@ -24,17 +26,22 @@
 					<div id="inf_usuario" align="right">
 						<h:outputText value="Bem vindo #{loginBean.usuarioLogado.nome} | "></h:outputText>
 						<h:link value="Minha Conta"></h:link>
-						<h:outputText value=" | "></h:outputText>
+						<h:outputText value=" | "/>
 						<p:commandLink action="#{loginBean.logout}" value="Logout"
-							styleClass="logout"></p:commandLink>
+							styleClass="logout"/>
 					</div>
 				</ui:insert>
 			</div>
+			<br />
+			<p:separator/>
 			<div id="corpo">
-				<p:panelGrid id="panel_grid_principal">
+				<p:panel>
+				<p:panelGrid style="width: 100%;  border:hidden;">
 					<p:row>
-						<p:column styleClass="colLeft">
-							<p:panelMenu id="menu" autoDisplay="false">
+						<p:column style="width: 30%; ">
+							<p:panel style="height:520px; width: 100%; border:hidden;">
+							<p:scrollPanel mode="native" style="height:500px;width: 100%; border:hidden;">
+							<p:panelMenu autoDisplay="false">
 								<p:submenu label="Relatórios">
 									<p:submenu label="Indústria Óleo e gás" url="#">
 										<p:menuitem value="123"
@@ -75,16 +82,22 @@
 										url="/faces/views/Cadastro/funcionario.xhtml" />
 									<p:menuitem value="Documentos" />
 								</p:submenu>
+								<p:submenu label="Atividades">
+									<p:menuitem value="Cadastro" url="/faces/views/Cadastro/cadastraAtividade.xhtml"/>
+								</p:submenu>
 							</p:panelMenu>
+							</p:scrollPanel>
+							</p:panel>
 						</p:column>
-						<p:column styleClass="colRight">
+						<p:column style="width:70%;">
 							<ui:insert name="conteudo">
-								<p:outputLabel value="Conteúdo padrão" />
 							</ui:insert>
 						</p:column>
 					</p:row>
 				</p:panelGrid>
+				</p:panel>
 			</div>
+			</p:panel>
 			<div id="footer">
 				<p>
 					Intranet 2.0 - Copyright © 2013 - Todos os direitos reservados - <a

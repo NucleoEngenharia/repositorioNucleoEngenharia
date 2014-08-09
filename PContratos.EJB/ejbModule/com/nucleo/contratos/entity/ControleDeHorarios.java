@@ -39,6 +39,8 @@ public class ControleDeHorarios {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar tempoTrabalhado;
+	
+	private String justificativa;
 
 	public int getId() {
 		return id;
@@ -66,6 +68,14 @@ public class ControleDeHorarios {
 
 	public Calendar getHrSaida() {
 		return hrSaida;
+	}
+	
+	public String getJustificativa() {
+		return justificativa;
+	}
+
+	public void setJustificativa(String justificativa) {
+		this.justificativa = justificativa;
 	}
 
 	public void setId(int id) {

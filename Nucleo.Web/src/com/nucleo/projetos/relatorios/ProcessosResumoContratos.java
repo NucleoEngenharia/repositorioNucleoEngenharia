@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xmlbeans.impl.values.XmlValueDisconnectedException;
+
 import net.sf.jxls.transformer.XLSTransformer;
 
 import com.nucleo.commom.Commom;
@@ -39,7 +41,6 @@ public class ProcessosResumoContratos{
 	private PeriodoMedicaoDAO periodoMedicaoDAO;
 	private ResumoModeloSistema modeloSistema;
 	private String nomeDoArquivo;
-	private DetalhamentoPeriodoMedicaoDAO detalhamentoPeriodoMedicaoDAO;
 	
 	private static final int ESCOLHIDA = 1;
 	private static final int ANTERIOR = 2;
@@ -61,7 +62,6 @@ public class ProcessosResumoContratos{
 		reajusteDAO = (ReajusteDAO) Commom.lookup("ReajusteDAOImpl");
 		medicaoEquipeDAO = (MedicaoEquipeDAO) Commom.lookup("MedicaoEquipeDAOImpl");
 		periodoMedicaoDAO = (PeriodoMedicaoDAO) Commom.lookup("PeriodoMedicaoDAOImpl");
-		detalhamentoPeriodoMedicaoDAO = (DetalhamentoPeriodoMedicaoDAO) Commom.lookup("DetalhamentoPeriodoMedicaoDAOImpl");
 		projetos = projetoDAO.listarTodosComReajuste();
 	}
 	public List<PeriodoMedicao> getPeriodos() {
@@ -99,10 +99,13 @@ public class ProcessosResumoContratos{
 
 		XLSTransformer transformer = new XLSTransformer();
 
+		
 		Map<String, Object> beans = new HashMap<String, Object>();
 		beans.put("projeto", relatorio);
 		try {
 			transformer.transformXLS(urlModelo, beans, pastaDestino);
+		}catch(XmlValueDisconnectedException e){
+			System.out.println(e);
 		}catch (Exception e) {
 			System.out.println(e);
 		}
@@ -130,23 +133,18 @@ public class ProcessosResumoContratos{
 			inserePeriodoCalculadoNoDTO(ultimoReajuste,mesAnteriorM1, contratoModel, projeto, ANTERIORM1);
 			if (projeto.getSetor().equals(SetorEnum.OLEOEGAS)) {
 					modeloSistema.getContratosModelOleoEGas().add(contratoModel);
-					continue;
 			}
 			else if (projeto.getSetor().equals(SetorEnum.ENERGIA)) {
 					modeloSistema.getContratosModelEnergia().add(contratoModel);
-					continue;
 			}
 			else if (projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)) {
 						modeloSistema.getContratosModelInfraEstrutura().add(contratoModel);
-					continue;
 			}
 			else if (projeto.getSetor().equals(SetorEnum.URBANISMOEEDIFICACOES)) {
 					modeloSistema.getContratosModelEnergiaUrbanismoeEdificacoes().add(contratoModel);
-					continue;
 			}
 			else if (projeto.getSetor().equals(SetorEnum.MINERACAO)) {
 				modeloSistema.getContratosModelMineracao().add(contratoModel);
-				continue;
 			}
 			
 		}
@@ -155,7 +153,7 @@ public class ProcessosResumoContratos{
 	private void inserePeriodoCalculadoNoDTO(Reajuste ultimoReajuste,Calendar comp, ContratosModel contratoModel, Projeto projeto, int escolhida){
 		PeriodoMedicao periodo = periodoMedicaoDAO.buscarPeriodoPorCompetenciaEProjeto(comp, projeto);
 		if(periodo.getId()>0){
-		DetalhamentoPeriodoMedicao detalheDoPeriodo = detalhamentoPeriodoMedicaoDAO.buscarPorPeriodo(periodo);
+		DetalhamentoPeriodoMedicao detalheDoPeriodo = periodo.getDetalhamentoPeriodoMedicao();
 		if(escolhida==ESCOLHIDA){
 			contratoModel.getPeriodoComDataEscolhida().setPeriodoMedicao(periodo);
 			contratoModel.getPeriodoComDataEscolhida().setMedicaoI0(detalheDoPeriodo.getTotalMedicaoI0());
@@ -176,6 +174,7 @@ public class ProcessosResumoContratos{
 			contratoModel.getPeriodoComM1().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
 		}
 		}
+		
 	}
 	private void validaProjeto(Projeto projeto){
 			try{
@@ -237,14 +236,14 @@ public class ProcessosResumoContratos{
 		rms.setMesCompetencia(meses[dataAtual.get(Calendar.MONTH)]);
 		rms.setAnoCompetencia(dataAtual.get(Calendar.YEAR));
 		
-		dataEscolhida.set(Calendar.DAY_OF_MONTH, dataDe.get(Calendar.DAY_OF_MONTH));
 		dataEscolhida.set(Calendar.MONTH, dataDe.get(Calendar.MONTH));
+		dataEscolhida.set(Calendar.YEAR, dataDe.get(Calendar.YEAR));
 		
-		mesAnterior.set(Calendar.DAY_OF_MONTH, dataDe.get(Calendar.DAY_OF_MONTH));
 		mesAnterior.set(Calendar.MONTH, dataDe.get(Calendar.MONTH)-1);
+		mesAnterior.set(Calendar.YEAR, dataDe.get(Calendar.YEAR));
 		
-		mesAnteriorM1.set(Calendar.DAY_OF_MONTH, dataDe.get(Calendar.DAY_OF_MONTH));
 		mesAnteriorM1.set(Calendar.MONTH, dataDe.get(Calendar.MONTH)-2);
+		mesAnteriorM1.set(Calendar.YEAR, dataDe.get(Calendar.YEAR));
 		rms.setDataEscolhida(dataEscolhida);
 		rms.setMesAnterior(mesAnterior);
 		rms.setMesAnteriorM1(mesAnteriorM1);
