@@ -10,7 +10,7 @@ import com.nucleo.contratos.entity.Funcionario;
 public interface FuncionarioDAO {
 	List<Funcionario>listarTodos();
 	void inserir(Funcionario funcionario,int idUsuario);
-	void fazPrimeiroAcesso(Funcionario funcionario);
+	void fazPrimeiroAcesso(String matricula, String senha);
 	Funcionario buscaFuncionarioPorCpf(Funcionario funcionario);
 	boolean autenticarFuncExterno(String matricula, String senha);
 	Funcionario buscaPorMatricula(String matricula);

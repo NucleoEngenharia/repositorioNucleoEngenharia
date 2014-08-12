@@ -33,6 +33,7 @@ font {
 	position:absolute;
 	top:60px;
 	right: 50px;
+	padding-bottom: 2px;
 	
 }
 #header .logout{
@@ -75,6 +76,12 @@ font {
 }
 .clear {clear:both;}
 
+#separator{
+	background:#09C;
+	width:100%;
+	height:10px;
+	position: relative;
+}
 #footer {
 	background:#09C;
 	width:100%;

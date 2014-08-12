@@ -117,8 +117,19 @@ public class FuncionarioDAOImpl extends Factor implements FuncionarioDAO {
 		return f;
 	}
 	@Override
-	public void fazPrimeiroAcesso(Funcionario funcionario) {
+	public void fazPrimeiroAcesso(String matricula, String senha) {
 		Funcionario f = new Funcionario();
+		try{
+		f = buscaPorMatricula(matricula);
+		MessageDigest md5 = MessageDigest.getInstance("MD5");
+		md5.update(senha.getBytes());
+		BigInteger hash = new BigInteger(1, md5.digest());
+		f.setSenha(hash.toString());
+		f.setPrimeiroAcesso(false);
+		em.merge(f);
+		}catch(NoSuchAlgorithmException e){
+			System.out.println(e);
+		}
 	}
 
 }

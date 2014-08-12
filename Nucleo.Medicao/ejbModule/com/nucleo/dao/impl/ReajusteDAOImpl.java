@@ -1,5 +1,6 @@
 package com.nucleo.dao.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -52,8 +53,9 @@ public class ReajusteDAOImpl extends DAOImpl<Reajuste, Integer> implements Reaju
 			try{
 			return buscarReajuste(projeto);
 			}catch(NoResultException n){
-				System.out.println("projeto"+projeto.getCN()+" não tem reajuste");
-				return null;
+				Reajuste r = new Reajuste();
+				r.setIndice(BigDecimal.ONE);
+				return r;
 			}
 		}
 	}

@@ -14,7 +14,6 @@ import org.apache.xmlbeans.impl.values.XmlValueDisconnectedException;
 import net.sf.jxls.transformer.XLSTransformer;
 
 import com.nucleo.commom.Commom;
-import com.nucleo.dao.DetalhamentoPeriodoMedicaoDAO;
 import com.nucleo.dao.MedicaoEquipeDAO;
 import com.nucleo.dao.PeriodoMedicaoDAO;
 import com.nucleo.dao.ProjetoDAO;
@@ -86,7 +85,6 @@ public class ProcessosResumoContratos{
 		data.append(dataGeracao.get(Calendar.DAY_OF_MONTH)+"-");
 		data.append(dataGeracao.get(Calendar.MONTH)+1+"-");
 		data.append(dataGeracao.get(Calendar.YEAR)+"-");
-		data.append(apartirDe.get(Calendar.DAY_OF_MONTH)+"-");
 		data.append(apartirDe.get(Calendar.MONTH)+1+"-");
 		data.append(apartirDe.get(Calendar.YEAR)+"-");
 		this.nomeDoArquivo = "resumoContratos_"+data+".xlsx";
@@ -138,15 +136,14 @@ public class ProcessosResumoContratos{
 					modeloSistema.getContratosModelEnergia().add(contratoModel);
 			}
 			else if (projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)) {
-						modeloSistema.getContratosModelInfraEstrutura().add(contratoModel);
+					modeloSistema.getContratosModelInfraEstrutura().add(contratoModel);
 			}
 			else if (projeto.getSetor().equals(SetorEnum.URBANISMOEEDIFICACOES)) {
 					modeloSistema.getContratosModelEnergiaUrbanismoeEdificacoes().add(contratoModel);
 			}
 			else if (projeto.getSetor().equals(SetorEnum.MINERACAO)) {
-				modeloSistema.getContratosModelMineracao().add(contratoModel);
+					modeloSistema.getContratosModelMineracao().add(contratoModel);
 			}
-			
 		}
 		return modeloSistema;
 	}

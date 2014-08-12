@@ -20,34 +20,37 @@
 				<div id="content">
 					<h:form>
 					<p:messages/>
-						<p:panelGrid columns="2">
-							<f:facet name="header">
-			   Login
-			   </f:facet>
+						<p:panelGrid rendered="#{!loginBean.primeiroAcesso}" columns="2">
+						    <f:facet name="header">
+								<p:outputLabel value="Login" />
+						    </f:facet> 
 							<p:outputLabel for="user" value="Usuário: " />
-							<p:inputText id="user" value="#{loginBean.usuario}"
-								requiredMessage="Usuário é um campo obrigatório" />
-							<p:outputLabel for="senha" value="Senha: " />
-							<p:password id="senha" value="#{loginBean.senha}"
-								requiredMessage="Senha é um campo obrigatório" />
+							<p:inputText id="user" value="#{loginBean.usuario}"	requiredMessage="Usuário é um campo obrigatório" />
+							<p:outputLabel for="senha" value="Senha: "/>
+							<p:password id="senha" value="#{loginBean.senha}" requiredMessage="Senha é um campo obrigatório" />
+						 </p:panelGrid>
+						 <br/>
+						 <p:commandButton action="#{loginBean.autenticar}"
+						 		update="@form" value="Entrar" rendered="#{!loginBean.primeiroAcesso}"/>
+						 
+						 <br/>
+						 <p:panelGrid  rendered="#{loginBean.primeiroAcesso}" columns="2">
+						 	<f:facet name="header">
+						 		<p:outputLabel value="Cadastro de Senha"/>
+						 	</f:facet>
+							<p:outputLabel value="Matrícula: "/>
+							<p:outputLabel value="#{loginBean.usuario}"/>
+							<p:outputLabel value="Senha: "/>
+							<p:password value="#{loginBean.senha}"
+								requiredMessage="Senha é um campo obrigatório" feedback="true" />
+							<p:outputLabel value="Confirmação: " />
+							<p:password value="#{loginBean.confirmSenha}" 
+							 requiredMessage="Confirme sua senha" feedback="true" />
 						</p:panelGrid>
 						<br>
-						<p:commandButton action="#{loginBean.autenticar}"
-						 update="@form" value="Entrar"/>
+						<p:commandButton rendered="#{loginBean.primeiroAcesso}" action="#{loginBean.cadastrarSenha}"
+						 update="@form" value="Cadastrar Senha"/>
 						</br>
-						<p:commandLink value="Esqueci minha senha"/>
-						<p:dialog onShow="#{loginBean.primeiroAcesso}" modal="true" closable="false" header="Primeiro Acesso">
-					<p:panelGrid styleClass="panel_inf_proj">
-						<p:row>
-							<p:column>
-								<p:outputLabel value="Senha"/>
-							</p:column>
-							<p:column>
-								<p:password feedback="true"/>
-							</p:column>
-						</p:row>
-					</p:panelGrid>
-				</p:dialog>
 					</h:form>
 				</div>
 			</center>

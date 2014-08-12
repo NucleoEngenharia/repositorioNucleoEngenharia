@@ -32,7 +32,7 @@ public class CadastroGrupoBean {
 		carregaPermissoes();
 		salvar = true;
 		editar=false;
-		menus = menuDAO.listarMenusMedicao("133");
+		menus = menuDAO.listarMenusFilhos(MenuDAO.MENU_MEDICAO,"133");
 		menuFilho = new HashMap<Integer, List<MenuTO>>();
 		carregaMenusFilhos();
 		usuarioLogado = Commom.getUsuarioLogado();
@@ -148,7 +148,7 @@ public class CadastroGrupoBean {
 
 	public List<MenuTO> getMenus() {
 		if(menus==null){
-			menus = menuDAO.listarMenusMedicao("133");
+			menus = menuDAO.listarMenusFilhos(MenuDAO.MENU_MEDICAO,"133");
 		}
 		return menus;
 	}
@@ -232,7 +232,7 @@ public class CadastroGrupoBean {
 		for(MenuTO menuTO:menus){
 			try{
 			List<MenuTO> m = new ArrayList<MenuTO>();	
-			m = menuDAO.listarMenusMedicao(String.valueOf(menuTO.getId()));
+			m = menuDAO.listarMenusFilhos(MenuDAO.MENU_MEDICAO,String.valueOf(menuTO.getId()));
 			menuFilho.put(menuTO.getId(), m);
 			}catch(NullPointerException e){}
 		}

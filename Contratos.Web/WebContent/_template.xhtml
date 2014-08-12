@@ -16,7 +16,6 @@
 
 	<h:body>
 		<h:form>
-		<p:panel>
 			<div id="header">
 				<ui:insert name="header">
 					<p:commandLink action="/index.xhtml">
@@ -32,61 +31,17 @@
 					</div>
 				</ui:insert>
 			</div>
-			<br />
-			<p:separator/>
+			<div id="separator"/>
 			<div id="corpo">
+			<br/>
 				<p:panel>
 				<p:panelGrid style="width: 100%;  border:hidden;">
 					<p:row>
 						<p:column style="width: 30%; ">
 							<p:panel style="height:520px; width: 100%; border:hidden;">
-							<p:scrollPanel mode="native" style="height:500px;width: 100%; border:hidden;">
-							<p:panelMenu autoDisplay="false">
-								<p:submenu label="Relatórios">
-									<p:submenu label="Indústria Óleo e gás" url="#">
-										<p:menuitem value="123"
-											url="/faces/views/relatorio/formularioRelatorio.xhtml" />
-										<p:menuitem value="456" url="#" />
-										<p:menuitem value="789" url="#" />
-										<p:menuitem value="101" url="#" />
-									</p:submenu>
-									<p:submenu label="Energia" url="#">
-										<p:menuitem value="123" url="#" />
-										<p:menuitem value="456" url="#" />
-										<p:menuitem value="789" url="#" />
-										<p:menuitem value="101" url="#" />
-									</p:submenu>
-									<p:submenu label="Infraestrutura" url="#">
-										<p:menuitem value="123" url="#" />
-										<p:menuitem value="456" url="#" />
-										<p:menuitem value="789" url="#" />
-										<p:menuitem value="101" url="#" />
-									</p:submenu>
-									<p:submenu label="Urbanismo" url="#">
-										<p:menuitem value="123" url="#" />
-										<p:menuitem value="456" url="#" />
-										<p:menuitem value="789" url="#" />
-										<p:menuitem value="101" url="#" />
-									</p:submenu>
-								</p:submenu>
-								<p:submenu label="Modelos de Documentos">
-									<p:menuitem value="Ata" url="#" />
-									<p:menuitem value="RDO" url="#" />
-									<p:menuitem value="Não conformidades" url="#" />
-									<p:menuitem value="Liberação de ferente de serviços" url="#" />
-								</p:submenu>
-								<p:submenu label="Cadastro">
-									<p:menuitem value="Contratos"
-										url="/faces/views/Cadastro/listaContrato.xhtml" />
-									<p:menuitem value="Funcionários"
-										url="/faces/views/Cadastro/funcionario.xhtml" />
-									<p:menuitem value="Documentos" />
-								</p:submenu>
-								<p:submenu label="Atividades">
-									<p:menuitem value="Cadastro" url="/faces/views/Cadastro/cadastraAtividade.xhtml"/>
-								</p:submenu>
-							</p:panelMenu>
-							</p:scrollPanel>
+								<p:scrollPanel mode="native" style="height:500px;width: 100%; border:hidden;">
+									<p:panelMenu model="#{loginBean.panelMenu}"  autoDisplay="false"/>
+								</p:scrollPanel>
 							</p:panel>
 						</p:column>
 						<p:column style="width:70%;">
@@ -97,7 +52,6 @@
 				</p:panelGrid>
 				</p:panel>
 			</div>
-			</p:panel>
 			<div id="footer">
 				<p>
 					Intranet 2.0 - Copyright © 2013 - Todos os direitos reservados - <a

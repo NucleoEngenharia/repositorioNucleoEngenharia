@@ -33,6 +33,7 @@ public class MenuDAOImpl extends FactorIntranetImpl implements MenuDAO {
 			menuTO.setId(rs.getInt("menu_id"));
 			menuTO.setDescricao(rs.getString("menu_descricao"));
 			menuTO.setUrl(rs.getString("menu_url"));
+			menuTO.setMenuPai(rs.getInt("menu_pai"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -40,11 +41,11 @@ public class MenuDAOImpl extends FactorIntranetImpl implements MenuDAO {
 	}
 
 	@Override
-	public List<MenuTO> listarMenusMedicao(String menuPai) {
+	public List<MenuTO> listarMenusFilhos(String sistema,String menuPai) {
 		List<MenuTO>menus = new ArrayList<MenuTO>();
-		String plsql = "select * from menu where menu_medicao='1' and menu_pai='"+menuPai+"'";
+		String sql = "select * from menu where "+sistema+"='1' and menu_pai='"+menuPai+"'";
 		try {
-			pstmt = conexao.prepareStatement(plsql);
+			pstmt = conexao.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()){
 				MenuTO menuTO = new MenuTO();
@@ -56,5 +57,21 @@ public class MenuDAOImpl extends FactorIntranetImpl implements MenuDAO {
 		}
 		return menus;
 	}
-	
+	@Override
+	public List<MenuTO>listarTodosMenus(String sistema){
+		List<MenuTO>menus = new ArrayList<MenuTO>();
+		String sql = "select * from menu where "+sistema+"='1'";
+		try {
+			pstmt = conexao.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()){
+				MenuTO menuTO = new MenuTO();
+				menuTO = populaDados(rs, menuTO);
+				menus.add(menuTO);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return menus;
+	}
 }
