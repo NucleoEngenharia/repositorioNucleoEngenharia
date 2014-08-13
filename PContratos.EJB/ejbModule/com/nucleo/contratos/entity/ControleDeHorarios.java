@@ -1,5 +1,6 @@
 package com.nucleo.contratos.entity;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
@@ -13,8 +14,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @SequenceGenerator(allocationSize=1, name="seqCDH", sequenceName="SEQ_CDH")
-public class ControleDeHorarios {
-	
+public class ControleDeHorarios implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO,generator="seqCDH")
 	private int id;
@@ -24,6 +26,10 @@ public class ControleDeHorarios {
 	
 	@ManyToOne
 	private Funcionario funcionario;
+	
+	private String rangeChegada;
+	
+	private String rangeVoltaAlmoco;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar hrChegada;
@@ -112,6 +118,22 @@ public class ControleDeHorarios {
 
 	public void setTempoTrabalhado(Calendar tempoTrabalhado) {
 		this.tempoTrabalhado = tempoTrabalhado;
+	}
+
+	public String getRangeChegada() {
+		return rangeChegada;
+	}
+
+	public String getRangeVoltaAlmoco() {
+		return rangeVoltaAlmoco;
+	}
+
+	public void setRangeChegada(String rangeChegada) {
+		this.rangeChegada = rangeChegada;
+	}
+
+	public void setRangeVoltaAlmoco(String rangeVoltaAlmoco) {
+		this.rangeVoltaAlmoco = rangeVoltaAlmoco;
 	}
 	
 	

@@ -5,19 +5,24 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="conteudo">
+		<p:messages/>
 		<p:panelGrid style="width: 100%;" styleClass="panel_inf_proj">
 			<p:row>
 				<p:column>
-					<p:commandButton value="Iniciar Atividades"/>
+					<p:commandButton value="Iniciar Atividades" update="@all"
+					 action="#{controleDeHorasBean.cadastraInicioAtividades}"/>
 				</p:column>
 				<p:column>
-					<p:commandButton value="Iniciar Almoço"/>
+					<p:commandButton value="Iniciar Almoço" update="@all"
+									 action="#{controleDeHorasBean.cadastraSaidaAlmoco}"/>
 				</p:column>
 				<p:column>
-					<p:commandButton value="Retorno às Atividades"/>
+					<p:commandButton value="Retorno às Atividades" update="@all"
+					action="#{controleDeHorasBean.cadastraChegadaAlmoco}"/>
 				</p:column>
 				<p:column>
-					<p:commandButton value="Término das atividades"/>
+					<p:commandButton value="Término das atividades" update="@all"
+					action="#{controleDeHorasBean.cadastraFimExpediente}"/>
 				</p:column>
 			</p:row>
 		</p:panelGrid>

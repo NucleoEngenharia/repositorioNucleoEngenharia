@@ -29,7 +29,7 @@ public class FuncionarioDAOImpl extends Factor implements FuncionarioDAO {
 		funcionario.setCpf(funcionario.getCpf().replace(".", ""));
 		funcionario.setUsuarioCriacao(idUsuario);
 		
-		Funcionario f = buscaFuncionarioPorCpf(funcionario);
+		Funcionario f = buscaFuncionarioPorCpf(funcionario.getCpf());
 		try {
 			if(f.getId()>0){
 				MessageDigest md5 = MessageDigest.getInstance("MD5");
@@ -57,7 +57,7 @@ public class FuncionarioDAOImpl extends Factor implements FuncionarioDAO {
 		}
 	}
 	@Override
-	public Funcionario buscaFuncionarioPorCpf(Funcionario funcionario){
+	public Funcionario buscaFuncionarioPorCpf(String cpf){
 		Funcionario f = new Funcionario();
 		try{
 		String jpql="select f from Funcionario f"
@@ -65,7 +65,7 @@ public class FuncionarioDAOImpl extends Factor implements FuncionarioDAO {
 				+ " and f.cpf=:cpf";
 		 f =em.createQuery(jpql, Funcionario.class)
 				.setParameter("excluido", false)
-				.setParameter("cpf", funcionario.getCpf())
+				.setParameter("cpf", cpf)
 				.getSingleResult();
 		}catch(NoResultException n){
 			//Usuario não encontrado

@@ -8,7 +8,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.component.panelmenu.PanelMenu;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -103,6 +102,7 @@ public class LoginBean{
 			this.primeiroAcesso = false;
 			 Funcionario usuarioEncontrado = funcionarioDAO.buscaPorMatricula(usuario);
 			 usuarioLogado.setNome(usuarioEncontrado.getNome());
+			 usuarioLogado.setCpf(usuarioEncontrado.getCpf());
 			 retorno = autorizaPaginacao();
 		}else{
 			Messages.geraMensagemDeErro("Senhas não conferem, verifique e tente novamente");
@@ -121,6 +121,7 @@ public class LoginBean{
 				Funcionario funcionario = funcionarioDAO.buscaPorMatricula(usuario);
 				if(funcionario.getId()!=0 && funcionario.isPrimeiroAcesso()==false){
 					usuarioLogado.setNome(funcionario.getNome());
+					usuarioLogado.setCpf(funcionario.getCpf());
 					retorno = autorizaPaginacao();
 					return retorno;
 				}else if(funcionario.getId()!=0 && funcionario.isPrimeiroAcesso()){
