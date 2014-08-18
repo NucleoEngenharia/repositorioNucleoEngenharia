@@ -182,12 +182,6 @@ public class RelatorioMensal {
 		totalMedicaoPeriodo = BigDecimal.ZERO;
 		for (EquipeModel equipe : equipes) {
 			totalMedicaoPeriodo = totalMedicaoPeriodo.add(equipe.getTotalMedicoesPendentes());
-
-			if (equipe.getDespesas().size() == 0)
-				continue;
-			for (DespesaModel despesa : equipe.getDespesas()) {
-				totalMedicaoPeriodo = totalMedicaoPeriodo.add(despesa.getValorAFaturar());
-			}
 		}
 		return totalMedicaoPeriodo;
 	}
@@ -319,6 +313,14 @@ public class RelatorioMensal {
 		}
 		valorBrutoMedicao = getTotalMedicaoPeriodo().multiply(indiceReajuste,
 				MathContext.DECIMAL32);
+		
+		for(EquipeModel equipe: equipes){
+			if (equipe.getDespesas().size() == 0)
+				continue;
+			for (DespesaModel despesa : equipe.getDespesas()) {
+				valorBrutoMedicao = valorBrutoMedicao.add(despesa.getValorAFaturar());
+			}
+		}
 		return valorBrutoMedicao;
 	}
 	public String getCn() {

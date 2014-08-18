@@ -146,10 +146,6 @@ public class EquipeModel {
 		qtdDespesas = despesas.size();
 		return qtdDespesas;
 	}
-	
-	
-	
-	
 	public void setDespesas(List<DespesaModel> despesas) {
 		this.despesas = despesas;
 	}
