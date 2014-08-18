@@ -25,7 +25,7 @@ public class UnidadeDAOImpl extends FactorIntranetImpl implements UnidadeDAO {
 		try {
 			conexao = dataSource.getConnection();
 
-			String sql = "SELECT unidade_id, unidade_descricao FROM unidade";
+			String sql = "SELECT * FROM unidade";
 			
 			pstmt = conexao.prepareStatement(sql);
 			

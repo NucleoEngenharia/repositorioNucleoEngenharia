@@ -1,0 +1,36 @@
+<ui:composition template="../../_template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	<!-- Cadastro de ponto, foi desenvolvida porém não está sendo utilizada,
+	     não apaguei para ajustar e utilizar para algo parecido caso precise. -->
+	     
+	     
+	<ui:define name="conteudo">
+		<p:messages/>
+		<p:panelGrid style="width: 100%;" styleClass="panel_inf_proj">
+			<p:row>
+				<p:column>
+					<p:commandButton value="Iniciar Atividades" update="@all"
+					 action="#{controleDeHorasBean.cadastraInicioAtividades}"/>
+				</p:column>
+				<p:column>
+					<p:commandButton value="Iniciar Almoço" update="@all"
+									 action="#{controleDeHorasBean.cadastraSaidaAlmoco}"/>
+				</p:column>
+				<p:column>
+					<p:commandButton value="Retorno às Atividades" update="@all"
+					action="#{controleDeHorasBean.cadastraChegadaAlmoco}"/>
+				</p:column>
+				<p:column>
+					<p:commandButton value="Término das atividades" update="@all"
+					action="#{controleDeHorasBean.cadastraFimExpediente}"/>
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</ui:define>
+</ui:composition>

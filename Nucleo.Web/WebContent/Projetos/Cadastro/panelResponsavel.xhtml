@@ -12,11 +12,11 @@
 					<p:outputLabel value="Unidade:" />
 				</p:column>
 				<p:column colspan="2">
-					<p:selectOneMenu effect="fade"
+					<p:selectOneMenu effect="fade" required="true" requiredMessage="Unidade responsável é um campo obrigatório"
 						value="#{cadastroProjetoBean.projetoSelecionado.responsavelAdm.idUnidade}"
 						filter="true">
 						<f:selectItem itemLabel="Selecione unidade" itemValue="" />
-						<f:selectItems value="#{cadastroProjetoBean.unidades}" var="unid" required="true" requiredMessage="Unidade responsável é um campo obrigatório"
+						<f:selectItems value="#{cadastroProjetoBean.unidades}" var="unid"
 							itemLabel="#{unid.descricao}" itemValue="#{unid.id}" />
 						<p:ajax update="supervisor"
 							listener="#{cadastroProjetoBean.carregaFuncionarios}"

@@ -15,7 +15,6 @@ public class DespesaDAOImpl extends DAOImpl<Despesa, Integer> implements Despesa
 
 	@Override
 	public List<Despesa> buscarTodosPorProjeto(Projeto projeto){
-		System.out.println("Começou aqui");
 		TypedQuery<Despesa> query = em.createQuery(
 				"Select d From Despesa d"
 				+ " left join fetch d.projeto as p"

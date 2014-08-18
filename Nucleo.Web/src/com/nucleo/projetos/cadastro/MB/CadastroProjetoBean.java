@@ -214,6 +214,7 @@ public class CadastroProjetoBean implements Serializable {
 		tiposServico = Arrays.asList(TipoServicoEnum.values());
 		permissoesMenuBean = new PermissoesMenuBean();
 		cidades = new ArrayList<String>();
+		unidades = null;
 	}
 
 	public void salvarInformacoesProjeto() {
@@ -221,7 +222,6 @@ public class CadastroProjetoBean implements Serializable {
 		try {
 			projetoDAO.alterar(projetoSelecionado, usuarioLogado.getPessoa_id());
 			projetoSelecionado = projetoDAO.buscarPorID(projetoSelecionado.getId());
-			ordenaPeriodosMedicao();
 			context.addMessage(null, new FacesMessage("Sucesso!",
 					"Informações atualizadas com sucesso."));
 		} catch (Exception e) {
@@ -846,9 +846,9 @@ public class CadastroProjetoBean implements Serializable {
 		this.departamentos = departamentos;
 	}
 	public List<FuncionarioTO> getFuncionarios() {
+		int unidade=0;
 		if (funcionarios == null) {
-			int unidade = projetoSelecionado.getResponsavelAdm().getIdUnidade();
-
+				unidade = projetoSelecionado.getResponsavelAdm().getId();
 			if (unidade > 0) {
 					funcionarios = funcionarioDAO.getFuncionariosPorUnidade(unidade);
 			} else {
@@ -947,11 +947,15 @@ public class CadastroProjetoBean implements Serializable {
 	}
 	public void ordenaPeriodosMedicao(){
 			int numSeq =1;
+			try{
 			for(PeriodoMedicao medicao: pd.buscarTodosPorProjeto(projetoSelecionado)){	
 				medicao.setNumSequencial(numSeq);
 				pd.alterar(medicao, 245);
 				numSeq++;
 		}
+			}catch(Exception e){
+				System.out.println("Este é o erro: "+e);
+			}
 	}
 
 }

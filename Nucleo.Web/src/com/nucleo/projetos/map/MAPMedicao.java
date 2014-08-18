@@ -8,6 +8,7 @@ import com.nucleo.sap.to.ProjetoTO;
 
 public class MAPMedicao {
 
+	
 	public static void ProjetoTOtoProjetoJPA(ProjetoTO projTO, Projeto projJPA){
 		projJPA.setCN(projTO.getCN());
 		projJPA.setDescricao(projTO.getNome());

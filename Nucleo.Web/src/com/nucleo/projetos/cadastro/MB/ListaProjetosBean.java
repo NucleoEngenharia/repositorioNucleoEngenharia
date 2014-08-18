@@ -76,7 +76,6 @@ public class ListaProjetosBean implements Serializable {
 		return destino;
 	}
 	
-	
 	private void removeProjetosCadastradosListaSAP(){
 		List<ProjetoTO> projetosNaoRemovidos = new ArrayList<ProjetoTO>();
 		for (ProjetoTO proj : projetosSAP) {

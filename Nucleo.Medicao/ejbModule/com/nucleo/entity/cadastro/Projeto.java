@@ -119,7 +119,7 @@ public class Projeto extends CommomEntity {
 
 	@OneToOne(fetch=FetchType.LAZY, 
 			mappedBy = "projeto", targetEntity = ResponsavelAdministracao.class,
-			cascade={CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST})
+			cascade={CascadeType.ALL, CascadeType.MERGE})
 	@Fetch(FetchMode.JOIN)
 	private ResponsavelAdministracao responsavelAdm;
 

@@ -18,6 +18,9 @@ import com.nucleo.seguranca.to.FuncionarioTO;
 
 @ManagedBean
 public class ControleDeHorasBean {
+	//Não se preocupe com essa classe, ela não esta sendo utilizada,
+	//foi criada para o controle de acesso, mas o processo foi alterado
+	//o não apaguei o esse bean para o caso de um dia ser necessário utilizar algo parecido.
 	@PostConstruct
 	public void init() {
 		usuarioLogado = Commom.getUsuarioLogado();

@@ -14,7 +14,9 @@ import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
 
 import com.nucleo.commom.Messages;
+import com.nucleo.contratos.dao.AtividadeDAO;
 import com.nucleo.contratos.dao.FuncionarioDAO;
+import com.nucleo.contratos.entity.Atividades;
 import com.nucleo.contratos.entity.Funcionario;
 import com.nucleo.intranet.DAO.AutenticacaoDAO;
 import com.nucleo.intranet.DAO.MenuDAO;
@@ -24,7 +26,6 @@ import com.nucleo.seguranca.to.MenuTO;
 @ManagedBean
 @SessionScoped
 public class LoginBean{
-
 	public LoginBean() {
 		usuarioLogado = new FuncionarioTO();
 	}
@@ -41,6 +42,8 @@ public class LoginBean{
 	private FuncionarioDAO funcionarioDAO;
 	@EJB
 	private MenuDAO menuDAO;
+	@EJB
+	private AtividadeDAO atividadeDAO;
 	
 	public FuncionarioTO getUsuarioLogado() {
 		return usuarioLogado;
@@ -66,25 +69,56 @@ public class LoginBean{
 	public void setConfirmSenha(String confirmSenha) {
 		this.confirmSenha = confirmSenha;
 	}
+	//Um grupo de acesso deverá ser criado, 
+	//os menus estão sendo carregados dessa forma 
+	//apenas para travar os usuários que apenas cadastraram atividades
+	//mas terá outros grupos com diferentes acessos
+	private static final int USUARIOINTERNO=1;
+	private static final int USUARIOEXTERNO=2;
 	
-	public MenuModel getPanelMenu() {
-		if(panelMenu==null){
-		panelMenu = new DefaultMenuModel();
+	private void getMenusAutorizados(int tipoUsuario){
 		List<MenuTO> listaSubMenus = menuDAO.listarMenusFilhos(MenuDAO.MENU_CONTRATOS, "146");
 		List<MenuTO>listaMenuItem = menuDAO.listarTodosMenus(MenuDAO.MENU_CONTRATOS);
-		for(MenuTO m: listaSubMenus){
-			DefaultSubMenu subMenu = new DefaultSubMenu(m.getDescricao());
-				for(MenuTO mi: listaMenuItem){
-					if(mi.getMenuPai()==m.getId()){
-						DefaultMenuItem item = new DefaultMenuItem();
-						item.setUrl(mi.getUrl());
-						item.setValue(mi.getDescricao());
-						subMenu.addElement(item);
+		if(tipoUsuario==USUARIOINTERNO){
+		if(panelMenu==null){
+			panelMenu = new DefaultMenuModel();
+			for(MenuTO m: listaSubMenus){
+				DefaultSubMenu subMenu = new DefaultSubMenu(m.getDescricao());
+					for(MenuTO mi: listaMenuItem){
+						if(mi.getMenuPai()==m.getId()){
+							DefaultMenuItem item = new DefaultMenuItem();
+							item.setUrl(mi.getUrl());
+							item.setValue(mi.getDescricao());
+							subMenu.addElement(item);
+						}
+					}
+					panelMenu.addElement(subMenu);
+			}
+			}
+		}else{
+			if(panelMenu==null){
+				panelMenu = new DefaultMenuModel();
+				for(MenuTO m: listaSubMenus){
+					if(m.getId()==152){
+					DefaultSubMenu subMenu = new DefaultSubMenu(m.getDescricao());
+						for(MenuTO mi: listaMenuItem){
+							
+							if(mi.getMenuPai()==m.getId()){
+								DefaultMenuItem item = new DefaultMenuItem();
+								item.setUrl(mi.getUrl());
+								item.setValue(mi.getDescricao());
+								subMenu.addElement(item);
+							}
+						}
+						
+						panelMenu.addElement(subMenu);
 					}
 				}
-				panelMenu.addElement(subMenu);
+				}
 		}
-		}
+	}
+	
+	public MenuModel getPanelMenu() {
 		return panelMenu;
 	}
 	public void setPanelMenu(MenuModel panelMenu) {
@@ -101,6 +135,7 @@ public class LoginBean{
 			funcionarioDAO.fazPrimeiroAcesso(usuario,senha);
 			this.primeiroAcesso = false;
 			 Funcionario usuarioEncontrado = funcionarioDAO.buscaPorMatricula(usuario);
+			 usuarioLogado.setPessoa_id(usuarioEncontrado.getId());
 			 usuarioLogado.setNome(usuarioEncontrado.getNome());
 			 usuarioLogado.setCpf(usuarioEncontrado.getCpf());
 			 retorno = autorizaPaginacao();
@@ -114,6 +149,7 @@ public class LoginBean{
 		int idUsuario = autenticacaoDAO.autenticarUsuario(usuario, senha);
 		if(idUsuario!=0){
 		usuarioLogado = autenticacaoDAO.getFuncionarioAutenticado(idUsuario);
+		getMenusAutorizados(USUARIOINTERNO);
 		retorno = autorizaPaginacao();
 		return retorno;
 		}else{
@@ -122,6 +158,9 @@ public class LoginBean{
 				if(funcionario.getId()!=0 && funcionario.isPrimeiroAcesso()==false){
 					usuarioLogado.setNome(funcionario.getNome());
 					usuarioLogado.setCpf(funcionario.getCpf());
+					getMenusAutorizados(USUARIOEXTERNO);
+					Atividades atividade = new Atividades();
+					atividadeDAO.inserir(atividade, funcionario);
 					retorno = autorizaPaginacao();
 					return retorno;
 				}else if(funcionario.getId()!=0 && funcionario.isPrimeiroAcesso()){
@@ -131,7 +170,6 @@ public class LoginBean{
 			Messages.geraMensagemDeErro("Usuário e/ou senha inválidos, verifique e tente novamente");
 			}
 		}
-		System.out.println(retorno);
 		return retorno;
 	}
 	public String autorizaPaginacao(){

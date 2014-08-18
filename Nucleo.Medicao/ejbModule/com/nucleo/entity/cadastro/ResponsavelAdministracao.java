@@ -22,7 +22,7 @@ public class ResponsavelAdministracao extends CommomEntity implements Serializab
 
 	@Id
 	@GeneratedValue(generator = "seqResponsavelADM",strategy=GenerationType.IDENTITY)
-	private int id;
+	private int id=0;
 
 	private int idResponsavel;
 	

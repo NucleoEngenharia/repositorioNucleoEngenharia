@@ -5,26 +5,28 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="conteudo">
-		<p:messages/>
-		<p:panelGrid style="width: 100%;" styleClass="panel_inf_proj">
-			<p:row>
-				<p:column>
-					<p:commandButton value="Iniciar Atividades" update="@all"
-					 action="#{controleDeHorasBean.cadastraInicioAtividades}"/>
-				</p:column>
-				<p:column>
-					<p:commandButton value="Iniciar Almoço" update="@all"
-									 action="#{controleDeHorasBean.cadastraSaidaAlmoco}"/>
-				</p:column>
-				<p:column>
-					<p:commandButton value="Retorno às Atividades" update="@all"
-					action="#{controleDeHorasBean.cadastraChegadaAlmoco}"/>
-				</p:column>
-				<p:column>
-					<p:commandButton value="Término das atividades" update="@all"
-					action="#{controleDeHorasBean.cadastraFimExpediente}"/>
-				</p:column>
-			</p:row>
-		</p:panelGrid>
+		<p:panel id="panel" header="Cadastro de Atividades">
+			<p:messages/>
+			<p:panelGrid styleClass="panel_inf_proj">
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Data das Atividades"/>
+					</p:column>
+					<p:column>
+						<p:selectOneMenu value="#{atividadesBean.dataEscolhida}">
+							<f:selectItem itemLabel="Selecione" itemDisabled="true"/>
+							<f:selectItems value="#{atividadesBean.datas}" var="data"
+										   itemLabel="#{data}" itemValue="#{data}"/>
+							<p:ajax listener="#{atividadesBean.buscaAtividade}" event="change"
+							update="text"/>
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<br/>
+			<p:editor id="text" height="400" value="#{atividadesBean.atividade.texto}"/>
+			<br />
+			<p:commandButton value="Atualizar Atividade" update="@all" action="#{atividadesBean.atualizarAtividade}"/>
+		</p:panel>
 	</ui:define>
 </ui:composition>

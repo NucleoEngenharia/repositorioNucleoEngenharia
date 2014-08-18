@@ -45,6 +45,9 @@ public class Funcionario extends CommomEntity {
 	
 	@OneToMany(mappedBy="funcionario", targetEntity=ControleDeHorarios.class)
 	private List<ControleDeHorarios>controleDeHorarios;
+	
+	@OneToMany(mappedBy="funcionario", targetEntity=Atividades.class)
+	private List<Atividades>atividades;
 
 	public int getId() {
 		return id;
@@ -124,6 +127,14 @@ public class Funcionario extends CommomEntity {
 
 	public void setControleDeHorarios(List<ControleDeHorarios> controleDeHorarios) {
 		this.controleDeHorarios = controleDeHorarios;
+	}
+
+	public List<Atividades> getAtividades() {
+		return atividades;
+	}
+
+	public void setAtividades(List<Atividades> atividades) {
+		this.atividades = atividades;
 	}
 	
 	
