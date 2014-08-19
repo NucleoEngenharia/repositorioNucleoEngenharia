@@ -13,7 +13,7 @@
 						<p:outputLabel value="CN" />
 					</p:column>
 					<p:column>
-						<p:inputText value="#{listaProjetosBean.projetoSelecionado.cn}"
+						<p:inputText value="#{editarProjetoBean.projetoSelecionado.cn}"
 							disabled="true" size="3" />
 					</p:column>
 					<p:column styleClass="colLabel">
@@ -21,7 +21,7 @@
 					</p:column>
 					<p:column>
 						<p:inputText
-							value="#{listaProjetosBean.projetoSelecionado.descricao}"
+							value="#{editarProjetoBean.projetoSelecionado.descricao}"
 							disabled="true" size="30" />
 					</p:column>
 				</p:row>
@@ -31,14 +31,14 @@
 					</p:column>
 					<p:column>
 						<p:calendar pattern="dd/MM/yyyy" size="10" maxlength="10" 
-							value="#{listaProjetosBean.projetoSelecionado.dtInicio.time}" />
+							value="#{editarProjetoBean.projetoSelecionado.dtInicio.time}" />
 					</p:column>
 					<p:column styleClass="colLabel">
 						<p:outputLabel value="Data Fim" />
 					</p:column>
 					<p:column>
 						<p:calendar pattern="dd/MM/yyyy" size="10" maxlength="10"
-							value="#{listaProjetosBean.projetoSelecionado.dtFim.time}" />
+							value="#{editarProjetoBean.projetoSelecionado.dtFim.time}" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -47,9 +47,9 @@
 					</p:column>
 					<p:column>
 						<p:selectOneMenu
-							value="#{listaProjetosBean.projetoSelecionado.atividade}">
+							value="#{editarProjetoBean.projetoSelecionado.atividade}">
 							<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
-							<f:selectItems value="#{listaProjetosBean.atividades}"
+							<f:selectItems value="#{editarProjetoBean.atividades}"
 								var="atividade" itemLabel="#{atividade}"
 								itemValue="#{atividade}" />
 						</p:selectOneMenu>
@@ -59,9 +59,9 @@
 					</p:column>
 					<p:column>
 						<p:selectOneMenu
-							value="#{listaProjetosBean.projetoSelecionado.atividade}">
+							value="#{editarProjetoBean.projetoSelecionado.atividade}">
 							<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
-							<f:selectItems value="#{listaProjetosBean.atividades}"
+							<f:selectItems value="#{editarProjetoBean.atividades}"
 								var="atividade" itemLabel="#{atividade}"
 								itemValue="#{atividade}" />
 						</p:selectOneMenu>
@@ -73,9 +73,9 @@
 					</p:column>
 					<p:column>
 						<p:selectOneMenu
-							value="#{listaProjetosBean.projetoSelecionado.status}">
+							value="#{editarProjetoBean.projetoSelecionado.status}">
 							<f:selectItem itemLabel="Selecione..." noSelectionOption="true" />
-							<f:selectItems value="#{listaProjetosBean.status}"
+							<f:selectItems value="#{editarProjetoBean.status}"
 								var="status" itemLabel="#{status}"
 								itemValue="#{status}" />
 						</p:selectOneMenu>

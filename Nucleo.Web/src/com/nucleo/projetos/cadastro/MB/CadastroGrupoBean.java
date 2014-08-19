@@ -252,7 +252,6 @@ public class CadastroGrupoBean {
 		try{
 			if(menuFilho.get(menuSelecionado.getId()).size()>0){
 				for(MenuTO menuTO:  menuFilho.get(menuSelecionado.getId())){
-					System.out.println(menuTO.getDescricao());
 					PermissoesMenu permissoesMenuFilho = new PermissoesMenu();
 					permissoesMenuFilho.setDescricao(menuTO.getDescricao());
 					permissoesMenuFilho.setUrl(menuTO.getUrl());

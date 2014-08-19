@@ -10,8 +10,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import com.nucleo.contratos.dao.ProjetoDAO;
 import com.nucleo.contratos.entity.Projeto;
@@ -22,7 +23,7 @@ import com.nucleo.sap.bo.SapBOProxy;
 import com.nucleo.sap.to.ProjetoTO;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ListaProjetosBean {
 	private List<Projeto>projetos;
 	private ProjetoTO projetosSAP[];
@@ -34,6 +35,9 @@ public class ListaProjetosBean {
 	private List<StatusProjetoEnum>status;
 	@EJB
 	private ProjetoDAO projetoDAO;
+	
+	@Inject EditarProjetoBean editarProjetoBean;
+	
 	@PostConstruct
 	public void init(){
 		sapBO = new SapBOProxy();
@@ -41,10 +45,10 @@ public class ListaProjetosBean {
 		setores = Arrays.asList(SetorEnum.values());
 		status = Arrays.asList(StatusProjetoEnum.values());
 		atividades = Arrays.asList(AtividadeEnum.values());
+		
 		try {
 			projetosSAP = sapBO.getProjetos();
 		} catch (RemoteException e) {
-			System.out.println("Deu essa exception");
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage
 			(FacesMessage.SEVERITY_ERROR, "Erro", "Falha na comunicação com sistema SAP (http://179.184.226.66:8181), entre em contato com Administrador da rede"));
@@ -116,6 +120,11 @@ public class ListaProjetosBean {
 		return projetos;
 	}
 
+	public String selecionarProjeto(){
+		editarProjetoBean.begin();
+		editarProjetoBean.setProjetoSelecionado(projetoSelecionado);
+		return "editarContratos.xhtml?faces-redirect=true";
+	}
 	public void setProjetos(List<Projeto> projetos) {
 		this.projetos = projetos;
 	}

@@ -10,7 +10,7 @@
 			<p:dataTable value="#{listaProjetosBean.projetos}" var="projeto"
 			 			 paginator="true" rows="10"
 			 			 selection="#{listaProjetosBean.projetoSelecionado}" selectionMode="single"
-			 		rowKey="#{projeto.id}">
+			 			 rowKey="#{projeto.cn}">
 			 			 <p:column headerText="CN" filterBy="cn">
 			 			 	<p:outputLabel value="#{projeto.cn}"/>
 			 			 </p:column>
@@ -28,7 +28,7 @@
 							</h:outputText>
 						</p:column>
 					<f:facet name="footer">
-						<p:commandButton value="Editar Projeto" action="editarContratos.xhtml"/>
+						<p:commandButton value="Editar Projeto" action="#{listaProjetosBean.selecionarProjeto}"/>
 					</f:facet>
 			</p:dataTable>
 			<p:messages autoUpdate="true" showSummary="true" showDetail="true"/>
