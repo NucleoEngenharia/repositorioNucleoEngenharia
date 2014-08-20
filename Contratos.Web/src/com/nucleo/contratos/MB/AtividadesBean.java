@@ -41,6 +41,7 @@ public class AtividadesBean {
 	private List<Atividades>atividades=null;
 	private List<String> datas=null;
 	private String dataEscolhida;
+	private boolean usuarioExterno=false;
 
 	public void buscaAtividade(){
 		try {
@@ -52,6 +53,7 @@ public class AtividadesBean {
 			e.printStackTrace();
 		}
 	}
+	
 	public void atualizarAtividade(){
 		atividadeDAO.alterar(atividade, funcionarioExternoLogado);
 		Messages.geraMensagemAviso("Atividade atualizada com sucesso!");
@@ -89,6 +91,17 @@ public class AtividadesBean {
 	}
 	public void setAtividade(Atividades atividade) {
 		this.atividade = atividade;
+	}
+
+	public boolean isUsuarioExterno() {
+		if(funcionarioExternoLogado.getId()>0){
+			usuarioExterno = true;
+		}
+		return usuarioExterno;
+	}
+
+	public void setUsuarioExterno(boolean usuarioExterno) {
+		this.usuarioExterno = usuarioExterno;
 	}
 	
 }

@@ -2,13 +2,15 @@ package com.nucleo.contratos.entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,11 +30,11 @@ public class Atividades extends CommomEntity implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Calendar data;
 	
-	@Column(length=500)
-	private String texto;
-	
 	@ManyToOne
 	private Funcionario funcionario;
+	
+	@OneToMany(mappedBy="atividades", cascade=CascadeType.MERGE, targetEntity=DetalhamentoAtividade.class)
+	private List<DetalhamentoAtividade> detalhamentoAtividade;
 
 	public int getId() {
 		return id;
@@ -40,10 +42,6 @@ public class Atividades extends CommomEntity implements Serializable{
 
 	public Calendar getData() {
 		return data;
-	}
-
-	public String getTexto() {
-		return texto;
 	}
 
 	public Funcionario getFuncionario() {
@@ -58,12 +56,17 @@ public class Atividades extends CommomEntity implements Serializable{
 		this.data = data;
 	}
 
-	public void setTexto(String texto) {
-		this.texto = texto;
-	}
-
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+
+	public List<DetalhamentoAtividade> getDetalhamentoAtividade() {
+		return detalhamentoAtividade;
+	}
+
+	public void setDetalhamentoAtividade(List<DetalhamentoAtividade> detalhamentoAtividade) {
+		this.detalhamentoAtividade = detalhamentoAtividade;
+	}
+	
 	
 }

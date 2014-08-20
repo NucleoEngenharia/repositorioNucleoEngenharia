@@ -18,15 +18,17 @@
 							<f:selectItems value="#{atividadesBean.datas}" var="data"
 										   itemLabel="#{data}" itemValue="#{data}"/>
 							<p:ajax listener="#{atividadesBean.buscaAtividade}" event="change"
-							update="text"/>
+							/>
 						</p:selectOneMenu>
 					</p:column>
 				</p:row>
 			</p:panelGrid>
-			<br/>
-			<p:editor id="text" height="400" value="#{atividadesBean.atividade.texto}"/>
 			<br />
 			<p:commandButton value="Atualizar Atividade" update="@all" action="#{atividadesBean.atualizarAtividade}"/>
+			<br/>
+			<p:dataTable emptyMessage="Nenhuma atividade cadastrada" paginator="true">
+			
+			</p:dataTable>
 		</p:panel>
 	</ui:define>
 </ui:composition>

@@ -957,7 +957,6 @@ public class MedicaoProjetoBean implements Serializable {
 					if(medicaoNew.getId()==0){
 						medicaoEquipeDAO.inserir(medicao, usuarioLogado.getPessoa_id());
 					}else{
-						System.out.println("Esta indo a medição de: "+medicao.getMobilizacao().getFuncionario().getNomeCompleto());
 					medicaoEquipeDAO.alterar(medicao, usuarioLogado.getPessoa_id());
 					}
 				}

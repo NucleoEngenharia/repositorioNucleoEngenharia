@@ -34,9 +34,10 @@ public class CarregaMedicoesUtil {
 			List<MedicaoEquipe> list = new ArrayList<MedicaoEquipe>();
 			for (MedicaoEquipe medicao : todasMedicoes) {
 					if (medicao.getMobilizacao().getCargo().getServico().getId() == equipe.getId()) {
-								list.add(medicao);
+						list.add(medicao);
 					}
 			}
+			
 					for(Mobilizacao mobilizacao:mobilizacoesDoPeriodo){
 						if(!procuraMobilizacaoNasMedicoesRodadas(list, mobilizacao)&&mobilizacao.getCargo().getServico().getId()==equipe.getId()){
 							MedicaoEquipe medicaoEquipe = new MedicaoEquipe();
@@ -44,7 +45,6 @@ public class CarregaMedicoesUtil {
 							medicaoEquipe.setMobilizacao(mobilizacao);
 							medicaoEquipe.setQuantidadeMedido(BigDecimal.ZERO);
 							medicaoEquipe.setValorMedido(BigDecimal.ZERO);
-							medicaoEquipeDAO.inserir(medicaoEquipe, idUsuario);
 							list.add(medicaoEquipe);
 						}
 					}
@@ -57,14 +57,12 @@ public class CarregaMedicoesUtil {
 		return medicoesEquipe;
 	}
 	private boolean procuraMobilizacaoNasMedicoesRodadas(List<MedicaoEquipe>medicoes, Mobilizacao mobilizacao){
-		boolean achou = false;
 		for(MedicaoEquipe medicaoEquipe:medicoes){
 			
 			if(medicaoEquipe.getMobilizacao().getId()==mobilizacao.getId()){
-				achou = true;
-				break;
+				return true;
 			}
 		}
-		return achou;
+		return false;
 	}
 }

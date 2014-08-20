@@ -107,7 +107,8 @@ implements MedicaoEquipeDAO{
 				+ " left join fetch m.periodoMedicao pm"
 				+ " left join fetch pm.detalhamentoPeriodoMedicao d"
 				+ " where m.excluido =:excluido"
-				+ " and pm.id=:periodoMedicao_id";
+				+ " and pm.id=:periodoMedicao_id"
+				+ " and mob.excluido=:excluido";
 		        medicoes = em.createQuery(jpql, MedicaoEquipe.class)
 		        .setParameter("excluido", false)
 		        .setParameter("periodoMedicao_id", periodoMedicao.getId())
