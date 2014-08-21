@@ -846,14 +846,8 @@ public class CadastroProjetoBean implements Serializable {
 		this.departamentos = departamentos;
 	}
 	public List<FuncionarioTO> getFuncionarios() {
-		int unidade=0;
 		if (funcionarios == null) {
-				unidade = projetoSelecionado.getResponsavelAdm().getId();
-			if (unidade > 0) {
-					funcionarios = funcionarioDAO.getFuncionariosPorUnidade(unidade);
-			} else {
-				funcionarios = new ArrayList<FuncionarioTO>();
-			}
+			funcionarios = funcionarioDAO.getFuncionariosPorUnidade(projetoSelecionado.getResponsavelAdm().getIdUnidade());
 		}
 		return funcionarios;
 	}

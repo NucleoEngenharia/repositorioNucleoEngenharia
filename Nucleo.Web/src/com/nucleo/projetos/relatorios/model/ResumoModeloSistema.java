@@ -59,6 +59,27 @@ public class ResumoModeloSistema {
 	private BigDecimal totalGeralSaldoI0;
 	private BigDecimal totalGeralSaldoReajustadoI0;
 	
+	private BigDecimal totalMI0DtEscolhidaOleoGas;//Total medição i0
+	private BigDecimal totalMRDtEscolhidaOleoGas;//total medição com reajuste
+	private BigDecimal totalMMesAntOleoGas;//total medição i0 mes anterior
+	private BigDecimal totalMMesAntM1OleoGas;//total medição i0 com mes anterior m1
+	
+	public BigDecimal getTotalMRDtEscolhidaOleoGas() {
+		return totalMRDtEscolhidaOleoGas;
+	}
+
+	public BigDecimal getTotalMI0DtEscolhidaOleoGas() {
+		return totalMI0DtEscolhidaOleoGas;
+	}
+
+	public BigDecimal getTotalMMesAntOleoGas() {
+		return totalMMesAntOleoGas;
+	}
+
+	public BigDecimal getTotalMMesAntM1OleoGas() {
+		return totalMMesAntM1OleoGas;
+	}
+
 	public BigDecimal getTotalValorI0PetroleoGas(){
 		totalValorI0PetroleoGas=somaValorI0(contratosModelOleoEGas);
 		return totalValorI0PetroleoGas;

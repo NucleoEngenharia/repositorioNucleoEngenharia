@@ -157,6 +157,9 @@ public class ProcessosResumoContratos{
 			contratoModel.getPeriodoComDataEscolhida().setMedicaoComReajuste(detalheDoPeriodo.getTotalReajuste());
 			contratoModel.getPeriodoComDataEscolhida().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
 			contratoModel.getPeriodoComDataEscolhida().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
+				if(projeto.getSetor().equals(SetorEnum.OLEOEGAS)){
+					//continuar aqui
+				}
 		}else if(escolhida==ANTERIOR){
 			contratoModel.getPeriodoComMesAnterior().setPeriodoMedicao(periodo);
 			contratoModel.getPeriodoComMesAnterior().setMedicaoI0(detalheDoPeriodo.getTotalMedicaoI0());
@@ -234,13 +237,13 @@ public class ProcessosResumoContratos{
 		rms.setAnoCompetencia(dataAtual.get(Calendar.YEAR));
 		
 		dataEscolhida.set(Calendar.MONTH, dataDe.get(Calendar.MONTH));
-		dataEscolhida.set(Calendar.YEAR, dataDe.get(Calendar.YEAR));
+		dataEscolhida.set(Calendar.YEAR, dataDe.get(Calendar.YEAR)-1);
 		
 		mesAnterior.set(Calendar.MONTH, dataDe.get(Calendar.MONTH)-1);
-		mesAnterior.set(Calendar.YEAR, dataDe.get(Calendar.YEAR));
+		mesAnterior.set(Calendar.YEAR, dataDe.get(Calendar.YEAR)-1);
 		
 		mesAnteriorM1.set(Calendar.MONTH, dataDe.get(Calendar.MONTH)-2);
-		mesAnteriorM1.set(Calendar.YEAR, dataDe.get(Calendar.YEAR));
+		mesAnteriorM1.set(Calendar.YEAR, dataDe.get(Calendar.YEAR)-1);
 		rms.setDataEscolhida(dataEscolhida);
 		rms.setMesAnterior(mesAnterior);
 		rms.setMesAnteriorM1(mesAnteriorM1);
