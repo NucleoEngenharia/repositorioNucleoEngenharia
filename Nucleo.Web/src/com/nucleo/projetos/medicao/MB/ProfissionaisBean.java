@@ -50,7 +50,7 @@ public class ProfissionaisBean implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			if (profissional.getId() == 0) {
-				funcionarioDAO.inserir(profissional, usuarioLogado.getPessoa_id());
+				funcionarioDAO.salvar(profissional, usuarioLogado.getPessoa_id());
 			} else {
 
 				for (Mobilizacao mobilizacao : funcionarioDAO.buscarTodasMobilizacoes(profissional)) {

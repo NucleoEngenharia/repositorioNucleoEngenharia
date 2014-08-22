@@ -67,11 +67,12 @@ public class MobilizacaoDAOImpl extends DAOImpl<Mobilizacao, Integer> implements
 	@Override
 	public List<Mobilizacao> buscarTodosPorProjeto(Projeto projeto) {
 		String strQuery = "select distinct m from Mobilizacao m"
-				+ " left join fetch m.funcionario"
+				+ " left join fetch m.funcionario f"
 				+ " left join fetch m.cargo as c"
 				+ " left join fetch c.servico as s"
 				+ " left join fetch s.projeto as p"
-				+ " where p.id=:projeto and m.excluido = :excluido";
+				+ " where p.id=:projeto and m.excluido = :excluido"
+				+ " and f.excluido=:excluido";
 		TypedQuery<Mobilizacao> query = em.createQuery(strQuery, Mobilizacao.class);
 		query.setParameter("projeto", projeto.getId());
 		query.setParameter("excluido", false);

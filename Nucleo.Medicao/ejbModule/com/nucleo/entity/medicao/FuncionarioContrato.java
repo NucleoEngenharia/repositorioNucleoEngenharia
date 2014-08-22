@@ -14,7 +14,7 @@ import com.nucleo.entity.CommomEntity;
 import com.sun.istack.internal.Nullable;
 
 @Entity
-//@SequenceGenerator(allocationSize=1, sequenceName="SEQ_FUNCIONARIOCONTRATO", name="seqFuncionarioContrato")
+//@SequenceGenerator(allocationSize=529, sequenceName="SEQ_FUNCIONARIOCONTRATO", name="seqFuncionarioContrato")
 public class FuncionarioContrato extends CommomEntity {
 
 	public FuncionarioContrato() {
@@ -24,7 +24,7 @@ public class FuncionarioContrato extends CommomEntity {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqFuncionarioContrato")
+	//@GeneratedValue(strategy=GenerationType.IDENTITY, generator="seqFuncionarioContrato")
 	private int id;
 	
 	private boolean pj;
