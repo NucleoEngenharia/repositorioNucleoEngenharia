@@ -5,8 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:define name="conteudo">
-		<p:panel id="panel" header="Cadastro de Atividades">
-			<p:messages/>
+		<p:messages/>
+		<p:panel id="panelFuncExterno" style="height:500px; " header="Cadastro de Atividades" rendered="#{atividadesBean.usuarioExterno}">
 			<p:panelGrid styleClass="panel_inf_proj">
 				<p:row>
 					<p:column>
@@ -17,17 +17,84 @@
 							<f:selectItem itemLabel="Selecione" itemDisabled="true"/>
 							<f:selectItems value="#{atividadesBean.datas}" var="data"
 										   itemLabel="#{data}" itemValue="#{data}"/>
-							<p:ajax listener="#{atividadesBean.buscaAtividade}" event="change"
-							/>
+							<p:ajax listener="#{atividadesBean.buscaAtividade}" event="change" update="@all"/>
 						</p:selectOneMenu>
 					</p:column>
 				</p:row>
 			</p:panelGrid>
 			<br />
-			<p:commandButton value="Atualizar Atividade" update="@all" action="#{atividadesBean.atualizarAtividade}"/>
+			<p:commandButton value="ADD Atividade" rendered="#{atividadesBean.hoje}" onclick="PF('atividade').show();"/>
 			<br/>
-			<p:dataTable emptyMessage="Nenhuma atividade cadastrada" paginator="true">
-			
+			<br/>
+			<p:dataTable value="#{atividadesBean.atividade.detalhamentoAtividade}" paginator="true" rows="7"
+			emptyMessage="Nenhuma atividade cadastrada para o usuário selecionado" var="atividade">
+				
+				<p:column filterBy="data" headerText="Data"  style="width:200px">
+					<p:outputLabel value="#{atividade.hora.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" timeZone="GMT-03"/>
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Atividade" filterBy="texto">
+					<p:outputLabel value="#{atividade.texto}"/>
+				</p:column>
+			</p:dataTable>
+			<p:dialog hideEffect="clip" showEffect="clip" closable="false"
+				 modal="true" widgetVar="atividade" height="100" header="Cadastrar Atividade" >
+				 <p:panelGrid styleClass="panel_inf_proj">
+				 	<p:row>
+				 		<p:column>
+				 			<p:outputLabel value="Atividade"/>
+				 		</p:column>
+				 		<p:column>
+				 			<p:inputText value="#{atividadesBean.detalhamentoAtividade.texto}"/>
+				 		</p:column>
+				 	</p:row>
+				 </p:panelGrid>
+				 <br/>
+				 <p:commandButton value="Cancelar" onclick="PF('atividade').hide();"/>
+				<p:commandButton value="Salvar" action="#{atividadesBean.atualizarAtividade}" update="@all"/>
+			</p:dialog>
+		</p:panel>
+		<p:panel header="Controle Atividades" style="height:500px;" rendered="#{!atividadesBean.usuarioExterno}">
+			<p:panelGrid styleClass="panel_inf_proj">
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Funcionários"/>
+					</p:column>
+					<p:column>
+						<p:selectOneMenu value="#{atividadesBean.idFuncSelecionado}">
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+							<f:selectItems value="#{atividadesBean.funcionarios}" var="func"
+										   itemLabel="#{func.nome}" itemValue="#{func.id}"/>
+										   <p:ajax event="change" listener="#{atividadesBean.buscarAtividadesDoUserEscolhido}" update="@all"/>
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<br/>
+			<p:dataTable id="atividades" value="#{atividadesBean.atividadesUserSelecionado}"
+			emptyMessage="Nenhuma atividade cadastrada para o usuário selecionado" var="atividade">
+				<p:column style="width:16px">
+           			 <p:rowToggler />
+      			</p:column>
+				<p:column filterBy="data" headerText="Data">
+					<p:outputLabel value="#{atividade.dataCriacao.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" timeZone="GMT-03"/>
+					</p:outputLabel>
+				</p:column>
+				<p:rowExpansion>
+					<p:dataTable emptyMessage="Nenhuma atividade cadastrada" scrollable="true" scrollHeight="100"
+						 value="#{atividade.detalhamentoAtividade}" var="detalhe">
+						<p:column headerText="Data"  style="width:100px">
+					<p:outputLabel value="#{detalhe.hora.time}">
+						<f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-03"/>
+					</p:outputLabel>
+				</p:column>
+				<p:column headerText="Atividade">
+					<p:outputLabel value="#{detalhe.texto}"/>
+				</p:column>
+					</p:dataTable>
+				</p:rowExpansion>
 			</p:dataTable>
 		</p:panel>
 	</ui:define>

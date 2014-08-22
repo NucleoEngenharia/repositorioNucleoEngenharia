@@ -16,4 +16,5 @@ public interface AtividadeDAO {
 	Atividades buscarPorDataEFuncionario(Calendar data, Funcionario funcionario);
 	void inserir(Atividades atividades, Funcionario funcionario);
 	void alterar(Atividades atividades, Funcionario funcionario);
+	List<Atividades>listPorFuncId(int funcId);
 }

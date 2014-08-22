@@ -16,6 +16,7 @@ import com.nucleo.commom.Messages;
 import com.nucleo.contratos.dao.AtividadeDAO;
 import com.nucleo.contratos.dao.FuncionarioDAO;
 import com.nucleo.contratos.entity.Atividades;
+import com.nucleo.contratos.entity.DetalhamentoAtividade;
 import com.nucleo.contratos.entity.Funcionario;
 import com.nucleo.seguranca.to.FuncionarioTO;
 
@@ -27,8 +28,11 @@ public class AtividadesBean {
 	public void init(){
 		usuarioLogado = Commom.getUsuarioLogado();
 		funcionarioExternoLogado = funcionarioDAO.buscaFuncionarioPorCpf(usuarioLogado.getCpf());
-		atividades = atividadeDAO.buscarPorFuncionario(funcionarioExternoLogado);
 		atividade = new Atividades();
+		detalhamentoAtividade = new DetalhamentoAtividade();
+		if(funcionarioExternoLogado.getId()!=0){
+			atividades = atividadeDAO.buscarPorFuncionario(funcionarioExternoLogado);
+			}
 	}
 	@EJB
 	private AtividadeDAO atividadeDAO;
@@ -40,22 +44,38 @@ public class AtividadesBean {
 	private Funcionario funcionarioExternoLogado;
 	private List<Atividades>atividades=null;
 	private List<String> datas=null;
+	private List<Funcionario>funcionarios = null;
+	private List<Atividades>atividadesUserSelecionado;
 	private String dataEscolhida;
 	private boolean usuarioExterno=false;
-
+	private int idFuncSelecionado;
+	private boolean hoje=false;
+	private DetalhamentoAtividade detalhamentoAtividade;
+	
 	public void buscaAtividade(){
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			Calendar data = Calendar.getInstance();
-			data.setTime(sdf.parse(dataEscolhida));
-			this.atividade = atividadeDAO.buscarPorDataEFuncionario(data, funcionarioExternoLogado);
+			Calendar dataEscolhida = Calendar.getInstance();
+			String hoje ; 
+			hoje = sdf.format(dataEscolhida.getTime());
+			if(hoje.equals(this.dataEscolhida)){
+				this.hoje=true;
+			}else{
+				this.hoje=false;
+			}
+			dataEscolhida.setTime(sdf.parse(this.dataEscolhida));
+			this.atividade = atividadeDAO.buscarPorDataEFuncionario(dataEscolhida, funcionarioExternoLogado);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void atualizarAtividade(){
+		detalhamentoAtividade.setHora(Calendar.getInstance());
+		detalhamentoAtividade.setAtividades(atividade);
+		atividade.getDetalhamentoAtividade().add(detalhamentoAtividade);
 		atividadeDAO.alterar(atividade, funcionarioExternoLogado);
+		detalhamentoAtividade = new DetalhamentoAtividade();
 		Messages.geraMensagemAviso("Atividade atualizada com sucesso!");
 	}
 	public String getDataEscolhida() {
@@ -78,9 +98,6 @@ public class AtividadesBean {
 		this.datas = datas;
 	}
 	public List<Atividades> getAtividadedes() {
-		if(atividades.size()==0){
-			atividades = atividadeDAO.buscarPorFuncionario(funcionarioExternoLogado);
-		}
 		return atividades;
 	}
 	public void setAtividadedes(List<Atividades> atividades) {
@@ -103,5 +120,51 @@ public class AtividadesBean {
 	public void setUsuarioExterno(boolean usuarioExterno) {
 		this.usuarioExterno = usuarioExterno;
 	}
-	
+
+	public List<Funcionario> getFuncionarios() {
+		if(funcionarios==null){
+			 funcionarios = funcionarioDAO.listarTodos();
+		}
+		return funcionarios;
+	}
+
+	public void setFuncionarios(List<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
+	}
+
+	public List<Atividades> getAtividadesUserSelecionado() {
+		return atividadesUserSelecionado;
+	}
+
+	public void setAtividadesUserSelecionado(List<Atividades> atividadesUserSelecionado) {
+		this.atividadesUserSelecionado = atividadesUserSelecionado;
+	}
+	public void buscarAtividadesDoUserEscolhido(){
+		atividadesUserSelecionado = atividadeDAO.listPorFuncId(idFuncSelecionado);
+	}
+
+	public int getIdFuncSelecionado() {
+		return idFuncSelecionado;
+	}
+
+	public void setIdFuncSelecionado(int idFuncSelecionado) {
+		this.idFuncSelecionado = idFuncSelecionado;
+	}
+
+	public boolean isHoje() {
+		return hoje;
+	}
+
+	public void setHoje(boolean hoje) {
+		this.hoje = hoje;
+	}
+
+	public DetalhamentoAtividade getDetalhamentoAtividade() {
+		return detalhamentoAtividade;
+	}
+
+	public void setDetalhamentoAtividade(DetalhamentoAtividade detalhamentoAtividade) {
+		this.detalhamentoAtividade = detalhamentoAtividade;
+	}
+
 }

@@ -8,6 +8,11 @@ import java.util.List;
 
 public class ResumoModeloSistema {
 	public ResumoModeloSistema() {
+		totalMI0DtEscolhidaOleoGas = new BigDecimal(0);
+		totalMRDtEscolhidaOleoGas= new BigDecimal(0);
+		totalMDtEscolhidaOleoGas= new BigDecimal(0);
+		totalMMesAntOleoGas= new BigDecimal(0);
+		totalMMesAntM1OleoGas= new BigDecimal(0);
 		contratosModelOleoEGas = new ArrayList<ContratosModel>();
 		contratosModelEnergia = new ArrayList<ContratosModel>();
 		contratosModelInfraEstrutura = new ArrayList<ContratosModel>();
@@ -61,9 +66,27 @@ public class ResumoModeloSistema {
 	
 	private BigDecimal totalMI0DtEscolhidaOleoGas;//Total medição i0
 	private BigDecimal totalMRDtEscolhidaOleoGas;//total medição com reajuste
+	private BigDecimal totalMDtEscolhidaOleoGas;//total medição 
 	private BigDecimal totalMMesAntOleoGas;//total medição i0 mes anterior
 	private BigDecimal totalMMesAntM1OleoGas;//total medição i0 com mes anterior m1
 	
+	
+	public void setTotalMI0DtEscolhidaOleoGas(BigDecimal totalMI0DtEscolhidaOleoGas) {
+		this.totalMI0DtEscolhidaOleoGas = totalMI0DtEscolhidaOleoGas;
+	}
+
+	public void setTotalMRDtEscolhidaOleoGas(BigDecimal totalMRDtEscolhidaOleoGas) {
+		this.totalMRDtEscolhidaOleoGas = totalMRDtEscolhidaOleoGas;
+	}
+
+	public void setTotalMDtEscolhidaOleoGas(BigDecimal totalMDtEscolhidaOleoGas) {
+		this.totalMDtEscolhidaOleoGas = totalMDtEscolhidaOleoGas;
+	}
+
+	public BigDecimal getTotalMDtEscolhidaOleoGas() {
+		return totalMDtEscolhidaOleoGas;
+	}
+
 	public BigDecimal getTotalMRDtEscolhidaOleoGas() {
 		return totalMRDtEscolhidaOleoGas;
 	}

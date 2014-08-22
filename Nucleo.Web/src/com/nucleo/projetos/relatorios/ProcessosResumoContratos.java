@@ -158,7 +158,15 @@ public class ProcessosResumoContratos{
 			contratoModel.getPeriodoComDataEscolhida().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
 			contratoModel.getPeriodoComDataEscolhida().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
 				if(projeto.getSetor().equals(SetorEnum.OLEOEGAS)){
-					//continuar aqui
+					modeloSistema.setTotalMDtEscolhidaOleoGas(modeloSistema.getTotalMDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicao()));
+					modeloSistema.setTotalMI0DtEscolhidaOleoGas(modeloSistema.getTotalMI0DtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
+					modeloSistema.setTotalMRDtEscolhidaOleoGas(modeloSistema.getTotalMRDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
+					
+				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
+					
+				}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
+					
 				}
 		}else if(escolhida==ANTERIOR){
 			contratoModel.getPeriodoComMesAnterior().setPeriodoMedicao(periodo);
@@ -166,12 +174,29 @@ public class ProcessosResumoContratos{
 			contratoModel.getPeriodoComMesAnterior().setMedicaoComReajuste(detalheDoPeriodo.getTotalReajuste());
 			contratoModel.getPeriodoComMesAnterior().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
 			contratoModel.getPeriodoComMesAnterior().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
+				if(projeto.getSetor().equals(SetorEnum.OLEOEGAS)){
+					}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
+				
+					}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
+				
+					}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
+				
+			}
 		}else if(escolhida==ANTERIORM1){		
 			contratoModel.getPeriodoComM1().setPeriodoMedicao(periodo);
 			contratoModel.getPeriodoComM1().setMedicaoI0(detalheDoPeriodo.getTotalMedicaoI0());
 			contratoModel.getPeriodoComM1().setMedicaoComReajuste(detalheDoPeriodo.getTotalReajuste());
 			contratoModel.getPeriodoComM1().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
 			contratoModel.getPeriodoComM1().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
+				if(projeto.getSetor().equals(SetorEnum.OLEOEGAS)){
+				
+				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
+				
+				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
+				
+				}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
+				
+			}
 		}
 		}
 		

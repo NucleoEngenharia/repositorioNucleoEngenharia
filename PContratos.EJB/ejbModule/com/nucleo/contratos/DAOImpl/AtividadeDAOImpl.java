@@ -15,7 +15,7 @@ import com.nucleo.contratos.factorBD.Factor;
 
 @Stateless
 public class AtividadeDAOImpl extends Factor implements AtividadeDAO{
-
+	
 	@Override
 	public List<Atividades> buscarPorData(Calendar data) {
 		String jpql = "select a from Atividades a"
@@ -74,6 +74,23 @@ public class AtividadeDAOImpl extends Factor implements AtividadeDAO{
 	@Override
 	public void alterar(Atividades atividades, Funcionario funcionario){
 		em.merge(atividades);
+	}
+
+	@Override
+	public List<Atividades> listPorFuncId(int funcId) {
+		List<Atividades>a=new ArrayList<Atividades>();
+		String jpql = "select a from Atividades a"
+				+ " where a.funcionario.id=:funcId"
+				+ " and a.excluido=:excluido";
+		try{
+		a = em.createQuery(jpql, Atividades.class)
+				.setParameter("funcId", funcId)
+				.setParameter("excluido", false)
+				.getResultList();
+		return a;
+		}catch(NoResultException e){
+			return a;
+		}
 	}
 
 }

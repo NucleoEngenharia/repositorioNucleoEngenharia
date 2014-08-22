@@ -1,5 +1,6 @@
 package com.nucleo.contratos.entity;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
@@ -13,7 +14,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @SequenceGenerator(allocationSize=1,name="detal_atividade", sequenceName="SEQ_ATIVIDADE")
-public class DetalhamentoAtividade {
+public class DetalhamentoAtividade implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO,generator="detal_atividade")
 	private int id;

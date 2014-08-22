@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,7 +34,8 @@ public class Atividades extends CommomEntity implements Serializable{
 	@ManyToOne
 	private Funcionario funcionario;
 	
-	@OneToMany(mappedBy="atividades", cascade=CascadeType.MERGE, targetEntity=DetalhamentoAtividade.class)
+	@OneToMany(mappedBy="atividades", cascade={CascadeType.MERGE, CascadeType.ALL, CascadeType.PERSIST},
+			fetch=FetchType.EAGER, targetEntity=DetalhamentoAtividade.class)
 	private List<DetalhamentoAtividade> detalhamentoAtividade;
 
 	public int getId() {
