@@ -3,6 +3,7 @@ package com.nucleo.contratos.entity;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,7 @@ public class DetalhamentoAtividade implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO,generator="detal_atividade")
 	private int id;
 	
+	@Column(length=500)
 	private String texto;
 	
 	@Temporal(TemporalType.TIMESTAMP)

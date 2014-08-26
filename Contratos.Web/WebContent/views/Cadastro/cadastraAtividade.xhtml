@@ -23,7 +23,7 @@
 				</p:row>
 			</p:panelGrid>
 			<br />
-			<p:commandButton value="ADD Atividade" rendered="#{atividadesBean.hoje}" onclick="PF('atividade').show();"/>
+			<p:commandButton value="ADD Atividade" rendered="#{atividadesBean.hoje}" oncomplete="atividade.show();"/>
 			<br/>
 			<br/>
 			<p:dataTable value="#{atividadesBean.atividade.detalhamentoAtividade}" paginator="true" rows="7"
@@ -39,14 +39,16 @@
 				</p:column>
 			</p:dataTable>
 			<p:dialog hideEffect="clip" showEffect="clip" closable="false"
-				 modal="true" widgetVar="atividade" height="100" header="Cadastrar Atividade" >
+				 modal="false" widgetVar="atividade"  header="Cadastrar Atividade" >
 				 <p:panelGrid styleClass="panel_inf_proj">
 				 	<p:row>
 				 		<p:column>
-				 			<p:outputLabel value="Atividade"/>
+				 			<p:outputLabel value="Resumo de Atividades"/>
 				 		</p:column>
+				 	</p:row>
+				 	<p:row>
 				 		<p:column>
-				 			<p:inputText value="#{atividadesBean.detalhamentoAtividade.texto}"/>
+				 			<p:inputTextarea style="height: 150px;width:400px;" maxlength="500" value="#{atividadesBean.detalhamentoAtividade.texto}" />
 				 		</p:column>
 				 	</p:row>
 				 </p:panelGrid>

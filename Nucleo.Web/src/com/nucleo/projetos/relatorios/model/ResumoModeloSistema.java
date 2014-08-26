@@ -12,12 +12,15 @@ public class ResumoModeloSistema {
 		totalMRDtEscolhidaOleoGas= new BigDecimal(0);
 		totalMDtEscolhidaOleoGas= new BigDecimal(0);
 		totalMMesAntOleoGas= new BigDecimal(0);
-		totalMMesAntM1OleoGas= new BigDecimal(0);
 		contratosModelOleoEGas = new ArrayList<ContratosModel>();
 		contratosModelEnergia = new ArrayList<ContratosModel>();
 		contratosModelInfraEstrutura = new ArrayList<ContratosModel>();
 		contratosModelMineracao = new ArrayList<ContratosModel>();
 		contratosModelEnergiaUrbanismoeEdificacoes = new ArrayList<ContratosModel>();
+		totalSalDtEscolhidaOleoGas = new BigDecimal(0);
+		totalMI0MesAntOleoGas = new BigDecimal(0);
+		totalMRMesAnteriorOleoGas = new BigDecimal(0);
+		totalSalMesAnteriorOleoGas = new BigDecimal(0);
 	}
 
 	private Calendar dataEscolhida;
@@ -64,13 +67,53 @@ public class ResumoModeloSistema {
 	private BigDecimal totalGeralSaldoI0;
 	private BigDecimal totalGeralSaldoReajustadoI0;
 	
-	private BigDecimal totalMI0DtEscolhidaOleoGas;//Total medição i0
-	private BigDecimal totalMRDtEscolhidaOleoGas;//total medição com reajuste
-	private BigDecimal totalMDtEscolhidaOleoGas;//total medição 
-	private BigDecimal totalMMesAntOleoGas;//total medição i0 mes anterior
-	private BigDecimal totalMMesAntM1OleoGas;//total medição i0 com mes anterior m1
+	private BigDecimal totalMI0DtEscolhidaOleoGas;//Total medição i0 data escolhida oleo gas
+	private BigDecimal totalMRDtEscolhidaOleoGas;//total medição com reajuste data escolhida oleo gas
+	private BigDecimal totalMDtEscolhidaOleoGas;//total medição data escolhida oleo gas
+	private BigDecimal totalSalDtEscolhidaOleoGas;//total salarios oleogas com a data escolhida
+	
+	private BigDecimal totalMMesAntOleoGas;//total medição mes anterior data escolhida oleo gas
+	private BigDecimal totalMI0MesAntOleoGas;//total medição I0 do mes anterior oleogas
+	private BigDecimal totalMRMesAnteriorOleoGas; //total medição com reajuste mes anterior oleo gas
+	private BigDecimal totalSalMesAnteriorOleoGas;//total de salarios mes anterior oleogas
 	
 	
+	public void setTotalMMesAntOleoGas(BigDecimal totalMMesAntOleoGas) {
+		this.totalMMesAntOleoGas = totalMMesAntOleoGas;
+	}
+
+	public void setTotalMI0MesAntOleoGas(BigDecimal totalMI0MesAntOleoGas) {
+		this.totalMI0MesAntOleoGas = totalMI0MesAntOleoGas;
+	}
+
+	public void setTotalMRMesAnteriorOleoGas(BigDecimal totalMRMesAnteriorOleoGas) {
+		this.totalMRMesAnteriorOleoGas = totalMRMesAnteriorOleoGas;
+	}
+
+	public void setTotalSalMesAnteriorOleoGas(BigDecimal totalSalMesAnteriorOleoGas) {
+		this.totalSalMesAnteriorOleoGas = totalSalMesAnteriorOleoGas;
+	}
+
+	public BigDecimal getTotalMI0MesAntOleoGas() {
+		return totalMI0MesAntOleoGas;
+	}
+
+	public BigDecimal getTotalMRMesAnteriorOleoGas() {
+		return totalMRMesAnteriorOleoGas;
+	}
+
+	public BigDecimal getTotalSalMesAnteriorOleoGas() {
+		return totalSalMesAnteriorOleoGas;
+	}
+
+	public BigDecimal getTotalSalDtEscolhidaOleoGas() {
+		return totalSalDtEscolhidaOleoGas;
+	}
+
+	public void setTotalSalDtEscolhidaOleoGas(BigDecimal totalSalDtEscolhidaOleoGas) {
+		this.totalSalDtEscolhidaOleoGas = totalSalDtEscolhidaOleoGas;
+	}
+
 	public void setTotalMI0DtEscolhidaOleoGas(BigDecimal totalMI0DtEscolhidaOleoGas) {
 		this.totalMI0DtEscolhidaOleoGas = totalMI0DtEscolhidaOleoGas;
 	}
@@ -97,10 +140,6 @@ public class ResumoModeloSistema {
 
 	public BigDecimal getTotalMMesAntOleoGas() {
 		return totalMMesAntOleoGas;
-	}
-
-	public BigDecimal getTotalMMesAntM1OleoGas() {
-		return totalMMesAntM1OleoGas;
 	}
 
 	public BigDecimal getTotalValorI0PetroleoGas(){

@@ -102,6 +102,7 @@ public class ProcessosResumoContratos{
 		beans.put("projeto", relatorio);
 		try {
 			transformer.transformXLS(urlModelo, beans, pastaDestino);
+			
 		}catch(XmlValueDisconnectedException e){
 			System.out.println(e);
 		}catch (Exception e) {
@@ -161,6 +162,16 @@ public class ProcessosResumoContratos{
 					modeloSistema.setTotalMDtEscolhidaOleoGas(modeloSistema.getTotalMDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicao()));
 					modeloSistema.setTotalMI0DtEscolhidaOleoGas(modeloSistema.getTotalMI0DtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
 					modeloSistema.setTotalMRDtEscolhidaOleoGas(modeloSistema.getTotalMRDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalDtEscolhidaOleoGas(modeloSistema.getTotalSalDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
+			
+					modeloSistema.setTotalMMesAntOleoGas(modeloSistema.getTotalMMesAntOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicao()));
+					System.out.println("1*"+contratoModel.getPeriodoComMesAnterior().getMedicao());
+					modeloSistema.setTotalMI0MesAntOleoGas(modeloSistema.getTotalMI0MesAntOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicaoI0()));
+					System.out.println("2*"+contratoModel.getPeriodoComMesAnterior().getMedicaoI0());
+					modeloSistema.setTotalMRMesAnteriorOleoGas(modeloSistema.getTotalMRMesAnteriorOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
+					System.out.println("3*"+contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste());
+					modeloSistema.setTotalSalMesAnteriorOleoGas(modeloSistema.getTotalSalMesAnteriorOleoGas().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
+					System.out.println("4*"+contratoModel.getPeriodoComMesAnterior().getTotalSalarios());
 				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
 					
 				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
