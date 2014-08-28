@@ -3,6 +3,7 @@ package com.nucleo.contratos.DAOImpl;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -22,7 +23,14 @@ public class FuncionarioDAOImpl extends Factor implements FuncionarioDAO {
 				.setParameter("excluido", false)
 				.getResultList();
 	}
-
+	@Override
+	public void deletar(Funcionario funcionario, int idUserLogado){
+		Funcionario f = buscaFuncionarioPorCpf(funcionario.getCpf());
+		f.setUsuarioExclusao(idUserLogado);
+		f.setDataExclusao(Calendar.getInstance());
+		f.setExcluido(true);
+		em.merge(f);
+	}
 	@Override
 	public void inserir(Funcionario funcionario, int idUsuario) {
 		funcionario.setCpf(funcionario.getCpf().replace("-", ""));
@@ -32,16 +40,11 @@ public class FuncionarioDAOImpl extends Factor implements FuncionarioDAO {
 		Funcionario f = buscaFuncionarioPorCpf(funcionario.getCpf());
 		try {
 			if(f.getId()>0){
-				MessageDigest md5 = MessageDigest.getInstance("MD5");
-				String senhaPadrao = "123@mudar";
-				md5.update(senhaPadrao.getBytes());
-				BigInteger hash = new BigInteger(1, md5.digest());
 				f.setCn(funcionario.getCn());
 				f.setDtAdmissao(funcionario.getDtAdmissao());
 				f.setMatricula(funcionario.getMatricula());
 				f.setNome(funcionario.getNome());
 				f.setDtDemissao(funcionario.getDtDemissao());
-				f.setSenha(hash.toString());
 				em.merge(f);
 			}else{
 				MessageDigest md5 = MessageDigest.getInstance("MD5");

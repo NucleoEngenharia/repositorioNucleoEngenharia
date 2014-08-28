@@ -7,6 +7,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.SelectEvent;
+
 import com.nucleo.commom.Commom;
 import com.nucleo.commom.Messages;
 import com.nucleo.contratos.dao.FuncionarioDAO;
@@ -20,25 +22,38 @@ public class FuncionarioBean {
 	@PostConstruct
 	public void init(){
 		funcionario = new Funcionario();
-		usuarioLogado = Commom.getUsuarioLogado();
-		funcionarios = null;
 	}
-	
-	private FuncionarioTO usuarioLogado;
-	private List<Funcionario>funcionarios;
+	private FuncionarioTO usuarioLogado=Commom.getUsuarioLogado();
+	private Funcionario funcionario;
+	private Funcionario funcionarioSelecionado;
+	private List<Funcionario>funcionarios=null;
 	
 	@EJB
 	private FuncionarioDAO funcionarioDAO;
 	
-	private Funcionario funcionario;
-
+	public void onRowSelect(SelectEvent event){
+		funcionario = (Funcionario) event.getObject();
+		funcionarioSelecionado = new Funcionario();
+	}
+	public void excluir(){
+		funcionarioDAO.deletar(funcionario, usuarioLogado.getPessoa_id());
+		funcionarios = null;
+		funcionario = new Funcionario();
+		Messages.geraMensagemAviso("Usuário excluido com sucesso");
+	}
+	
+	public Funcionario getFuncionarioSelecionado() {
+		return funcionarioSelecionado;
+	}
+	public void setFuncionarioSelecionado(Funcionario funcionarioSelecionado) {
+		this.funcionarioSelecionado = funcionarioSelecionado;
+	}
 	public List<Funcionario> getFuncionarios() {
 		if(funcionarios==null){
 			funcionarios = funcionarioDAO.listarTodos();
 		}
 		return funcionarios;
 	}
-
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
@@ -63,6 +78,4 @@ public class FuncionarioBean {
 			Messages.geraMensagemFatal(""+e);
 		}
 	}
-	
-	
 }

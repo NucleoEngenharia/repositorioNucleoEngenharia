@@ -14,4 +14,5 @@ public interface FuncionarioDAO {
 	Funcionario buscaFuncionarioPorCpf(String cpf);
 	boolean autenticarFuncExterno(String matricula, String senha);
 	Funcionario buscaPorMatricula(String matricula);
+	void deletar(Funcionario funcionario, int idUserLogado);
 }

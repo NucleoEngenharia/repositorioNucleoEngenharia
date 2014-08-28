@@ -127,6 +127,7 @@ public class LoginBean{
 	public String logout(){
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("loginBean", null);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("loginBean");
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
 		return "/faces/login?faces-redirect=true";
 	}
 	public String cadastrarSenha(){

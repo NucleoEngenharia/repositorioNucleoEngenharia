@@ -12,6 +12,7 @@
 						 allowTypes="/(\.|\/)(csv)$/"/>
 				 	<h:message for="form"/>
 				 	<br/>
+				 	<p:panel id="panel">
 				 	<p:panelGrid styleClass="panel_inf_proj">
 				 	<p:row>
 				 		<p:column styleClass="colLabel">
@@ -87,7 +88,9 @@
 				</p:panelGrid>
 				<br/>
 				<p:dataTable value="#{funcionarioBean.funcionarios}" var="funcionario"
-				 paginator="true" rows="10" emptyMessage="Nenhum funcionário cadastrado">
+				 paginator="true" selection="#{funcionarioBean.funcionarioSelecionado}"
+				 selectionMode="single" rowKey="#{funcionario.cpf}" rows="10" emptyMessage="Nenhum funcionário cadastrado">
+					<p:ajax event="rowSelect" listener="#{funcionarioBean.onRowSelect}" update="@all"/>
 					<p:column headerText="Matricula" filterBy="matricula">
 						<p:outputLabel value="#{funcionario.matricula}"/>
 					</p:column>
@@ -105,12 +108,13 @@
 							<f:convertDateTime pattern="dd/MM/yyyy"/>
 						</h:outputText>
 					</p:column>
-					<p:column headerText="Dt. Rec.">
-						<h:outputText value="#{funcionario.dtDemissao.time}">
-							<f:convertDateTime pattern="dd/MM/yyyy"/>
-						</h:outputText>
+					<p:column headerText="Excluir">
+						<p:commandButton value="..." action="#{funcionarioBean.excluir}" process="@this" update="@all">
+							<f:setPropertyActionListener target="#{funcionarioBean.funcionario}" value="#{funcionario}"/>
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
+			</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

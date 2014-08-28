@@ -40,7 +40,6 @@ public class ProcessosResumoContratos{
 	private PeriodoMedicaoDAO periodoMedicaoDAO;
 	private ResumoModeloSistema modeloSistema;
 	private String nomeDoArquivo;
-	
 	private static final int ESCOLHIDA = 1;
 	private static final int ANTERIOR = 2;
 	private static final int ANTERIORM1 = 3;
@@ -164,14 +163,6 @@ public class ProcessosResumoContratos{
 					modeloSistema.setTotalMRDtEscolhidaOleoGas(modeloSistema.getTotalMRDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
 					modeloSistema.setTotalSalDtEscolhidaOleoGas(modeloSistema.getTotalSalDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
 			
-					modeloSistema.setTotalMMesAntOleoGas(modeloSistema.getTotalMMesAntOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicao()));
-					System.out.println("1*"+contratoModel.getPeriodoComMesAnterior().getMedicao());
-					modeloSistema.setTotalMI0MesAntOleoGas(modeloSistema.getTotalMI0MesAntOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicaoI0()));
-					System.out.println("2*"+contratoModel.getPeriodoComMesAnterior().getMedicaoI0());
-					modeloSistema.setTotalMRMesAnteriorOleoGas(modeloSistema.getTotalMRMesAnteriorOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
-					System.out.println("3*"+contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste());
-					modeloSistema.setTotalSalMesAnteriorOleoGas(modeloSistema.getTotalSalMesAnteriorOleoGas().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
-					System.out.println("4*"+contratoModel.getPeriodoComMesAnterior().getTotalSalarios());
 				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
 					
 				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
@@ -186,7 +177,11 @@ public class ProcessosResumoContratos{
 			contratoModel.getPeriodoComMesAnterior().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
 			contratoModel.getPeriodoComMesAnterior().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
 				if(projeto.getSetor().equals(SetorEnum.OLEOEGAS)){
-					}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
+					modeloSistema.setTotalMMesAntOleoGas(modeloSistema.getTotalMMesAntOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicao()));
+					modeloSistema.setTotalMI0MesAntOleoGas(modeloSistema.getTotalMI0MesAntOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicaoI0()));
+					modeloSistema.setTotalMRMesAnteriorOleoGas(modeloSistema.getTotalMRMesAnteriorOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalMesAnteriorOleoGas(modeloSistema.getTotalSalMesAnteriorOleoGas().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
+				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
 				
 					}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
 				
