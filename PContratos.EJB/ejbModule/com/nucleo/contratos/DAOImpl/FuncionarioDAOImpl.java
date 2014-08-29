@@ -16,7 +16,8 @@ import com.nucleo.contratos.factorBD.Factor;
 public class FuncionarioDAOImpl extends Factor implements FuncionarioDAO {
 	@Override
 	public List<Funcionario> listarTodos() {
-		String jpql = "select f from Funcionario f"
+		String jpql = "select distinct f from Funcionario f"
+				+ " left join fetch f.atividades a"
 				+ " where f.excluido=:excluido"
 				+ " and f.dtDemissao=null";
 		return em.createQuery(jpql, Funcionario.class)

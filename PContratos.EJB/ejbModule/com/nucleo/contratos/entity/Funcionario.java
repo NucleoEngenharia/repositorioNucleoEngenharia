@@ -3,7 +3,9 @@ package com.nucleo.contratos.entity;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,7 +48,7 @@ public class Funcionario extends CommomEntity {
 	@OneToMany(mappedBy="funcionario", targetEntity=ControleDeHorarios.class)
 	private List<ControleDeHorarios>controleDeHorarios;
 	
-	@OneToMany(mappedBy="funcionario", targetEntity=Atividades.class)
+	@OneToMany(mappedBy="funcionario", fetch=FetchType.LAZY, cascade=CascadeType.ALL, targetEntity=Atividades.class)
 	private List<Atividades>atividades;
 
 	public int getId() {
