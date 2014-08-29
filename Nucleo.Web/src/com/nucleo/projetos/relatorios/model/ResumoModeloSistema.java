@@ -21,6 +21,26 @@ public class ResumoModeloSistema {
 		totalMI0MesAntOleoGas = new BigDecimal(0);
 		totalMRMesAnteriorOleoGas = new BigDecimal(0);
 		totalSalMesAnteriorOleoGas = new BigDecimal(0);
+		totalMComM1OleoGas = new BigDecimal(0);
+		totalMi0ComM1OleoGas = new BigDecimal(0);
+		totalMRComM1OleoGas = new BigDecimal(0);
+		totalSalComM1OleoGas = new BigDecimal(0);
+		
+		
+		totalMI0DtEscolhidaEnergia = new BigDecimal(0);
+		totalMRDtEscolhidaEnergia = new BigDecimal(0);
+		totalMDtEscolhidaEnergia = new BigDecimal(0);
+		totalSalDtEscolhidaEnergia = new BigDecimal(0);
+		
+		totalMMesAntEnergia = new BigDecimal(0);
+		totalMI0MesAntEnergia = new BigDecimal(0);
+		totalMRMesAnteriorEnergia = new BigDecimal(0);
+		totalSalMesAnteriorEnergia = new BigDecimal(0);
+		
+		totalMComM1Energia = new BigDecimal(0);
+		totalMi0ComM1Energia = new BigDecimal(0);
+		totalMRComM1Energia = new BigDecimal(0);
+		totalSalComM1Energia = new BigDecimal(0);
 	}
 
 	private Calendar dataEscolhida;
@@ -77,7 +97,162 @@ public class ResumoModeloSistema {
 	private BigDecimal totalMRMesAnteriorOleoGas; //total medição com reajuste mes anterior oleo gas
 	private BigDecimal totalSalMesAnteriorOleoGas;//total de salarios mes anterior oleogas
 	
+	private BigDecimal totalMComM1OleoGas;//total medição mes anterior menos 1 oleo e gas
+	private BigDecimal totalMi0ComM1OleoGas;//total mediçãoI0 mes anterior menos 1 oleo e gas
+	private BigDecimal totalMRComM1OleoGas;//total medição comreajuste mes anterior menos 1 oleo e gas
+	private BigDecimal totalSalComM1OleoGas;//total salarios mes anterior menos 1 oleo e gas
 	
+	private BigDecimal totalMI0DtEscolhidaEnergia;//Total medição i0 data escolhida energia
+	private BigDecimal totalMRDtEscolhidaEnergia;//total medição com reajuste data escolhida Energia
+	private BigDecimal totalMDtEscolhidaEnergia;//total medição data escolhida energia
+	private BigDecimal totalSalDtEscolhidaEnergia;//total salarios energia com a data escolhida
+	
+	private BigDecimal totalMMesAntEnergia;//total medição mes anterior data escolhida energia
+	private BigDecimal totalMI0MesAntEnergia;//total medição I0 do mes anterior energia
+	private BigDecimal totalMRMesAnteriorEnergia; //total medição com reajuste mes anterior energia
+	private BigDecimal totalSalMesAnteriorEnergia;//total de salarios mes anterior energia
+	
+	private BigDecimal totalMComM1Energia;//total medição mes anterior menos 1 energia
+	private BigDecimal totalMi0ComM1Energia;//total mediçãoI0 mes anterior menos 1 energia
+	private BigDecimal totalMRComM1Energia;//total medição comreajuste mes anterior menos 1 energia
+	private BigDecimal totalSalComM1Energia;//total salarios mes anterior menos 1 energia
+	
+	public BigDecimal getTotalMI0DtEscolhidaEnergia() {
+		return totalMI0DtEscolhidaEnergia;
+	}
+
+	public BigDecimal getTotalMRDtEscolhidaEnergia() {
+		return totalMRDtEscolhidaEnergia;
+	}
+
+	public BigDecimal getTotalMDtEscolhidaEnergia() {
+		return totalMDtEscolhidaEnergia;
+	}
+
+	public BigDecimal getTotalSalDtEscolhidaEnergia() {
+		return totalSalDtEscolhidaEnergia;
+	}
+
+	public BigDecimal getTotalMMesAntEnergia() {
+		return totalMMesAntEnergia;
+	}
+
+	public BigDecimal getTotalMI0MesAntEnergia() {
+		return totalMI0MesAntEnergia;
+	}
+
+	public BigDecimal getTotalMRMesAnteriorEnergia() {
+		return totalMRMesAnteriorEnergia;
+	}
+
+	public BigDecimal getTotalSalMesAnteriorEnergia() {
+		return totalSalMesAnteriorEnergia;
+	}
+
+	public BigDecimal getTotalMComM1Energia() {
+		return totalMComM1Energia;
+	}
+
+	public BigDecimal getTotalMi0ComM1Energia() {
+		return totalMi0ComM1Energia;
+	}
+
+	public BigDecimal getTotalMRComM1Energia() {
+		return totalMRComM1Energia;
+	}
+
+	public BigDecimal getTotalSalComM1Energia() {
+		return totalSalComM1Energia;
+	}
+
+	public void setTotalMedidoI0Energia(BigDecimal totalMedidoI0Energia) {
+		this.totalMedidoI0Energia = totalMedidoI0Energia;
+	}
+
+	public void setTotalSaldoI0Energia(BigDecimal totalSaldoI0Energia) {
+		this.totalSaldoI0Energia = totalSaldoI0Energia;
+	}
+
+	public void setTotalMI0DtEscolhidaEnergia(BigDecimal totalMI0DtEscolhidaEnergia) {
+		this.totalMI0DtEscolhidaEnergia = totalMI0DtEscolhidaEnergia;
+	}
+
+	public void setTotalMRDtEscolhidaEnergia(BigDecimal totalMRDtEscolhidaEnergia) {
+		this.totalMRDtEscolhidaEnergia = totalMRDtEscolhidaEnergia;
+	}
+
+	public void setTotalMDtEscolhidaEnergia(BigDecimal totalMDtEscolhidaEnergia) {
+		this.totalMDtEscolhidaEnergia = totalMDtEscolhidaEnergia;
+	}
+
+	public void setTotalSalDtEscolhidaEnergia(BigDecimal totalSalDtEscolhidaEnergia) {
+		this.totalSalDtEscolhidaEnergia = totalSalDtEscolhidaEnergia;
+	}
+
+	public void setTotalMMesAntEnergia(BigDecimal totalMMesAntEnergia) {
+		this.totalMMesAntEnergia = totalMMesAntEnergia;
+	}
+
+	public void setTotalMI0MesAntEnergia(BigDecimal totalMI0MesAntEnergia) {
+		this.totalMI0MesAntEnergia = totalMI0MesAntEnergia;
+	}
+
+	public void setTotalMRMesAnteriorEnergia(BigDecimal totalMRMesAnteriorEnergia) {
+		this.totalMRMesAnteriorEnergia = totalMRMesAnteriorEnergia;
+	}
+
+	public void setTotalSalMesAnteriorEnergia(BigDecimal totalSalMesAnteriorEnergia) {
+		this.totalSalMesAnteriorEnergia = totalSalMesAnteriorEnergia;
+	}
+
+	public void setTotalMComM1Energia(BigDecimal totalMComM1Energia) {
+		this.totalMComM1Energia = totalMComM1Energia;
+	}
+
+	public void setTotalMi0ComM1Energia(BigDecimal totalMi0ComM1Energia) {
+		this.totalMi0ComM1Energia = totalMi0ComM1Energia;
+	}
+
+	public void setTotalMRComM1Energia(BigDecimal totalMRComM1Energia) {
+		this.totalMRComM1Energia = totalMRComM1Energia;
+	}
+
+	public void setTotalSalComM1Energia(BigDecimal totalSalComM1Energia) {
+		this.totalSalComM1Energia = totalSalComM1Energia;
+	}
+
+	public BigDecimal getTotalMComM1OleoGas() {
+		return totalMComM1OleoGas;
+	}
+
+	public BigDecimal getTotalMi0ComM1OleoGas() {
+		return totalMi0ComM1OleoGas;
+	}
+
+	public BigDecimal getTotalMRComM1OleoGas() {
+		return totalMRComM1OleoGas;
+	}
+
+	public BigDecimal getTotalSalComM1OleoGas() {
+		return totalSalComM1OleoGas;
+	}
+
+	public void setTotalMComM1OleoGas(BigDecimal totalMComM1OleoGas) {
+		this.totalMComM1OleoGas = totalMComM1OleoGas;
+	}
+
+	public void setTotalMi0ComM1OleoGas(BigDecimal totalMi0ComM1OleoGas) {
+		this.totalMi0ComM1OleoGas = totalMi0ComM1OleoGas;
+	}
+
+	public void setTotalMRComM1OleoGas(BigDecimal totalMRComM1OleoGas) {
+		this.totalMRComM1OleoGas = totalMRComM1OleoGas;
+	}
+
+	public void setTotalSalComM1OleoGas(BigDecimal totalSalComM1OleoGas) {
+		this.totalSalComM1OleoGas = totalSalComM1OleoGas;
+	}
+
 	public void setTotalMMesAntOleoGas(BigDecimal totalMMesAntOleoGas) {
 		this.totalMMesAntOleoGas = totalMMesAntOleoGas;
 	}

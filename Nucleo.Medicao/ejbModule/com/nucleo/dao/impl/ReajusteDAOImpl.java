@@ -28,7 +28,6 @@ public class ReajusteDAOImpl extends DAOImpl<Reajuste, Integer> implements Reaju
 	}
 
 	private Reajuste buscarReajuste(Projeto projeto){
-		System.out.println("Reajuste buscarReajuste(Projeto projeto){...}");
 		String strQuery = "select r from Reajuste r"
 				+ " left join fetch r.projeto as p"
 				+" Where p.id = :projetoId and" +

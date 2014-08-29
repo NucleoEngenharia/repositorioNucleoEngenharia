@@ -114,7 +114,7 @@ public class ProcessosResumoContratos{
 		Reajuste ultimoReajuste = null;
 		geraLabelUltimosPeriodos(modeloSistema, apartirDe);
 		if(projetos == null){
-		projetos = projetoDAO.listarTodosComReajuste();
+		projetos = projetoDAO.listarTodos();
 		}
 		for(Projeto projeto:projetos){
 			ultimoReajuste = reajusteDAO.buscarUltimoValido(projeto);
@@ -164,7 +164,10 @@ public class ProcessosResumoContratos{
 					modeloSistema.setTotalSalDtEscolhidaOleoGas(modeloSistema.getTotalSalDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
 			
 				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
-					
+					modeloSistema.setTotalMDtEscolhidaEnergia(modeloSistema.getTotalMDtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getMedicao()));
+					modeloSistema.setTotalMI0DtEscolhidaEnergia(modeloSistema.getTotalMI0DtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
+					modeloSistema.setTotalMRDtEscolhidaEnergia(modeloSistema.getTotalMRDtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalDtEscolhidaEnergia(modeloSistema.getTotalSalDtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
 				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
 					
 				}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
@@ -182,7 +185,10 @@ public class ProcessosResumoContratos{
 					modeloSistema.setTotalMRMesAnteriorOleoGas(modeloSistema.getTotalMRMesAnteriorOleoGas().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
 					modeloSistema.setTotalSalMesAnteriorOleoGas(modeloSistema.getTotalSalMesAnteriorOleoGas().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
 				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
-				
+					modeloSistema.setTotalMMesAntEnergia(modeloSistema.getTotalMMesAntEnergia().add(contratoModel.getPeriodoComMesAnterior().getMedicao()));
+					modeloSistema.setTotalMI0MesAntEnergia(modeloSistema.getTotalMI0MesAntEnergia().add(contratoModel.getPeriodoComMesAnterior().getMedicaoI0()));
+					modeloSistema.setTotalMRMesAnteriorEnergia(modeloSistema.getTotalMRMesAnteriorEnergia().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalMesAnteriorEnergia(modeloSistema.getTotalSalMesAnteriorEnergia().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
 					}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
 				
 					}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
@@ -195,7 +201,10 @@ public class ProcessosResumoContratos{
 			contratoModel.getPeriodoComM1().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
 			contratoModel.getPeriodoComM1().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
 				if(projeto.getSetor().equals(SetorEnum.OLEOEGAS)){
-				
+				modeloSistema.setTotalMComM1OleoGas(modeloSistema.getTotalMComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicao()));
+				modeloSistema.setTotalMi0ComM1OleoGas(modeloSistema.getTotalMi0ComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicaoI0()));
+				modeloSistema.setTotalMRComM1OleoGas(modeloSistema.getTotalMRComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
+				modeloSistema.setTotalSalComM1OleoGas(modeloSistema.getTotalSalComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
 				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
 				
 				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
