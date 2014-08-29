@@ -34,7 +34,7 @@ public class HorariosEmail  {
 		this.props = props;
 	}
 	public void enviarHorariosEmail(String relatorio){
-		mailSession.setDebug(true);
+		//mailSession.setDebug(true);
 		try {
 		Calendar hoje = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
