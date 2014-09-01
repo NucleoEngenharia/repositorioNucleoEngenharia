@@ -26,7 +26,7 @@
 						<h:outputText value="Bem vindo #{loginBean.usuarioLogado.nome} | "></h:outputText>
 						<h:link value="Minha Conta"></h:link>
 						<h:outputText value=" | "/>
-						<p:commandLink action="#{loginBean.logout}" value="Logout"
+						<h:commandLink action="#{loginBean.logout}" immediate="true" value="Logout"
 							styleClass="logout"/>
 					</div>
 				</ui:insert>

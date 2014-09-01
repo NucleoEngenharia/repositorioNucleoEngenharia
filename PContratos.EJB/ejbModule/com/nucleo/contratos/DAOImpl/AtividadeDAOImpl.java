@@ -80,7 +80,8 @@ public class AtividadeDAOImpl extends Factor implements AtividadeDAO{
 	@Override
 	public List<Atividades> listPorFuncId(int funcId) {
 		List<Atividades>a=new ArrayList<Atividades>();
-		String jpql = "select a from Atividades a"
+		String jpql = "select distinct a from Atividades a"
+				+ " left join fetch a.detalhamentoAtividade d"
 				+ " where a.funcionario.id=:funcId"
 				+ " and a.excluido=:excluido";
 		try{

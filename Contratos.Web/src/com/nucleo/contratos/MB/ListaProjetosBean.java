@@ -45,7 +45,9 @@ public class ListaProjetosBean {
 		setores = Arrays.asList(SetorEnum.values());
 		status = Arrays.asList(StatusProjetoEnum.values());
 		atividades = Arrays.asList(AtividadeEnum.values());
-		
+		if(editarProjetoBean.temConversation()){
+			editarProjetoBean.end();
+		}
 		try {
 			projetosSAP = sapBO.getProjetos();
 		} catch (RemoteException e) {
