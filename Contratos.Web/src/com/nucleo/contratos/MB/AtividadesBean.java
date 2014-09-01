@@ -71,10 +71,12 @@ public class AtividadesBean {
 	}
 	
 	public void atualizarAtividade(){
+		atividade.getDetalhamentoAtividade().clear();
 		detalhamentoAtividade.setHora(Calendar.getInstance());
 		detalhamentoAtividade.setAtividades(atividade);
 		atividade.getDetalhamentoAtividade().add(detalhamentoAtividade);
 		atividadeDAO.alterar(atividade, funcionarioExternoLogado);
+		buscaAtividade();
 		detalhamentoAtividade = new DetalhamentoAtividade();
 		Messages.geraMensagemAviso("Atividade atualizada com sucesso!");
 	}

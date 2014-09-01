@@ -47,8 +47,9 @@ public class AtividadeDAOImpl extends Factor implements AtividadeDAO{
 
 	@Override
 	public Atividades buscarPorDataEFuncionario(Calendar data, Funcionario funcionario) {
-		String jpql = "select a From Atividades a"
+		String jpql = "select distinct a From Atividades a"
 				+ " left join fetch a.funcionario f "
+				+ " left join fetch a.detalhamentoAtividade da"
 				+ " where a.data=:data"
 				+ " and f.id=:func";
 		try{

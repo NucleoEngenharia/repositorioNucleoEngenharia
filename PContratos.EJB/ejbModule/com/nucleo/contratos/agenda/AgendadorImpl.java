@@ -1,7 +1,6 @@
 package com.nucleo.contratos.agenda;
 
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TimerService;
 
 import com.nucleo.contratos.dao.AtividadeDAO;
+import com.nucleo.contratos.dao.DetalhamentoAtividadeDAO;
 import com.nucleo.contratos.dao.FuncionarioDAO;
 import com.nucleo.contratos.email.HorariosEmail;
 import com.nucleo.contratos.entity.Atividades;
@@ -23,7 +23,8 @@ public class AgendadorImpl implements Agendador {
 	private FuncionarioDAO funcionarioDAO;
 	@EJB
 	private AtividadeDAO atividadeDAO;
-	
+	@EJB
+	private DetalhamentoAtividadeDAO detalhamentoAtividadeDAO;
 	private List<Funcionario>funcionarios;
 	@Resource
 	private TimerService timerService;
@@ -43,12 +44,12 @@ public class AgendadorImpl implements Agendador {
 	
 	public String geraRelatorioDeAtividade(){
 		pagina = new StringBuilder();
+		atividade = new Atividades();
 		pagina.append("<html>");
 		pagina.append("<body>");
 		pagina.append("<table>");
 		funcionarios = funcionarioDAO.listarTodos();
 		
-		SimpleDateFormat hora = new SimpleDateFormat("hh:MM:ss");
 		for(Funcionario f: funcionarios){
 			atividade = atividadeDAO.buscarPorDataEFuncionario(Calendar.getInstance(), f);
 			pagina.append("<tr>");
@@ -62,12 +63,16 @@ public class AgendadorImpl implements Agendador {
 			pagina.append("<td>"+f.getNome()+"</td>");
 			pagina.append("<td>"+f.getMatricula()+"</td>");
 			pagina.append("<td>"+f.getCn()+"</td>");
-			pagina.append("<td>"+hora.format(atividade.getDataCriacao().getTime())+"</td>");
+			pagina.append("<td>"+atividade.getDataCriacao().get(Calendar.HOUR_OF_DAY)+":"
+								+atividade.getDataCriacao().get(Calendar.MINUTE)+":"
+								+atividade.getDataCriacao().get(Calendar.SECOND)+"</td>");
 			pagina.append("</tr>");
-					for(DetalhamentoAtividade da: atividade.getDetalhamentoAtividade()){
+					for(DetalhamentoAtividade da: detalhamentoAtividadeDAO.buscarPorAtividade(atividade)){
 						pagina.append("<tr>");
 						pagina.append("<td>"+da.getTexto()+"</td>");
-						pagina.append("<td>"+hora.format(da.getHora().getTime())+"</td>");
+						pagina.append("<td>"+da.getHora().get(Calendar.HOUR_OF_DAY)+":"
+											+da.getHora().get(Calendar.MINUTE)+":"
+											+da.getHora().get(Calendar.SECOND)+"</td>");
 						pagina.append("</tr>");
 					}
 		}
