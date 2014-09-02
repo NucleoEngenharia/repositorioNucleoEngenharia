@@ -42,7 +42,6 @@ public class HorariosEmail  {
 		Message message = new MimeMessage(mailSession);
 		Address[]to =  new InternetAddress[] {
 		new InternetAddress("raphael.bernoldi@nucleoengenharia.com.br"),
-		new InternetAddress("raphaelbernoldi@gmail.com"),
 		new InternetAddress("ovidio.lins@nucleoengenharia.com.br")
 		};
 		Transport transport = mailSession.getTransport("smtp");

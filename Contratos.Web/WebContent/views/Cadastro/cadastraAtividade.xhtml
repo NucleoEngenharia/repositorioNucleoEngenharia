@@ -37,10 +37,16 @@
 				<p:column headerText="Atividade" filterBy="texto">
 					<p:outputLabel value="#{atividade.texto}"/>
 				</p:column>
+				<p:column headerText="Arquivo anexado" filterBy="anexo" style="width:300px">
+					<p:outputLabel value="#{atividade.anexo}"/>
+				</p:column>
 			</p:dataTable>
 			<p:dialog hideEffect="clip" showEffect="clip" closable="false"
-				 modal="false" widgetVar="atividade"  header="Cadastrar Atividade" >
-				 <p:fileUpload label="Atestado"/>
+				 modal="true" widgetVar="atividade"  header="Cadastrar Atividade" >
+				 <p:panel id="dialog">
+				 <p:messages/>
+				 <p:fileUpload label="Atestado" auto="true" update="dialog" allowTypes="/(\.|\/)(gif|jpe?g|png|doc|docx|pdf)$/"
+				  fileUploadListener="#{atividadesBean.upload}"/>
 				 <p:panelGrid styleClass="panel_inf_proj">
 				 	<p:row>
 				 		<p:column>
@@ -56,6 +62,7 @@
 				 <br/>
 				 <p:commandButton value="Cancelar" onclick="PF('atividade').hide();"/>
 				<p:commandButton value="Salvar" action="#{atividadesBean.atualizarAtividade}" update="@all"/>
+			</p:panel>
 			</p:dialog>
 		</p:panel>
 		<p:panel header="Controle Atividades" style="height:500px;" rendered="#{!atividadesBean.usuarioExterno}">
@@ -95,6 +102,12 @@
 				</p:column>
 				<p:column headerText="Atividade">
 					<p:outputLabel value="#{detalhe.texto}"/>
+				</p:column>
+				<p:column headerText="Anexos">
+					<p:commandLink actionListener="#{atividadesBean.download(detalhe.anexo)}"
+								 ajax="false" value="#{detalhe.anexo}">
+						<p:fileDownload value="#{atividadesBean.file}"/>
+					</p:commandLink>
 				</p:column>
 					</p:dataTable>
 				</p:rowExpansion>

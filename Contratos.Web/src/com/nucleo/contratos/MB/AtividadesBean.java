@@ -1,5 +1,11 @@
 package com.nucleo.contratos.MB;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +16,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 
 import com.nucleo.commom.Commom;
 import com.nucleo.commom.Messages;
@@ -51,6 +63,49 @@ public class AtividadesBean {
 	private int idFuncSelecionado;
 	private boolean hoje=false;
 	private DetalhamentoAtividade detalhamentoAtividade;
+	private File arquivo;
+	private StreamedContent file;
+	private static String path="D:\\atestados\\contratos\\";
+	
+	public StreamedContent getFile() {
+		return file;
+	}
+	public void setFile(StreamedContent file) {
+		this.file = file;
+	}
+	public void download(String nome){
+		String caminhoCompleto = path+nome;
+		InputStream stream;
+		try {
+			stream = new FileInputStream(new File(caminhoCompleto));
+			this.file = new DefaultStreamedContent(stream, null,nome);
+		} catch (FileNotFoundException e) {
+			Messages.geraMensagemFatal(""+e);
+		}
+	}
+	public void upload(FileUploadEvent event){
+		UploadedFile uploadedFile = event.getFile();
+		File caminho = new File(path);
+		byte[] conteudo = uploadedFile.getContents();
+		arquivo = new File(path+uploadedFile.getFileName());
+		try {
+		if(!caminho.exists()){
+				caminho.mkdirs();
+		}
+		if(arquivo.exists()){
+			Messages.geraMensagemDeErro("Já exixte um arquivo com esse nome, por favor altere e tente novamente");
+			return;
+		}
+		detalhamentoAtividade.setAnexo(arquivo.getName());
+		FileOutputStream fos = new FileOutputStream(arquivo);
+		fos.write(conteudo);
+		fos.close();
+		Messages.geraMensagemAviso("");
+		}catch(IOException io){
+			System.out.println(io);
+		}
+		
+	}
 	
 	public void buscaAtividade(){
 		try {
@@ -71,11 +126,11 @@ public class AtividadesBean {
 	}
 	
 	public void atualizarAtividade(){
-		atividade.getDetalhamentoAtividade().clear();
 		detalhamentoAtividade.setHora(Calendar.getInstance());
 		detalhamentoAtividade.setAtividades(atividade);
 		atividade.getDetalhamentoAtividade().add(detalhamentoAtividade);
 		atividadeDAO.alterar(atividade, funcionarioExternoLogado);
+		atividade.getDetalhamentoAtividade().clear();
 		buscaAtividade();
 		detalhamentoAtividade = new DetalhamentoAtividade();
 		Messages.geraMensagemAviso("Atividade atualizada com sucesso!");

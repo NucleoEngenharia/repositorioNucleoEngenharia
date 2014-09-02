@@ -16,5 +16,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/primefaces-4.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Nucleo.Integracoes"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PContratos.EJB"/>
+	<classpathentry kind="lib" path="D:/arquivos util/commons-fileupload-1.3.1-bin/lib/commons-fileupload-1.3.1.jar"/>
+	<classpathentry kind="lib" path="D:/arquivos util/commons-io-2.4/commons-io-2.4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
