@@ -16,9 +16,6 @@ import javax.persistence.TemporalType;
 @Entity
 @SequenceGenerator(allocationSize=1,name="detal_atividade", sequenceName="SEQ_ATIVIDADE")
 public class DetalhamentoAtividade implements Serializable{
-	public DetalhamentoAtividade() {
-		this.anexo="Sem anexo";
-	}
 	private static final long serialVersionUID = 1L;
 
 	@Id
