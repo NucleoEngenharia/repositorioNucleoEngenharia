@@ -47,7 +47,6 @@ public class ProcessosResumoContratos{
 	private Calendar dataEscolhida = Calendar.getInstance(), 
 			 mesAnterior = Calendar.getInstance(),
 			 mesAnteriorM1 = Calendar.getInstance();
-	
 	public String getNomeDoArquivo() {
 		return nomeDoArquivo;
 	}
@@ -69,7 +68,6 @@ public class ProcessosResumoContratos{
 	public void setPeriodos(List<PeriodoMedicao> periodos) {
 		this.periodos = periodos;
 	}
-	
 	public String geraUrlRelatorio(String pastaDestino,Calendar apartirDe) {
 		File pastaProjeto = new File(pastaDestino +"resumo_modelo_sistema");
 		if (!pastaProjeto.exists()) {
@@ -162,13 +160,17 @@ public class ProcessosResumoContratos{
 					modeloSistema.setTotalMI0DtEscolhidaOleoGas(modeloSistema.getTotalMI0DtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
 					modeloSistema.setTotalMRDtEscolhidaOleoGas(modeloSistema.getTotalMRDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
 					modeloSistema.setTotalSalDtEscolhidaOleoGas(modeloSistema.getTotalSalDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
-			
 				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
 					modeloSistema.setTotalMDtEscolhidaEnergia(modeloSistema.getTotalMDtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getMedicao()));
 					modeloSistema.setTotalMI0DtEscolhidaEnergia(modeloSistema.getTotalMI0DtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
 					modeloSistema.setTotalMRDtEscolhidaEnergia(modeloSistema.getTotalMRDtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
 					modeloSistema.setTotalSalDtEscolhidaEnergia(modeloSistema.getTotalSalDtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
 				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
+					modeloSistema.setTotalMDtEscolhidaInfraEstrutura(modeloSistema.getTotalMDtEscolhidaInfraEstrutura().add(contratoModel.getPeriodoComDataEscolhida().getMedicao()));
+					modeloSistema.setTotalMI0DtEscolhidaInfraEstrutura(modeloSistema.getTotalMI0DtEscolhidaInfraEstrutura().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
+					modeloSistema.setTotalMRDtEscolhidaInfraEstrutura(modeloSistema.getTotalMRDtEscolhidaInfraEstrutura().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalDtEscolhidaInfraEstrutura(modeloSistema.getTotalSalDtEscolhidaInfraEstrutura().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
+				}else if(projeto.getSetor().equals(SetorEnum.URBANISMOEEDIFICACOES)){
 					
 				}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
 					
@@ -190,7 +192,12 @@ public class ProcessosResumoContratos{
 					modeloSistema.setTotalMRMesAnteriorEnergia(modeloSistema.getTotalMRMesAnteriorEnergia().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
 					modeloSistema.setTotalSalMesAnteriorEnergia(modeloSistema.getTotalSalMesAnteriorEnergia().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
 					}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
-				
+					modeloSistema.setTotalMMesAntInfraEstrutura(modeloSistema.getTotalMMesAntInfraEstrutura().add(contratoModel.getPeriodoComMesAnterior().getMedicao()));
+					modeloSistema.setTotalMRMesAntInfraEstrutura(modeloSistema.getTotalMRMesAntInfraEstrutura().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
+					modeloSistema.setTotalMI0MesAntInfraEstrutura(modeloSistema.getTotalMI0MesAntInfraEstrutura().add(contratoModel.getPeriodoComMesAnterior().getMedicaoI0()));
+					modeloSistema.setTotalSalMesAntInfraEstrutura(modeloSistema.getTotalSalMesAntInfraEstrutura().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
+					}else if(projeto.getSetor().equals(SetorEnum.URBANISMOEEDIFICACOES)){
+						
 					}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
 				
 			}
@@ -206,9 +213,17 @@ public class ProcessosResumoContratos{
 				modeloSistema.setTotalMRComM1OleoGas(modeloSistema.getTotalMRComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
 				modeloSistema.setTotalSalComM1OleoGas(modeloSistema.getTotalSalComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
 				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
-				
+				modeloSistema.setTotalMComM1Energia(modeloSistema.getTotalMComM1Energia().add(contratoModel.getPeriodoComM1().getMedicao()));
+				modeloSistema.setTotalMi0ComM1Energia(modeloSistema.getTotalMi0ComM1Energia().add(contratoModel.getPeriodoComM1().getMedicaoI0()));
+				modeloSistema.setTotalMRComM1Energia(modeloSistema.getTotalMRComM1Energia().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
+				modeloSistema.setTotalSalComM1Energia(modeloSistema.getTotalSalComM1Energia().add(contratoModel.getPeriodoComM1().getTotalSalarios()));
 				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
-				
+				modeloSistema.setTotalMComM1InfraEstrutura(modeloSistema.getTotalMComM1InfraEstrutura().add(contratoModel.getPeriodoComM1().getMedicao()));
+				modeloSistema.setTotalMI0ComM1InfraEstrutura(modeloSistema.getTotalMI0ComM1InfraEstrutura().add(contratoModel.getPeriodoComM1().getMedicaoI0()));
+				modeloSistema.setTotalMRComM1InfraEstrutura(modeloSistema.getTotalMRComM1InfraEstrutura().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
+				modeloSistema.setTotalSalComM1InfraEstrutura(modeloSistema.getTotalSalComM1InfraEstrutura().add(contratoModel.getPeriodoComM1().getTotalSalarios()));
+				}else if(projeto.getSetor().equals(SetorEnum.URBANISMOEEDIFICACOES)){
+					
 				}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
 				
 			}
@@ -241,7 +256,6 @@ public class ProcessosResumoContratos{
 				projeto.setObjeto("Objeto não informado");
 			}
 	}
-	
 	private BigDecimal somaPeriodos(Projeto projeto){
 		BigDecimal soma = BigDecimal.ZERO;
 		List<Servico>equipes = servicoDAO.buscarEquipesPorProjeto(projeto);

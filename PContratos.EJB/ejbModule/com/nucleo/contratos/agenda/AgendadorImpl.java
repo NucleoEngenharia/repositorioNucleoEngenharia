@@ -52,6 +52,7 @@ public class AgendadorImpl implements Agendador {
 		
 		for(Funcionario f: funcionarios){
 			atividade = atividadeDAO.buscarPorDataEFuncionario(Calendar.getInstance(), f);
+			
 			pagina.append("<tr>");
 			pagina.append("<th>Nome</th>");
 			pagina.append("<th>Matricula</th>");
@@ -60,6 +61,7 @@ public class AgendadorImpl implements Agendador {
 			pagina.append("</tr>");
 			
 			pagina.append("<tr>");
+			pagina.append("<td></td>");
 			pagina.append("<td>"+f.getNome()+"</td>");
 			pagina.append("<td>"+f.getMatricula()+"</td>");
 			pagina.append("<td>"+f.getCn()+"</td>");
