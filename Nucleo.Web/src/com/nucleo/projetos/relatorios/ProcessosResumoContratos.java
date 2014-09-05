@@ -162,16 +162,26 @@ public class ProcessosResumoContratos{
 					modeloSistema.setTotalMI0DtEscolhidaOleoGas(modeloSistema.getTotalMI0DtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
 					modeloSistema.setTotalMRDtEscolhidaOleoGas(modeloSistema.getTotalMRDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
 					modeloSistema.setTotalSalDtEscolhidaOleoGas(modeloSistema.getTotalSalDtEscolhidaOleoGas().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
-			
 				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
 					modeloSistema.setTotalMDtEscolhidaEnergia(modeloSistema.getTotalMDtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getMedicao()));
 					modeloSistema.setTotalMI0DtEscolhidaEnergia(modeloSistema.getTotalMI0DtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
 					modeloSistema.setTotalMRDtEscolhidaEnergia(modeloSistema.getTotalMRDtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
 					modeloSistema.setTotalSalDtEscolhidaEnergia(modeloSistema.getTotalSalDtEscolhidaEnergia().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
 				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
-					
+					modeloSistema.setTotalMDtEscolhidaInfraEstrutura(modeloSistema.getTotalMDtEscolhidaInfraEstrutura().add(contratoModel.getPeriodoComDataEscolhida().getMedicao()));
+					modeloSistema.setTotalMI0DtEscolhidaInfraEstrutura(modeloSistema.getTotalMI0DtEscolhidaInfraEstrutura().add(contratoModel.getMedidoI0()));
+					modeloSistema.setTotalMRDtEscolhidaInfraEstrutura(modeloSistema.getTotalMRDtEscolhidaInfraEstrutura().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalDtEscolhidaInfraEstrutura(modeloSistema.getTotalSalDtEscolhidaInfraEstrutura().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
+				}else if(projeto.getSetor().equals(SetorEnum.URBANISMOEEDIFICACOES)){
+					modeloSistema.setTotalMDtEscolhidaUrbanismo(modeloSistema.getTotalMDtEscolhidaUrbanismo().add(contratoModel.getPeriodoComDataEscolhida().getMedicao()));
+					modeloSistema.setTotalMI0DtEscolhidaUrbanismo(modeloSistema.getTotalMI0DtEscolhidaUrbanismo().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
+					modeloSistema.setTotalMRDtEscolhidaUrbanismo(modeloSistema.getTotalMRDtEscolhidaUrbanismo().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalDtEscolhidaUrbanismo(modeloSistema.getTotalSalDtEscolhidaUrbanismo().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
 				}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
-					
+					modeloSistema.setTotalMDtEscolhidaMineracao(modeloSistema.getTotalMDtEscolhidaMineracao().add(contratoModel.getPeriodoComDataEscolhida().getMedicao()));
+					modeloSistema.setTotalMI0DtEscolhidaMineracao(modeloSistema.getTotalMI0DtEscolhidaMineracao().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoI0()));
+					modeloSistema.setTotalMRDtEscolhidaMineracao(modeloSistema.getTotalMRDtEscolhidaMineracao().add(contratoModel.getPeriodoComDataEscolhida().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalDtEscolhidaMineracao(modeloSistema.getTotalSalDtEscolhidaMineracao().add(contratoModel.getPeriodoComDataEscolhida().getTotalSalarios()));
 				}
 		}else if(escolhida==ANTERIOR){
 			contratoModel.getPeriodoComMesAnterior().setPeriodoMedicao(periodo);
@@ -190,9 +200,20 @@ public class ProcessosResumoContratos{
 					modeloSistema.setTotalMRMesAnteriorEnergia(modeloSistema.getTotalMRMesAnteriorEnergia().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
 					modeloSistema.setTotalSalMesAnteriorEnergia(modeloSistema.getTotalSalMesAnteriorEnergia().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
 					}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
-				
+					modeloSistema.setTotalMMesAntInfraEstrutura(modeloSistema.getTotalMMesAntInfraEstrutura().add(contratoModel.getPeriodoComMesAnterior().getMedicao()));
+					modeloSistema.setTotalMI0MesAntInfraEstrutura(modeloSistema.getTotalMI0MesAntInfraEstrutura().add(contratoModel.getPeriodoComMesAnterior().getMedicaoI0()));
+					modeloSistema.setTotalMRMesAntInfraEstrutura(modeloSistema.getTotalMRMesAntInfraEstrutura().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalMesAntInfraEstrutura(modeloSistema.getTotalSalMesAntInfraEstrutura().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
+					}else if(projeto.getSetor().equals(SetorEnum.URBANISMOEEDIFICACOES)){
+					modeloSistema.setTotalMMesAntUrbanismo(modeloSistema.getTotalMMesAntUrbanismo().add(contratoModel.getPeriodoComMesAnterior().getMedicao()));
+					modeloSistema.setTotalMI0MesAntUrbanismo(modeloSistema.getTotalMI0MesAntUrbanismo().add(contratoModel.getPeriodoComMesAnterior().getMedicaoI0()));
+					modeloSistema.setTotalMRMesAntUrbanismo(modeloSistema.getTotalMRMesAntUrbanismo().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalMesAntUrbanismo(modeloSistema.getTotalSalMesAntUrbanismo().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
 					}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
-				
+					modeloSistema.setTotalMMesAntMineracao(modeloSistema.getTotalMMesAntMineracao().add(contratoModel.getPeriodoComMesAnterior().getMedicao()));
+					modeloSistema.setTotalMI0MesAntMineracao(modeloSistema.getTotalMI0MesAntMineracao().add(contratoModel.getPeriodoComMesAnterior().getMedicaoI0()));
+					modeloSistema.setTotalMRMesAntMineracao(modeloSistema.getTotalMRMesAntMineracao().add(contratoModel.getPeriodoComMesAnterior().getMedicaoComReajuste()));
+					modeloSistema.setTotalSalMesAntMineracao(modeloSistema.getTotalSalMesAntMineracao().add(contratoModel.getPeriodoComMesAnterior().getTotalSalarios()));
 			}
 		}else if(escolhida==ANTERIORM1){		
 			contratoModel.getPeriodoComM1().setPeriodoMedicao(periodo);
@@ -200,17 +221,32 @@ public class ProcessosResumoContratos{
 			contratoModel.getPeriodoComM1().setMedicaoComReajuste(detalheDoPeriodo.getTotalReajuste());
 			contratoModel.getPeriodoComM1().setMedicao(detalheDoPeriodo.getMedicaoComReajuste());
 			contratoModel.getPeriodoComM1().setTotalSalarios(detalheDoPeriodo.getTotalValorVenda());
-				if(projeto.getSetor().equals(SetorEnum.OLEOEGAS)){
+			if(projeto.getSetor().equals(SetorEnum.OLEOEGAS)){
 				modeloSistema.setTotalMComM1OleoGas(modeloSistema.getTotalMComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicao()));
+				System.out.println(modeloSistema.getTotalMComM1OleoGas());
 				modeloSistema.setTotalMi0ComM1OleoGas(modeloSistema.getTotalMi0ComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicaoI0()));
 				modeloSistema.setTotalMRComM1OleoGas(modeloSistema.getTotalMRComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
 				modeloSistema.setTotalSalComM1OleoGas(modeloSistema.getTotalSalComM1OleoGas().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
 				}else if(projeto.getSetor().equals(SetorEnum.ENERGIA)){
-				
+				modeloSistema.setTotalMComM1Energia(modeloSistema.getTotalMComM1Energia().add(contratoModel.getPeriodoComM1().getMedicao()));
+				modeloSistema.setTotalMi0ComM1Energia(modeloSistema.getTotalMi0ComM1Energia().add(contratoModel.getPeriodoComM1().getMedicaoI0()));
+				modeloSistema.setTotalMRComM1Energia(modeloSistema.getTotalMRComM1Energia().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
+				modeloSistema.setTotalSalComM1Energia(modeloSistema.getTotalSalComM1Energia().add(contratoModel.getPeriodoComM1().getTotalSalarios()));
 				}else if(projeto.getSetor().equals(SetorEnum.INFRAESTRUTURA)){
-				
+				modeloSistema.setTotalMComM1InfraEstrutura(modeloSistema.getTotalMComM1InfraEstrutura().add(contratoModel.getPeriodoComM1().getMedicao()));
+				modeloSistema.setTotalMI0ComM1InfraEstrutura(modeloSistema.getTotalMI0ComM1InfraEstrutura().add(contratoModel.getPeriodoComM1().getMedicaoI0()));
+				modeloSistema.setTotalMRComM1InfraEstrutura(modeloSistema.getTotalMRComM1InfraEstrutura().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
+				modeloSistema.setTotalSalComM1InfraEstrutura(modeloSistema.getTotalSalComM1InfraEstrutura().add(contratoModel.getPeriodoComM1().getTotalSalarios()));
+				}else if(projeto.getSetor().equals(SetorEnum.URBANISMOEEDIFICACOES)){
+				modeloSistema.setTotalMComM1Urbanismo(modeloSistema.getTotalMComM1Urbanismo().add(contratoModel.getPeriodoComM1().getMedicao()));
+				modeloSistema.setTotalMI0ComM1Urbanismo(modeloSistema.getTotalMI0ComM1Urbanismo().add(contratoModel.getPeriodoComM1().getMedicaoI0()));
+				modeloSistema.setTotalMRComM1Urbanismo(modeloSistema.getTotalMRComM1Urbanismo().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
+				modeloSistema.setTotalSalComM1Urbanismo(modeloSistema.getTotalSalComM1Urbanismo().add(contratoModel.getPeriodoComM1().getTotalSalarios()));
 				}else if(projeto.getSetor().equals(SetorEnum.MINERACAO)){
-				
+				modeloSistema.setTotalMComM1Mineracao(modeloSistema.getTotalMComM1Mineracao().add(contratoModel.getPeriodoComM1().getMedicao()));
+				modeloSistema.setTotalMI0ComM1Mineracao(modeloSistema.getTotalMI0ComM1Mineracao().add(contratoModel.getPeriodoComM1().getMedicaoI0()));
+				modeloSistema.setTotalMRComM1Mineracao(modeloSistema.getTotalMRComM1Mineracao().add(contratoModel.getPeriodoComM1().getMedicaoComReajuste()));
+				modeloSistema.setTotalSalComM1Mineracao(modeloSistema.getTotalSalComM1Mineracao().add(contratoModel.getPeriodoComM1().getTotalSalarios()));
 			}
 		}
 		}
